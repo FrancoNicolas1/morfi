@@ -1,4 +1,4 @@
-const { Router } = require ('express');
+const { Router } = require("express");
 
 // import all controllers
 // import SessionController from './app/controllers/SessionController';

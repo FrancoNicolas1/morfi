@@ -10,21 +10,19 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true,
     },
-    photo: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.NUMBER,
-      allowNull: false,
+    photo: {
+      type: DataTypes.TEXT,
+      defaultValue: null,
     },
-    descriptions: {
+    price: {
+      type: DataTypes.INTEGER,
+    },
+    description: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
   });
 };
