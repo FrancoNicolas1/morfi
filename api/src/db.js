@@ -33,8 +33,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Restaurant, Users } = sequelize.models;
 
 // Aca vendrian las relaciones
-Restaurant.belongsToMany(Users, {through: 'restaurant_users'})//tabla intermedia(pueden tener varios tipos)
-Users.belongsToMany(Restaurant, {through:'restaurant_users'})
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
