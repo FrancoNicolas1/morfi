@@ -10,38 +10,42 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true
     },
-    username: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    region: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    image: {
+    photo: {
       type: DataTypes.TEXT,
       defaultValue: null
     },
-    admin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+    user_mail: {
+      type: DataTypes.STRING,
+      defaultValue: null
     },
-    banned: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+    password: {
+      type: DataTypes.STRING,
+      defaultValue: null
     },
-    created:{
-      type:DataTypes.BOOLEAN,
+    notification: {
+      type: DataTypes.STRING,
+      defaultValue: null
+      },
+    myOrders:{
+      type: DataTypes.STRING,
+      defaultValue: null
+    },
+    myBusinnes:{
+      type: DataTypes.STRING,
+      defaultValue: null
+    },
+    favorites:{
+      type: DataTypes.STRING,
+      defaultValue: null
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: true,
-      allowNull: false
-    }
+    },
   });
 };
