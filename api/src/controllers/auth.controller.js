@@ -32,7 +32,7 @@ const login = async (req, res) => {
     if (!matchPassword) {
       return res.status(401).json("Contraseña incorrecta.");
     }
-    res.send("Estas logueado");
+    res.send("Logueado");
   } catch (error) {
     console.error(error);
   }
