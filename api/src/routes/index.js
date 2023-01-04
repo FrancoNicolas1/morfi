@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const restaurants = require("./restaurants");
+const auth = require("./auth");
 
 // import all controllers
 // import SessionController from './app/controllers/SessionController';
@@ -13,5 +14,6 @@ const routes = Router();
 // routes.delete('/', SessionController.store);
 
 routes.use("/", restaurants);
+routes.use("/", auth);
 
 module.exports = routes;
