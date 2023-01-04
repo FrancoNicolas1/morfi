@@ -1,16 +1,20 @@
 const initialState={
-    all:[]
-    
+    allRestaurants:[],
+    restaurantByname:[]
 }
-
 export default function rootReducer(state=initialState, action){
     switch(action.type){
-        case "ALL":
+        case "ALL_RESTAURANT":
             return {
                 ...state,
-                all:action.payload
+                allRestaurants:action.payload
 
             }
+        case "RESTAURANT_BY_NAME":
+            return {
+                ...state,
+                allRestaurants:action.payload
+            }    
         
         default: return {...state}
     }

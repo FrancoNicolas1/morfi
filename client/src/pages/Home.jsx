@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Cards } from '../components/cards/Cards';
 import { Footer } from '../components/footer/Footer';
 import Section from "../components/Section/Section";
-import Cards from "../components/Card";
 import Shops from "../components/Shops/Shops";
 
 const ContainerHome = styled.div`
