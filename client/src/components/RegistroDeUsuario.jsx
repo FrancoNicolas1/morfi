@@ -14,7 +14,7 @@ const RegisterForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { username, email, password } = state;
+
     // Enviar la información del formulario al servidor aquí
   }
 
