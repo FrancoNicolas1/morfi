@@ -1,4 +1,9 @@
-const { Router } = require("express");
+const { Router } = require('express');
+const {
+  getRestaurants,
+  getRestaurantById,
+  getRestaurantByName,
+} = require('../controllers/restaurant.controller');
 
 // import all controllers
 // import SessionController from './app/controllers/SessionController';
@@ -6,9 +11,8 @@ const { Router } = require("express");
 const routes = new Router();
 
 // Add routes
-// routes.get('/', SessionController.store);
-// routes.post('/', SessionController.store);
-// routes.put('/', SessionController.store);
-// routes.delete('/', SessionController.store);
+routes.get('/restaurants', getRestaurants);
+routes.get('/restaurants/:id', getRestaurantById);
+routes.get('/restaurant', getRestaurantByName);
 
 module.exports = routes;
