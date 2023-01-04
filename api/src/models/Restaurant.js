@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('Users', {
+  sequelize.define('Restaurant', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -18,34 +18,21 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       defaultValue: null
     },
-    user_mail: {
+    reviews: {
       type: DataTypes.STRING,
-      defaultValue: null
-    },
-    password: {
-      type: DataTypes.STRING,
-      defaultValue: null
-    },
-    notification: {
-      type: DataTypes.STRING,
-      defaultValue: null
-      },
-    myOrders:{
-      type: DataTypes.STRING,
-      defaultValue: null
-    },
-    myBusinnes:{
-      type: DataTypes.STRING,
-      defaultValue: null
-    },
-    favorites:{
-      type: DataTypes.STRING,
-      defaultValue: null
-    },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+    },
+    productos: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    descriptions: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   });
 };
