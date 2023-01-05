@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const restaurants = require("./restaurants");
 const auth = require("./auth");
+const products = require("./products");
 const {
   getRestaurants,
   getRestaurantById,
@@ -16,8 +16,7 @@ const routes = Router();
 routes.get("/restaurants", getRestaurants);
 routes.get("/restaurants/:id", getRestaurantById);
 routes.get("/restaurant", getRestaurantByName);
-
-routes.use("/", restaurants);
 routes.use("/", auth);
+routes.use("/", products);
 
 module.exports = routes;
