@@ -33,12 +33,33 @@ router.post("/create-product", async (req, res) => {
   }
 });
 
-router.put("/update-product", (req, res) => {
-  res.send("update product");
+router.put("/update-product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, photo, price, description } = req.body;
+    const productFound = await Products.findByPk(id);
+    if (!name || !photo || !price || !description) {
+      res.json({ msg: "Please complete all fields" });
+    }
+    productFound.name = name;
+    productFound.photo = photo;
+    productFound.price = price;
+    productFound.description = description;
+    await productFound.save();
+    res.json(productFound);
+  } catch (error) {
+    console.error("este es el error", error);
+  }
 });
 
-router.delete("/delete-product", (req, res) => {
-  res.send("delete product");
+router.delete("/delete-product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteProduct = await Products.destroy({ where: { id } });
+    res.json(deleteProduct);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = router;
