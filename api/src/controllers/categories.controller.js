@@ -7,7 +7,7 @@ const getCategories = async (req, res) => {
       if (data.length <= 0) {
           throw new Error(data);
         }else{
-            const allCategories = data.map((category)=>category.name)
+            const allCategories = data.map((category)=>category)
             res.status(200).send(allCategories)
         }
     } catch (error) {

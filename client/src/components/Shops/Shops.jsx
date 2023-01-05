@@ -1,39 +1,15 @@
 import React from "react";
-import styled from "styled-components"
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-
 import "./styles.css";
-
-// import required modules
 import { Navigation } from "swiper";
-
-const Container =styled.div`
-background-color:red;
-`
-const Box =styled.div`
-background-color:green;
-display:flex;
-justify-content:center;
-`
-const Title = styled.div`
-    display:flex;
-    justify-content:center;
-    align-items: center;
-    background-color:yellow;
-    width:600px;
-    height:30px;
-`
-const Image = styled.img`
-    width:300px;
-    height:300px;
-    border-radius:150px;
-`
-
+import {
+    Container,
+    Box,
+    Title,
+    Image,
+  } from './shop.styled';
 
 export default function Shops (){
     return(

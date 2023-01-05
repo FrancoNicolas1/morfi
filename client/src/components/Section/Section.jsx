@@ -1,33 +1,11 @@
 import React from "react";
-import styled from "styled-components"
-
-const Header = styled.div`
-background:red;
-max-width:1340px;
-height:400px;
-margin: 20px auto;
-display:grid;
-grid-gap:20px;
-grid-template-columns:repeat(2,1fr);
-`
-const Description = styled.div`
-background:blue;
-display:flex;
-flex-direction:column;
-justify-content:center;
-
-`
-const BoxText = styled.div`
-margin:20px;
-`
-const BoxImage = styled.div`
-margin-left:140px;
-`
-const Image = styled.img`
-height:400px;
-width:400px;
-border-radius:50px;
-`
+import {
+    Header,
+    Description,
+    BoxText,
+    BoxImage,
+    Image,
+  } from './section.styled';
 
 export default function Section (){
     return(
