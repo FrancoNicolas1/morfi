@@ -1,59 +1,197 @@
 const axios = require('axios');
-const urlFromApi = 'https://63b36e9f5901da0ab37f8792.mockapi.io/api/';
+const {Restaurant, Categories, Products} = require('../db.js')
 
-const getRestaurants = async (req, res) => {
-  try {
-    const { data } = await axios.get(urlFromApi + 'restaurant');
-    if (data.length <= 0) throw new Error(data);
-    let newData= data.map(e=>({...e, rating: e.reviews.length>0 ? (e.reviews.reduce((a, b)=>a+b, 0)/e.reviews.length).toString() : "0.00"}))
-    console.log(newData)
-    res.send(newData);
-  } catch (error) {
-    res.status(400).send(error);
-  }
+
+const getRestaurants = async () => {
+  const promise = require('../info/RestInfo.json');
+  const restaurants = promise.map((ele)=>{
+      return {
+          name: ele.name,
+          reviews: ele.reviews[0],
+          photo: ele.photo,
+          products: ele.products.map(e => e.name),
+          categories: ele.category? ele.category[0].name: "None",
+          descriptions: ele.description,
+      }
+  })
+
+  return restaurants;
 };
 
-const getRestaurantById = async (req, res) => {
+const allRestaurants = async (req, res) => {
+  try {
+
+    const { name } = req.query;
+    let restaurants = await Restaurant.findAll({
+        include: [{
+            model: Categories,
+            attributes: ["name"],
+            through: {
+                attributes: []
+            }
+        },
+        {
+          model: Products,
+          attributes: ["name"],
+          through: {
+              attributes: []
+          }
+      }],
+        order: [
+            ['id', 'ASC']
+        ]
+    });
+
+    if ( !restaurants.length && !name ) {
+      try {
+          const response = await getRestaurants();
+          const subiraDb = await Restaurant.bulkCreate( response );
+          res.status( 200 ).send( subiraDb );
+
+      } catch ( error ) {
+          console.log( 'error primer condicional', error )
+      }
+
+
+  if ( name && restaurants.length ) {
+    try {
+        const restaurant = await Restaurant.findAll( {
+            where: {
+                name: name 
+            },
+            include: [{
+                model: Products,
+                attributes: ["name", "price", "photo"],
+                through: { attributes: [] }
+            }]
+        } )
+
+         restaurant.length ? res.status( 200 ).send( restaurant ) :
+            res.status( 400 ).send( "Restaurant not found" )
+
+    } catch ( error ) {
+        console.log( 'error en segundo condicional', error )
+    }
+
+  }
+
+  if ( !name && restaurants.length ) {
+    res.status( 200 ).send( restaurants )
+  }
+
+  } catch (error) {
+    console.log(error, 'error en getRestaurants');
+  }
+}
+
+const getById = async ( req, res ) => {
+  let { id } = req.params;
+  id = id.toUpperCase()
+  try {
+      const restaurant = await Restaurant.findByPk( id,
+          {
+              include: [{
+                  model: Products,
+                  attributes: ["name", "photo", "price"],
+                  through: { attributes: [] }
+              }],
+              include: [{
+                model: Categories,
+                attributes: ["name"],
+                through: { attributes: [] }
+            }],
+          } )
+      res.status( 200 ).send( restaurant )
+  } catch ( error ) {
+      console.log( 'error en getById', error )
+  }
+} 
+
+const postRestaurant = async (req, res) => {
+    let {
+        name,
+        reviews,
+        photo,
+        products,
+        description,
+        categories
+
+    } = req.body;
+
+    let exists = await Restaurant.findOne({
+        where: { name: name }
+    })
+
+    if (exists) return res.status(406).send("El producto ya existe")
+
+    let restaurantCreate = await Restaurant.create({
+        name,
+        reviews,
+        photo,
+        description,
+    });
+
+    let categoryDB = await Categories.findAll({
+        where: { name: categories }
+    });
+
+    await restaurantCreate.addCategory(categoryDB);
+
+    let productsDB = await Products.findAll({
+        where: { name: products }
+    });
+
+    await restaurantCreate.addCategory(productsDB);
+    res.status(201).send('Restaurante creado');
+
+
+}
+
+const putRestaurant = async (req, res) => {
+  const selectedRestaurant = await Restaurant.findOne({
+      where: {
+          id: req.params.id
+      }
+  });
+  if (selectedRestaurant) {
+      let data = { ...req.body };
+
+      let keys = Object.keys(data);
+
+      keys.forEach(k => {
+          selectedRestaurant[k] = data[k];
+      });
+
+      await selectedRestaurant.save();
+      res.status(200).send("Restaurante actualizado");
+  } else {
+      res.status(404).send("Error en put Restaurante");
+  };
+};
+
+const deleteRestaurant = async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status('id is undefined');
-
   try {
-    const { data } = await axios.get(urlFromApi + 'restaurant');
-    if (data.length <= 0) throw new Error(data);
-    const restaurant = data.find(
-      (restaurant) => parseInt(restaurant.id) === parseInt(id)
-    );
-    if (restaurant.id) {
-      return res.send(restaurant);
-    }
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
 
-const getRestaurantByName = async (req, res) => {
-  const { name } = req.query;
-  if (!name) return res.status('name is undefined');
+      const deletedRestaurant = await Restaurant.findOne({
+          where: {
+              id: req.params.id
+          }
+      });
+      if (!deletedRestaurant) return 0;
+      await Restaurant.destroy({ where: { id: id } });
 
-  try {
-    const { data } = await axios.get(urlFromApi + 'restaurant');
-    if (data.length <= 0) throw new Error(data);
-    var array= []
-    const restaurant = data.find((restaurant) =>
-      restaurant.name.toLowerCase().includes(name.toLowerCase())
-    );
-    if (restaurant.name) {
-      //este array lo hice pq necesito recibir un array en el front
-      array.push(restaurant)
-      return res.send(array);
-    }
-  } catch (error) {
-    res.status(400).send(error.message);
+      return res.status(200);
   }
+  catch (err) {
+      return res.status(500).send(`Restaurant could not be deleted (${err})`);
+
 };
 
 module.exports = {
-  getRestaurants,
-  getRestaurantById,
-  getRestaurantByName,
-};
+  allRestaurants,
+  getById,
+  postRestaurant,
+  putRestaurant,
+  deleteRestaurant,
+}
