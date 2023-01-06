@@ -7,6 +7,7 @@ import Error from "./pages/Error";
 import LoginForm from "./components/Login";
 import RegisterForm from "./components/RegistroDeUsuario";
 import Navbar from "./components/Navbar";
+import { FormRestaurant } from "./components/FormRestaurant/FormRestaurant";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
     <Route exact path="/login" component={LoginForm}/>
     <Route exact path="/aboutus" component={AboutUs}/>
     <Route exact path="/admin" component={Admin}/>
+    <Route exact path={"/formrestaurant"} component={FormRestaurant} />
     <Route path="*" component={Error}/>
     </Switch>
     </BrowserRouter>

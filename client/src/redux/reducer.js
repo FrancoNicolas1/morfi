@@ -1,16 +1,32 @@
 const initialState={
-    all:[]
-    
+    allRestaurants:[],
+    restaurantByname:[],
+    restaurantById:[],
+    allCategories:[],
 }
-
 export default function rootReducer(state=initialState, action){
     switch(action.type){
-        case "ALL":
+        case "ALL_RESTAURANT":
             return {
                 ...state,
-                all:action.payload
-
+                allRestaurants:action.payload
             }
+        case "RESTAURANT_BY_NAME":
+            return {
+                ...state,
+                restaurantsByName:action.payload
+            }
+        case "RESTAURANT_BY_ID":
+            return {
+                ...state,
+                restaurantsById:action.payload
+            }    
+        case "ALL_CATEGORIES":
+            return {
+                ...state,
+                allCategories:action.payload
+            }    
+                    
         
         default: return {...state}
     }
