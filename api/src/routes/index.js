@@ -1,11 +1,10 @@
-const { Router } = require("express");
-const restaurants = require("./restaurants");
-const auth = require("./auth");
+const { Router } = require('express');
+const auth = require('./auth');
 const {
   getRestaurants,
   getRestaurantById,
   getRestaurantByName,
-} = require("../controllers/restaurant.controller");
+} = require('../controllers/restaurant.controller');
 
 // import all controllers
 // import SessionController from './app/controllers/SessionController';
@@ -13,11 +12,10 @@ const {
 const routes = Router();
 
 // Add routes
-routes.get("/restaurants", getRestaurants);
-routes.get("/restaurants/:id", getRestaurantById);
-routes.get("/restaurant", getRestaurantByName);
+routes.get('/restaurants', getRestaurants);
+routes.get('/restaurants/:id', getRestaurantById);
+routes.get('/restaurant', getRestaurantByName);
 
-routes.use("/", restaurants);
-routes.use("/", auth);
+routes.use('/', auth);
 
 module.exports = routes;
