@@ -36,11 +36,14 @@ const getRestaurantByName = async (req, res) => {
   try {
     const { data } = await axios.get(urlFromApi + 'restaurant');
     if (data.length <= 0) throw new Error(data);
+    var array= []
     const restaurant = data.find((restaurant) =>
       restaurant.name.toLowerCase().includes(name.toLowerCase())
     );
     if (restaurant.name) {
-      return res.send(restaurant);
+      //este array lo hice pq necesito recibir un array en el front
+      array.push(restaurant)
+      return res.send(array);
     }
   } catch (error) {
     res.status(400).send(error.message);
