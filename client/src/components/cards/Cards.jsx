@@ -39,9 +39,12 @@ export default function Cards() {
   return (
     <>
       <Container>
-        {currentRestaurants?.map((restaurant) => {
-          return <Card />;
-        })}
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </Container>
       <Pagination
         restaurantsForPage={restaurantsForPage}

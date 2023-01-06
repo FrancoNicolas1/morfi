@@ -4,7 +4,7 @@ import { Footer } from '../components/footer/Footer';
 import Section from '../components/Section/Section';
 import Shops from '../components/Shops/Shops';
 import { Navbar } from '../components/Navbar/Navbar';
-import Cards from '../components/Cards/Cards';
+import Cards from '../components/cards/Cards';
 import { Link } from 'react-router-dom';
 
 const ContainerHome = styled.div`

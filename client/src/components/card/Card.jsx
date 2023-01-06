@@ -1,9 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaStar } from 'react-icons/fa';
+import restaurantPhoto from './pngwing.com.png';
+import { Link } from 'react-router-dom';
 
-const Container = styled.div`
+const Container = styled(Link)`
   /* border: solid brown; */
-  background-color: #ffffffa7;
+  text-decoration: none;
+  color: #1a120b;
+  border-radius: 10px;
+  & :hover {
+    color: #000;
+  }
   & .image-card {
     width: 100%;
     height: 70%;
@@ -13,40 +21,76 @@ const Container = styled.div`
   }
   & .info-card {
     /* border: solid red; */
+    padding: 0.2rem;
+    background-color: #ece8dd;
   }
   & .data-restaurant {
-    & h3 {
-      font-size: 16px;
+    & .container-title-avatar {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      & img {
+        width: 30px;
+      }
+
+      & h3 {
+        font-size: 16px;
+        font-weight: 600;
+        padding: 0;
+        margin: 0;
+      }
     }
+
     & .container-hors {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    & .container-score {
+      /* border: solid red; */
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      font-weight: 800;
+      margin: 0;
+      padding: 0;
+    }
+    & .container-star-icon {
+      color: rgb(255, 174, 0);
+      /* border: solid green; */
     }
   }
 `;
 
 export default function Card() {
   return (
-    <>
-      <Container>
-        <img
-          className="image-card"
-          src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg"
-          alt=""
-        />
-        <div className="info-card">
-          <img src="./pngwing.com.png" alt="" />
-          <div className="data-restaurant">
+    <Container to={'/detail'}>
+      <img
+        className="image-card"
+        src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg"
+        alt=""
+      />
+      <div className="info-card">
+        <div className="data-restaurant">
+          <div className="container-title-avatar">
+            <img src={restaurantPhoto} width="40" alt="" />
             <h3>World Food</h3>
-            <div className="container-hors">
-              <p>35-50 min</p>
-              <p>Envio Gratis</p>
-            </div>
-            <p>2.8</p>
           </div>
+          <div className="container-hors">
+            <p>35-50 min</p>
+            <p>Envio Gratis</p>
+          </div>
+          <p className="container-score">
+            <span className="container-star-icon">
+              <FaStar fontSize={15} />
+            </span>
+            <span>2.8</span>
+          </p>
         </div>
-      </Container>
-    </>
+      </div>
+    </Container>
   );
 }
