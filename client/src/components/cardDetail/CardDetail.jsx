@@ -53,7 +53,7 @@ export const CardDetail = (props) => {
   return (
     <Container>
       <div className="container-img-title">
-        <BtnBack className="btn-back" to={'/home'}>
+        <BtnBack className="btn-back" to={'/'}>
           <FaArrowLeft />
         </BtnBack>
         <h2>Nombre del Producto</h2>

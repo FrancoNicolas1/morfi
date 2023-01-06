@@ -6,7 +6,7 @@ import Cards from '../components/cards/Cards';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Cards } from '../components/cards/Cards';
+import Cards from '../components/cards/Cards';
 import { Footer } from '../components/footer/Footer';
 import LoginForm from '../components/Login';
 import Navbar from '../components/Navbar';
@@ -46,16 +46,12 @@ export default function Home() {
         {abrir1 ? <RegisterForm abrir1={abrir1} setAbrir1={setAbrir1} /> : null}
       </div>
       <ContainerHome>
-        <Navbar />
         <Section />
         <Shops />
         <Link to="/formrestaurant">
           <button>ACA VA EL FORMULARIO </button>
         </Link>
-        <h1>Morfy</h1>
         {allRestaurant.map((e) => e.name)}
-        <Section />
-        <Shops />
         <Cards />
         <Footer />
       </ContainerHome>
