@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   /* border: solid red; */
@@ -50,6 +51,8 @@ const BtnBack = styled(Link)`
 `;
 
 export const CardDetail = (props) => {
+  // const allRest= useSelector((state)=>state.allRestaurants)
+  // const {name, id, photo, reviews, products, category, description, rating}= allRest
   return (
     <Container>
       <div className="container-img-title">

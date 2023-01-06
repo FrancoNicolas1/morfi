@@ -79,11 +79,12 @@ export default function rootReducer(state = initialState, action) {
       };
     case 'FILTER_CATEGORIES':
       const allCategories = state.allRestaurants;
+      console.log(allCategories)
       const categoriesFiltered =
         action.payload === 'All Restaurant'
           ? allCategories
           : allCategories.filter((el) =>
-              el.categories.includes(action.payload)
+              el.category.includes(action.payload)
             );
       return {
         ...state,

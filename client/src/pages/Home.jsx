@@ -14,7 +14,7 @@ import RegisterForm from '../components/RegistroDeUsuario';
 import Section from '../components/Section/Section';
 import Shops from '../components/Shops/Shops';
 import { useDispatch, useSelector } from 'react-redux';
-import { allRestaurants } from '../redux/actions';
+import { allRestaurants, getAllCategories } from '../redux/actions';
 import { useEffect } from 'react';
 
 const ContainerHome = styled.div`
@@ -28,11 +28,14 @@ export default function Home() {
   const [abrir, setAbrir] = useState(false);
   const [abrir1, setAbrir1] = useState(false);
   const allRestaurant = useSelector((state) => state.restaurant);
+  const categories= useSelector((state)=>state.categories)
+  console.log(categories)
 
   useEffect(() => {
     dispatch(allRestaurants());
+    dispatch(getAllCategories())
   }, [dispatch]);
-
+console.log(allRestaurant, "HOLA")
   return (
     <>
       <div>
@@ -51,8 +54,7 @@ export default function Home() {
         <Link to="/formrestaurant">
           <button>ACA VA EL FORMULARIO </button>
         </Link>
-        {allRestaurant.map((e) => e.name)}
-        <Cards />
+        <Cards/>
         <Footer />
       </ContainerHome>
     </>

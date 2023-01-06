@@ -4,6 +4,7 @@ import { FaStar } from 'react-icons/fa';
 import restaurantPhoto from './pngwing.com.png';
 import { Link } from 'react-router-dom';
 
+
 const Container = styled(Link)`
   /* border: solid brown; */
   text-decoration: none;
@@ -65,19 +66,19 @@ const Container = styled(Link)`
   }
 `;
 
-export default function Card() {
+export default function Card({name, id, photo, reviews, products, category, description, rating}) {
   return (
     <Container to={'/detail'}>
       <img
         className="image-card"
-        src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg"
+        src={photo}
         alt=""
       />
       <div className="info-card">
         <div className="data-restaurant">
           <div className="container-title-avatar">
             <img src={restaurantPhoto} width="40" alt="" />
-            <h3>World Food</h3>
+            <h3>{name}</h3>
           </div>
           <div className="container-hors">
             <p>35-50 min</p>
@@ -87,7 +88,7 @@ export default function Card() {
             <span className="container-star-icon">
               <FaStar fontSize={15} />
             </span>
-            <span>2.8</span>
+            <span>{rating}</span>
           </p>
         </div>
       </div>

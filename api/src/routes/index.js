@@ -18,5 +18,6 @@ routes.get('/restaurants/:id', getRestaurantById);
 routes.get('/restaurant', getRestaurantByName);
 routes.use('/', auth);
 routes.use('/', products);
+routes.use('/categories', getCategories);
 
 module.exports = routes;
