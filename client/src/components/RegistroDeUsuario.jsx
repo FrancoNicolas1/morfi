@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button, Form, Label, Button1 } from '../Css/CssRegistro';
 
-const RegisterForm = () => {
+const RegisterForm = (props) => {
+  const history= useHistory()
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [state, setState] = useState({
     username: '',
     email: '',
     password: ''
   });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -14,14 +20,32 @@ const RegisterForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    fetch("/register", {
+      method: "POST",
+      body: JSON.stringify({
+        username, email, password
+      })
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          setError(res.error);
+          setIsLoading(false);
+        } else {
+          // Iniciar sesión exitosamente, redirigir al usuario a la página principal
+          history.push("/");
+        }
+      });
 
-    // Enviar la información del formulario al servidor aquí
+    // Enviar la información del formulario al servidor
   }
 
   const { username, email, password } = state;
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <Form onSubmit={handleSubmit}>
+      <Button1 onClick={()=>{props.setAbrir1(false)}}>X</Button1>
+      <Label>
        Username:
         <input
           type="text"
@@ -29,9 +53,10 @@ const RegisterForm = () => {
           value={username}
           onChange={handleChange}
         />
-      </label>
+         {error && <p>{error}</p>}
+      </Label>
       <br />
-      <label>
+      <Label>
         Email:
         <input
           type="email"
@@ -39,9 +64,10 @@ const RegisterForm = () => {
           value={email}
           onChange={handleChange}
         />
-      </label>
+         {error && <p>{error}</p>}
+      </Label>
       <br />
-      <label>
+      <Label>
        Password:
         <input
           type="password"
@@ -49,10 +75,12 @@ const RegisterForm = () => {
           value={password}
           onChange={handleChange}
         />
-      </label>
+         {error && <p>{error}</p>}
+      </Label>
       <br />
-      <button type="submit">Check in</button>
-    </form>
+      {isLoading ? <p>Loading...</p> :
+      <Button type="submit">Sign in</Button>}
+    </Form>
   );
 };
 

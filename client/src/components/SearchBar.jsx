@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
-import {Button} from "./CssNav"
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import {Button, Form, Input, Label} from "../Css/CssSearch"
+import { searchRestaurant } from '../redux/actions';
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [searchInput, setSearchInput] = useState('');
+  const restaurant=useSelector(state=>state.allRestaurants)
+  console.log(restaurant)
 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(`Buscando: ${searchTerm}`);
-  };
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(searchRestaurant(searchInput));
+    setSearchInput(""); //limpia el estado local mediante el value del imput
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="search">Búsqueda:</label>
-      <input
+    <Form onSubmit={handleSubmit}>
+      <Label>Búsqueda:</Label>
+      <Input
         type="search"
-        value={searchTerm}
-        onChange={handleChange}
+        value={searchInput}
+        onChange={(e) => handleChange(e)}
       />
-      <Button>Búscar</Button>
-    </form>
+      <Button onClick={(e) => handleSubmit(e)}>Búscar</Button>
+    </Form>
   );
 };
 
