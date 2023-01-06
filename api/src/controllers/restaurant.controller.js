@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {Restaurant} = require('../db.js')
+const {Restaurant, Categories, Products} = require('../db.js')
 
 
 const getRestaurants = async () => {
