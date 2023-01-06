@@ -26,12 +26,12 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    category: {
+    categories: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     descriptions: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     }},
     {timestamps:false});
