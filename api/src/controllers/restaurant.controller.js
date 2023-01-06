@@ -5,7 +5,9 @@ const getRestaurants = async (req, res) => {
   try {
     const { data } = await axios.get(urlFromApi + 'restaurant');
     if (data.length <= 0) throw new Error(data);
-    res.send(data);
+    let newData= data.map(e=>({...e, rating: e.reviews.length>0 ? (e.reviews.reduce((a, b)=>a+b, 0)/e.reviews.length).toString() : "0.00"}))
+    console.log(newData)
+    res.send(newData);
   } catch (error) {
     res.status(400).send(error);
   }

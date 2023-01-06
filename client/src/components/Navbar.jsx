@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import { Button, Button1, Div, Select } from "../Css/CssNav";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories, order, rating } from "../redux/actions";
+import { filterByCategories, order, rating } from "../redux/actions";
 
 
 const Navbar = (props) => {
@@ -20,7 +20,7 @@ const allCategories = useSelector((state) => state.categories);
  
   function handleCategories(event) {
     event.preventDefault();
-    dispatch(getAllCategories(event.target.value));
+    dispatch(filterByCategories(event.target.value));
   }
   return (
     <nav>
@@ -74,7 +74,7 @@ const allCategories = useSelector((state) => state.categories);
                 Select Categories
               </option>
               {allCategories?.map((e) => (
-                <option value={e}>{e}</option>
+                <option value={e.name}>{e.name}</option>
               ))}
             </Select>
         </Div>

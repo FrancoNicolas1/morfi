@@ -22,7 +22,8 @@ export default function Cards() {
   useEffect(() => {
     dispatch(allRestaurants());
   }, []);
-  const allRest = useSelector((state) => state.allRestaurants);
+  const allRest = useSelector((state) => state.restaurant);
+  console.log(allRest, "ALREST")
 
   const [currentPage, setCurrentPage] = useState(1); //pagina actual
   const [restaurantsForPage, setRestaurantsForPage] = useState(3); //pokemon por Pagina
@@ -39,12 +40,7 @@ export default function Cards() {
   return (
     <>
       <Container>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {allRest.map(e=>(<Card rating={e.rating} name={e.name} category={e.category} description={e.description} photo={e.photo} id={e.id} reviews={e.reviews} products={e.products} key={e.name}></Card>))}
       </Container>
       <Pagination
         restaurantsForPage={restaurantsForPage}
