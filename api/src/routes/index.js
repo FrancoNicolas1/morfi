@@ -1,6 +1,7 @@
-const { Router } = require('express');
 const restaurants = require('./restaurants');
+const { Router } = require('express');
 const auth = require('./auth');
+const products = require('./products');
 const {
   getRestaurants,
   getRestaurantById,
@@ -16,11 +17,7 @@ const routes = Router();
 routes.get('/restaurants', getRestaurants);
 routes.get('/restaurants/:id', getRestaurantById);
 routes.get('/restaurant', getRestaurantByName);
-
-routes.use('/', restaurants);
 routes.use('/', auth);
-
-// Add routes CATEGORIES
-routes.get('/categories', getCategories);
+routes.use('/', products);
 
 module.exports = routes;
