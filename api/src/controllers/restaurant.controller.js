@@ -105,7 +105,47 @@ const getById = async ( req, res ) => {
       console.log( 'error en getById', error )
   }
 } 
- 
+
+const postRestaurant = async (req, res) => {
+    let {
+        name,
+        reviews,
+        photo,
+        products,
+        description,
+        categories
+
+    } = req.body;
+
+    let exists = await Restaurant.findOne({
+        where: { name: name }
+    })
+
+    if (exists) return res.status(406).send("El producto ya existe")
+
+    let restaurantCreate = await Restaurant.create({
+        name,
+        reviews,
+        photo,
+        description,
+    });
+
+    let categoryDB = await Categories.findAll({
+        where: { name: categories }
+    });
+
+    await restaurantCreate.addCategory(categoryDB);
+
+    let productsDB = await Products.findAll({
+        where: { name: products }
+    });
+
+    await restaurantCreate.addCategory(productsDB);
+    res.status(201).send('Restaurante creado');
+
+
+}
+
 const putRestaurant = async (req, res) => {
   const selectedRestaurant = await Restaurant.findOne({
       where: {
@@ -149,6 +189,7 @@ const deleteRestaurant = async (req, res) => {
 module.exports = {
   allRestaurants,
   getById,
+  postRestaurant,
   putRestaurant,
   deleteRestaurant,
 }

@@ -8,7 +8,9 @@ const routes = new Router();
 // Add routes
 routes.get('/', controllerRestaurants.allRestaurants);
 
-routes.get( '/:id', controllerRestaurants.getById)
+routes.get('/:id', controllerRestaurants.getById)
+
+routes.post('/', controllerRestaurants.postRestaurant)
 
 routes.put('/:id', controllerRestaurants.putRestaurant)
 
