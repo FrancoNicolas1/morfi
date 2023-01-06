@@ -1,27 +1,86 @@
-import React, { useState } from 'react';
-import LoginForm from './Login';
-import RegisterForm from './RegistroDeUsuario';
+import React, { useState } from "react";
+import SearchBar from "./SearchBar";
+import { Button, Button1, Div, Select } from "../Css/CssNav";
+import { useDispatch, useSelector } from "react-redux";
+import { filterByCategories, order, rating } from "../redux/actions";
 
-const Navbar = () => {
-  const [isSignupFormVisible, setIsSignupFormVisible] = useState(false);
 
+const Navbar = (props) => {
+const dispatch= useDispatch()
+const allCategories = useSelector((state) => state.categories);
+
+  function handleFilter(event) {
+    event.preventDefault();
+    dispatch(order(event.target.value));
+  }
+  function handleFilterRating(event) {
+    event.preventDefault();
+    dispatch(rating(event.target.value));
+  }
+ 
+  function handleCategories(event) {
+    event.preventDefault();
+    dispatch(filterByCategories(event.target.value));
+  }
   return (
     <nav>
-        <div>
-          {isSignupFormVisible ? (
-            <RegisterForm />
-          ) : (
-            <LoginForm />
-          )}
-          <button
-            type="button"
-            onClick={() => setIsSignupFormVisible(!isSignupFormVisible)}
+      <div>
+        <SearchBar />
+      </div>
+      <div>
+        <Button1
+          onClick={() => {
+            props.setAbrir(true);
+            props.setAbrir1(false);
+          }}
+        >
+          Login
+        </Button1>
+        <Button
+          onClick={() => {
+            props.setAbrir1(true);
+            props.setAbrir(false);
+          }}
+        >
+          Sign Up
+        </Button>
+        <Div>
+          <Select
+            defaultValue="default"
+            onChange={(event) => handleFilter(event)}
           >
-            {isSignupFormVisible ? 'Sign In' : 'Sign Up'}
-          </button>
-        </div>
+            <option value="default" disabled>
+              Order Alphabetical
+            </option>
+            <option value="asc">A - Z</option>
+            <option value="desc">Z - A</option>
+          </Select>
+          <Select
+            defaultValue="default"
+            onChange={(event) => handleFilterRating(event)}
+          >
+           <option value="default" disabled>
+              Order Rating
+            </option>
+            <option value="Rating+">Rating+</option>
+            <option value="Rating-">Rating-</option>
+          </Select>
+            <Select
+              id="categories"
+              defaultValue="default"
+              onChange={handleCategories}
+            >
+              <option value="default" disabled>
+                Select Categories
+              </option>
+              {allCategories?.map((e) => (
+                <option value={e.name}>{e.name}</option>
+              ))}
+            </Select>
+        </Div>
+      </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

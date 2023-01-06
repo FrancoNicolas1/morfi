@@ -20,6 +20,7 @@ const getRestaurants = async () => {
 
 const allRestaurants = async (req, res) => {
   try {
+
     const { name } = req.query;
     let restaurants = await Restaurant.findAll({
         include: [{
@@ -50,7 +51,7 @@ const allRestaurants = async (req, res) => {
       } catch ( error ) {
           console.log( 'error primer condicional', error )
       }
-  }
+
 
   if ( name && restaurants.length ) {
     try {
@@ -171,6 +172,7 @@ const putRestaurant = async (req, res) => {
 const deleteRestaurant = async (req, res) => {
   const { id } = req.params;
   try {
+
       const deletedRestaurant = await Restaurant.findOne({
           where: {
               id: req.params.id
@@ -183,7 +185,7 @@ const deleteRestaurant = async (req, res) => {
   }
   catch (err) {
       return res.status(500).send(`Restaurant could not be deleted (${err})`);
-  }
+
 };
 
 module.exports = {
