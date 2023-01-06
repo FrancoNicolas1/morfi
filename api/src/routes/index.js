@@ -1,18 +1,13 @@
 const { Router } = require('express');
-const {
-  getRestaurants,
-  getRestaurantById,
-  getRestaurantByName,
-} = require('../controllers/restaurant.controller');
+const restaurantRoute = require('./Restaurants')
 
 // import all controllers
 // import SessionController from './app/controllers/SessionController';
 
-const routes = new Router();
+const router = new Router();
 
 // Add routes
-routes.get('/restaurants', getRestaurants);
-routes.get('/restaurants/:id', getRestaurantById);
-routes.get('/restaurant', getRestaurantByName);
+ router.use('/restaurants', restaurantRoute)
 
-module.exports = routes;
+
+module.exports = router;

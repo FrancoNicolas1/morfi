@@ -20,9 +20,9 @@ module.exports = (sequelize) => {
     },
     reviews: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    productos: {
+    products: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -33,6 +33,6 @@ module.exports = (sequelize) => {
     descriptions: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-  });
+    }},
+    {timestamps:false});
 };

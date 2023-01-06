@@ -1,0 +1,206 @@
+[
+    {   
+    "name":"McDonalds",
+    "photo":"https://pbs.twimg.com/profile_images/1407809827552862211/SZHKQKmL_400x400.jpg",
+    "reviews":[""],
+    "products":
+        [
+            {"name":"Big Mac",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXt7Sq2/200/200/original?country=ar",
+            "price":"$800"},
+
+            {"name":"Big Mac",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXt7Sq2/200/200/original?country=ar",
+            "price":"$800"},
+
+            {"name":"Mc Fiesta",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXakvb9/200/200/original?country=ar",
+            "price":"$700"},
+
+            {"name":"Cuarto de Libra con Queso",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kqXsCqnz/200/200/original?country=ar",
+            "price":"$650"},
+
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+                    
+            {"name":"Coca Cola",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXrzyVZ/200/200/original?country=ar",
+            "price":"$300"},
+
+            {"name":"Papas Medianas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcXmVCCk/200/200/original?country=ar",
+            "price":"$350"},
+                    
+            {"name":"Papas con Cheddar y Bacon",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kLXCKjpY/200/200/original?country=ar",
+            "price":"$400"}
+        ],
+    "category":[
+        {"name":"Hamburguesas"}
+    ],
+    "description":"Arcos Dorados es el mayor franquiciado independiente de McDonalds del mundo y la cadena de restaurantes de servicio rápido más grande en América Latina y el Caribe.",
+    "id":"1"},
+
+    {"name":"KFC",
+    "photo":"https://i.pinimg.com/originals/ee/fd/cf/eefdcf8f23c277bfac155152c6ab3a20.jpg",
+    "reviews":[""],
+    "products":[
+            {"name":"Buckets 8 piezas",
+            "photo":"https://www.kfc.com.ar/images/menues/1620751786Bucket%208%20Piezas.jpg",
+            "price":"$1200"},
+                
+            {"name":"Buckets 12 piezas",
+            "photo":"https://www.kfc.com.ar/images/menues/1620751804Bucket%2012%20Piezas.jpg",
+            "price":"$1400"},
+                
+            {"name":"Buckets 11 alitas y 11 strips",
+            "photo":"https://www.kfc.com.ar/images/menues/1620751822Bucket%20Alitas%20y%20Strips.jpg",
+            "price":"$1600"},
+
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+                
+            {"name":"Coca Cola",
+            "photo":"https://w7.pngwing.com/pngs/742/173/png-transparent-fizzy-drinks-coca-cola-diet-coke-sprite-coca-cola-glass-food-cola.png",
+            "price":"$300"},
+
+            {"name":"Piezas",
+            "photo":"https://www.kfc.com.ar/images/menues/1545395217foto-web-piezasolas-3p.jpg",
+            "price":"$350"},
+                
+            {"name":"Alitas",
+            "photo":"https://www.kfc.com.ar/images/menues/1545395117foto-web-snaks-alitas.jpg",
+            "price":"$400"}
+        ],
+    "category":[{"name":"Pollo"}],
+    "description":"KFC corporations, (Kentucky Fried Chicken) es la marca líder especializada en los productos de pollo con más de 17.000 restaurantes en todo el mundo con sede en Louisville. Pertenece al grupo YUM! del que forman parte las cadenas de comida rápida Pizza Hut y Taco Bell.",
+    "id":"2"},
+
+    {"name":"Kentucky",
+    "photo":"https://emprelatam.com/wp-content/uploads/2019/06/Kentucky-pizza-2.jpg",
+    "reviews":[""],
+    "products":[
+            {"name":"Moderna",
+            "photo":"https://www.cucinare.tv/wp-content/uploads/2021/07/Queso-en-exceso.jpg",
+            "price":"$600"},
+
+            {"name":"Vegetariana",
+            "photo":"https://t2.rg.ltmcdn.com/es/posts/5/2/4/pizza_vegetariana_casera_12425_orig.jpg",
+            "price":"$700"},
+            
+            {"name":"Especial de Cebolla",
+            "photo":"https://www.solopizzas.info/wp-content/uploads/2021/01/White-and-Yellow-Simple-Fireworks-Photo-New-Year-Card-20.jpg",
+            "price":"$800"},
+       
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+            
+            {"name":"Coca Cola",
+            "photo":"https://w7.pngwing.com/pngs/742/173/png-transparent-fizzy-drinks-coca-cola-diet-coke-sprite-coca-cola-glass-food-cola.png",
+            "price":"$300"}
+        ],
+    "category":[{"name":"Pizzas"}],
+    "description":"Picsa, pixa o pitsa, según quien lo pronuncie. Amamos que la coman de parados en el mostrador, o en la mesa con amigos. Con la mano o con cubiertos. Amamos que entren por el olorcito o porque vinieron después del cine. Que coman la fainá (o fáina, como prefieran) fría o caliente; arriba o abajo de la muzza. Que se la lleven para desayunar al día siguiente. Amamos que la pizza sea parte de nuestras vidas. Tanto la amamos, que desde 1942 estamos abiertos desde la mañana hasta la madrugada, porque no hay hora para comer una buena pizza. Una pizza hecha con amor, nuestra pizza.",
+    "id":"3"},
+    
+    {"name":"Rincon Norteño",
+    "photo":"https://assets.unileversolutions.com/recipes-v2/239857.jpg",
+    "reviews":[""],
+    "products":[
+            {"name":"Carne",
+            "photo":"https://63b36e9f5901da0ab37f8792.mockapi.io/api/category",
+            "price":"$200"},
+            
+            {"name":"Pollo",
+            "photo":"https://lacampagnola.com/uploads/recipes/5dd6ec233dcd6.jpg",
+            "price":"$200"},
+            
+            {"name":"JyQ",
+            "photo":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOK73oRndaNT-PfldI2exmTMtaTtTy6TDtYw&usqp=CAU",
+            "price":"$200"},
+
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+            
+            {"name":"Coca Cola",
+            "photo":"https://w7.pngwing.com/pngs/742/173/png-transparent-fizzy-drinks-coca-cola-diet-coke-sprite-coca-cola-glass-food-cola.png",
+            "price":"$300"}
+    ],
+    "category":[{"name":"Empanadas"}],
+    "description":"Desde nuestros inicios nos direccionamos en la búsqueda de la recuperación del sabor de la cocina auténtica, artesanal y originaria del norte de nuestro país. En la actualidad somos reconocidos por nuestras empanadas que, por su delicioso sabor y considerable tamaño, hoy nos diferencian y posicionan en este mercado.",
+    "id":"4"},
+    
+    {"name":"El club de la Milanesa",
+    "photo":"https://www.elclubdelamilanesa.com/images/gui/logo.png",
+    "reviews":[""],
+    "products":[
+        
+            {"name":"La Comun",
+            "photo":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNbagQtbT_2Ljk9lBsIgmJbu5Tw9QGS5uyig&usqp=CAU",
+            "price":"$800"},
+            
+            {"name":"Con Queso",
+            "photo":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR28iw5eimCglfKKyimffJPDg_91QZGlS4yhw&usqp=CAU",
+            "price":"$900"},
+        
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+            
+            {"name":"Coca Cola",
+            "photo":"https://w7.pngwing.com/pngs/742/173/png-transparent-fizzy-drinks-coca-cola-diet-coke-sprite-coca-cola-glass-food-cola.png",
+            "price":"$300"}
+    ],
+    "category":["Milanesas"],
+    "description":"Somos un bar temático de milanesas cuya propuesta combina la tradicionalidad de la clásica milanesa con su versatilidad en la combinación de sabores e ingredientes, en un ambiente cálido, joven y moderno. Ofrecemos milanesas de ternera, pollo, soja, calabaza, fritas o al horno, acompañadas con la más variada selección de guarniciones y ensaladas. De lunes a viernes hábiles y al medio día ofrecemos menú ejecutivo. Somos el primer restaurante dedicado a vender milanesas y solo milanesas!",
+    "id":"5"},
+    
+    {"name":"Grido",
+    "photo":"https://upload.wikimedia.org/wikipedia/commons/0/0b/Logo_blanco_chico.jpg",
+    "reviews":[""],
+    "products":[
+            {"name":"Helado Familiar",
+            "photo":"https://argentina.gridohelado.com/wp-content/uploads/2016/06/familiar.jpg",
+            "price":"$500"},
+
+            {"name":"Torta",
+            "photo":"https://argentina.gridohelado.com/wp-content/uploads/2019/10/Torta-Grido360X360.jpg",
+            "price":"$700"},
+            
+            {"name":"Tentacion",
+            "photo":"https://argentina.gridohelado.com/wp-content/uploads/2019/10/CH_ALMENDRAS.jpg",
+            "price":"$400"}
+        ],
+    "category":[{"name":"Helados"}],
+    "description":"Fruto de más de 80 años y tres generaciones de experiencia en el mercado, Oscar Lucas Santiago junto a sus hijos crean Grido, con el sueño de que todas las personas puedan acceder a un alimento delicioso, divertido y nutritivo. En 18 años de historia, Grido ha logrado convertirse en sinónimo de helado. Calidad, calidez, variedad, cercanía e innovación han sido los pilares que llevaron a la marca a convertirse en la principal cadena de heladerías de Latinoamérica.",
+    "id":"6"},
+    
+    {"name":"Grean Eat",
+    "photo":"https://lareu.com/wp-content/uploads/2021/05/GREENEAT-2.jpg",
+    "reviews":[""],
+    "products":[
+            {"name":"Ensalada caesar",
+    "photo":"https://www.goodnes.com/sites/g/files/jgfbjl321/files/srh_recipes/755f697272cbcdc6e5df2adb44b1b705.jpg",
+            "price":"$700"},
+            
+            {"name":"Ensalada sidney",
+ "photo":"https://www.cardamomo.news/__export/1605462931538/sites/debate/img/2020/11/15/ensalada_verde_con_nuez_1.jpg_976912859.jpg",
+            "price":"$500"},
+        
+            {"name":"Agua sin gas",
+            "photo":"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kcX11dSt/200/200/original?country=ar",
+            "price":"$200"},
+            
+            {"name":"Coca Cola",
+            "photo":"https://w7.pngwing.com/pngs/742/173/png-transparent-fizzy-drinks-coca-cola-diet-coke-sprite-coca-cola-glass-food-cola.png",
+            "price":"$300"}
+    ],
+    "category":[{"name":"Comida Vegana"}],
+    "description":"Recetas diferentes, repletas de sabores de estación que generan amor a primera pizca., Nada de agregados químicos, conservantes ni cosas raras como promesa irrenunciable. Nada, niente, rien, nothing.",
+    "id":"7"}
+]
