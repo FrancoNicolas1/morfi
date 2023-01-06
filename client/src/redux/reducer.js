@@ -1,20 +1,36 @@
 const initialState = {
   allRestaurants: [],
   restaurant: [],
+  restaurantById:[],
   categories: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case 'ALL_RESTAURANT':
+    case 'GET_ALL_RESTAURANT':
       return {
         ...state,
         allRestaurants: action.payload,
         restaurant: action.payload,
       };
-    case 'RESTAURANT_BY_NAME':
+    // case 'RESTAURANT_BY_NAME':
+    //   return {
+    //     ...state,
+    //     allRestaurants: action.payload,
+    //   };
+    // case 'SEARCH_RESTAURANT':
+    //   return {
+    //     ...state,
+    //     restaurant: action.payload,
+    //   };
+    case 'GET_RESTAURANT_BY_ID':
       return {
         ...state,
-        allRestaurants: action.payload,
+        restaurantById: action.payload,
+      };
+    case 'GET_ALL_CATEGORIES':
+      return {
+        ...state,
+        categories: action.payload,
       };
     case 'ORDER':
       let sortedOrder;
@@ -90,16 +106,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: categoriesFiltered,
       };
-    case 'GET_ALL_CATEGORIES':
-      return {
-        ...state,
-        categories: action.payload,
-      };
-    case 'SEARCH_RESTAURANT':
-      return {
-        ...state,
-        restaurant: action.payload,
-      };
+    
 
     default:
       return { ...state };

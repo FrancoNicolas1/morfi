@@ -14,7 +14,6 @@ const getRestaurants = async () => {
           descriptions: ele.description,
       }
   })
-
   return restaurants;
 };
 
@@ -51,7 +50,7 @@ const allRestaurants = async (req, res) => {
       } catch ( error ) {
           console.log( 'error primer condicional', error )
       }
-
+    }
 
   if ( name && restaurants.length ) {
     try {
@@ -82,10 +81,11 @@ const allRestaurants = async (req, res) => {
   } catch (error) {
     console.log(error, 'error en getRestaurants');
   }
+
 }
 
 const getById = async ( req, res ) => {
-  let { id } = req.params;
+  let { id } = req.params
   id = id.toUpperCase()
   try {
       const restaurant = await Restaurant.findByPk( id,
@@ -187,7 +187,7 @@ const deleteRestaurant = async (req, res) => {
       return res.status(500).send(`Restaurant could not be deleted (${err})`);
 
 };
-
+}
 module.exports = {
   allRestaurants,
   getById,
