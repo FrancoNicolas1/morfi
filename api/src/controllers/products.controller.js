@@ -16,7 +16,7 @@ const getProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, photo, price, description } = req.body;
-    if ((!name, !photo, !price, !description)) {
+    if (!name || !photo || !price || !description) {
       res.json({ msg: "Please complete all fields" });
     }
     let newProduct = await Products.create({
@@ -44,7 +44,7 @@ const updateProduct = async (req, res) => {
     productFound.price = price;
     productFound.description = description;
     await productFound.save();
-    res.json(productFound);
+    res.send("Deleteado");
   } catch (error) {
     console.error("este es el error", error);
   }
