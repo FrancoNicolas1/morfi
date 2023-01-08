@@ -107,7 +107,6 @@ export default function rootReducer(state = initialState, action) {
       };
     case 'FILTER_CATEGORIES':
       const allCategories = state.allRestaurants;
-      console.log(allCategories);
       const categoriesFiltered =
         action.payload === 'All Restaurant'
           ? allCategories
