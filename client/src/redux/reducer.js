@@ -29,11 +29,11 @@ export default function rootReducer(state = initialState, action) {
     //     ...state,
     //     allRestaurants: action.payload,
     //   };
-    // case 'SEARCH_RESTAURANT':
-    //   return {
-    //     ...state,
-    //     restaurant: action.payload,
-    //   };
+    case 'SEARCH_RESTAURANT':
+      return {
+        ...state,
+        restaurant: action.payload,
+      };
     case 'GET_RESTAURANT_BY_ID':
       return {
         ...state,
@@ -116,7 +116,12 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: categoriesFiltered,
       };
-
+      case "REFRESH_PAG":
+                
+      return{
+  ...state,
+  allRestaurants:action.payload
+}
     default:
       return { ...state };
   }

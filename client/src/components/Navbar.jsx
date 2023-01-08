@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-
 import {
   Container,
   Logo,
@@ -12,6 +10,8 @@ import {
   Buttons,
   Image
 } from './navbar.styled.js';
+import { NavLink } from "react-router-dom";
+
 
 
 
@@ -27,18 +27,30 @@ const Navbar = (props) => {
      </Logo>
      <Box>
          <LinksList>
-             <Links><Link>Services</Link></Links>
-             <Links><Link>Services</Link></Links>
-             <Links><Link>Services</Link></Links>
+             <Links>
+             <NavLink to={"nosotros"}>
+             <Link>Nosotros</Link>
+            </NavLink>
+             </Links>
+             <Links>
+             <NavLink to={"preguntas"}>
+             <Link>Preguntas frecuentes</Link>
+            </NavLink>
+             </Links>
+             <Links>
+             <NavLink to={"contactenos"}>
+             <Link>Contactenos</Link>
+            </NavLink>
+             </Links>
          </LinksList>         
      </Box>
 
      <BoxButtons>
-     <Buttons>Login</Buttons>
-     <Buttons>SingUp</Buttons>
-     <Link to="/formrestaurant">
+     <Buttons onClick={() => {props.setAbrir(true);props.setAbrir1(false);}}>Login</Buttons>
+     <Buttons  onClick={() => {props.setAbrir1(true);props.setAbrir(false);}}>SingUp</Buttons>
+      <NavLink to={"formrestaurant"}>
           <Buttons>Tu Comercio</Buttons>
-        </Link>
+          </NavLink>
      </BoxButtons>
  </Container>
     </>

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { allRestaurants, getAllCategories } from '../redux/actions';
 import { useEffect } from 'react';
 import  Select  from '../components/Select/Select';
+import { SearchBar } from '../components/Searchbar/SearchBar';
 
 const ContainerHome = styled.div`
   width: 100%;

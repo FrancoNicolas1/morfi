@@ -23,15 +23,15 @@ export const Box = styled.div`
 
 `
 
-export const LinksList = styled.ul`
+export const LinksList = styled.div`
 
-list-style: none;
+
 `
-export const Links = styled.li`
+export const Links = styled.span`
 display: inline-block;
     padding: 0 20px;   
 `
-export const Link = styled.a`
+export const Link = styled.p`
 font-size: 700;
 color: #eceff1;
 text-decoration: none; 

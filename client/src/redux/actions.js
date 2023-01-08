@@ -41,13 +41,22 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    var json = await axios.get(
-      `http://localhost:3001/restaurant?name=${searchInput}`
-    );
-    return dispatch({
-      type: 'SEARCH_RESTAURANT',
-      payload: json.data,
-    });
+    let json = await axios.get(`https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant`);
+    let filterProvidorio = json.data.filter((e)=>e.name.toLowerCase().includes(searchInput.toLowerCase()))
+    if(filterProvidorio.length === 0){
+        alert("No se encontro ese Restaurante")
+        const all = await axios.get("https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant")
+        return dispatch({
+          type: 'GET_ALL_RESTAURANT',
+          payload: all.data,
+      });
+    }else{
+      return dispatch({
+        type: 'SEARCH_RESTAURANT',
+        payload: filterProvidorio
+      });
+    }
+   
   };
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -118,6 +127,16 @@ export function filterByCategories(payload) {
     payload,
   };
 }
+
+///////////////////////////REFRESH////////////////////////////
+export function refreshPag(payload){
+  return{
+      type:"REFRESH_PAG",
+      payload:[]
+  }
+}
+
+
 ///////////////////////////////////////////////////////////
 
 // status from pagination:

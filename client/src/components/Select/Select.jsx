@@ -1,8 +1,10 @@
 import React from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { filterByCategories, order, rating } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { filterByCategories, order, rating, refreshPag } from "../../redux/actions";
 // import SearchBar from "./SearchBar";
-// import { order, rating, filterByCategories} from "../../redux/actions";
+import { allRestaurants } from "../../redux/actions";
+
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -44,45 +46,64 @@ const SelectBotton= styled.select`
     transition: all 0.25s ease;
   
 `
+const Button = styled.button`
+width: 100px;
+  height: 40px;
+  border-radius: 100px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+`
 
 export default function Select (){
-// const dispatch= useDispatch()
-// const allCategories = useSelector((state) => state.categories);
+const dispatch= useDispatch()
+const allCategories = useSelector((state) => state.categories);
+const restaurants = useSelector((state) => state.restaurant);
+const loading = useSelector((state) => state.loading);
 
-//   function handleFilter(event) {
-//     event.preventDefault();
-//     dispatch(order(event.target.value));
-//   }
-//   function handleFilterRating(event) {
-//     event.preventDefault();
-//     dispatch(rating(event.target.value));
-//   }
+const handleRefresh=()=>{
+  dispatch(refreshPag())
+  dispatch(allRestaurants())
+}
  
-//   function handleCategories(event) {
-//     event.preventDefault();
-//     dispatch(filterByCategories(event.target.value));
-//   }
+
+  function handleFilter(event) {
+    event.preventDefault();
+    dispatch(order(event.target.value));
+  }
+  function handleFilterRating(event) {
+    event.preventDefault();
+    dispatch(rating(event.target.value));
+  }
+ 
+  function handleCategories(event) {
+    event.preventDefault();
+    dispatch(filterByCategories(event.target.value));
+  }
     
     return(
     <>
     <Container>
       <p>Nuestros Comercios</p>
       <Box>
-      <SelectBotton>
-      <option selected disabled hidden>Creados/Api</option>
-      <option value="creados">Creados</option>
-      <option value="api">Api</option>
+      <SelectBotton  onChange={(event) => handleFilter(event)}>
+      <option value="default" disabled>Order Alphabetical</option>
+      <option value="asc">A - Z</option>
+      <option value="desc">Z - A</option>
       </SelectBotton>
-      <SelectBotton>
-      <option selected disabled hidden> Creados/Api</option>
-      <option value="creados">Creados</option>
-      <option value="api">Api</option>
+      <SelectBotton onChange={(event) => handleFilterRating(event)}>
+      <option value="default" disabled>Order Rating</option>
+      <option value="Rating+">Rating+</option>
+      <option value="Rating-">Rating-</option>
       </SelectBotton>
-      <SelectBotton>
-      <option selected disabled hidden> Creados/Api</option>
-      <option value="creados">Creados</option>
-      <option value="api">Api</option>
+      <SelectBotton  id="categories" defaultValue="default" onChange={handleCategories}>
+      <option value="default" disabled>Select Categories</option>
+              {allCategories?.map((e) => (
+                <option value={e.name}>{e.name}</option>
+              ))}
       </SelectBotton>
+      <Button onClick={handleRefresh}>
+        Reset
+      </Button>
       </Box>
     </Container>
 
