@@ -141,7 +141,5 @@ export function refreshPag(payload){
 
 // status from pagination:
 export const setNumberPageActive = (pageActive) => {
-  console.log(pageActive);
-  console.log('soy action creator', pageActive);
   return { type: 'SET_PAGE_ACTIVE', payload: pageActive };
 };

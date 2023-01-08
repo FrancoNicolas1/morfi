@@ -10,14 +10,14 @@ export const Container = styled.div`
   align-items: flex-start;
   gap: 2rem;
   & .container-img-title {
-    width: 50%;
+    width: 30%;
     display: flex;
     flex-direction: column;
 
     gap: 1rem;
     & img {
-      width: 21.875rem;
-      height: 21rem;
+      width: 100%;
+      height: 50%;
       /* border: solid red; */
       background-position: center center;
       background-repeat: no-repeat;
@@ -25,16 +25,26 @@ export const Container = styled.div`
     }
   }
   & .description {
-    font-size: 14px;
+    font-size: 0.8rem;
   }
   & .container-data-products {
-    width: 50%;
-    height: 100%;
-    border: solid green;
+    width: 90%;
+    height: 100vh;
+    /* border: solid greenyellow; */
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    & .container-products {
+      /* border: solid brown; */
+      display: grid;
+      width: 100%;
+      height: 100%;
+      margin: 1rem auto;
+      display: grid;
+      gap: 1rem;
+      grid-auto-rows: 22rem;
+      grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+    }
   }
 `;
 
