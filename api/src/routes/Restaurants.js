@@ -6,7 +6,6 @@ const controllerRestaurants = require('../controllers/restaurant.controller');
 const routes = new Router();
 
 // Add routes
-routes.get('/', controllerRestaurants.allRestaurants);
 
 routes.get('/', controllerRestaurants.allRestaurants);
 
