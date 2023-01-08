@@ -1,9 +1,10 @@
 import Pagination from '../Pagination/Pagination';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { allRestaurants } from '../../redux/actions';
+import { allRestaurants, setNumberPageActive } from '../../redux/actions';
 import styled from 'styled-components';
 import Card from '../card/Card';
+import { Loading } from '../loadingComponent/Loading';
 
 const Container = styled.div`
   border: solid green;
@@ -22,32 +23,53 @@ export default function Cards() {
   useEffect(() => {
     dispatch(allRestaurants());
   }, []);
-  const allRest = useSelector((state) => state.restaurant);
-  console.log(allRest, "ALREST")
+  const restaurants = useSelector((state) => state.restaurant);
+  const loading = useSelector((state) => state.loading);
 
   const [currentPage, setCurrentPage] = useState(1); //pagina actual
-  const [restaurantsForPage, setRestaurantsForPage] = useState(3); //pokemon por Pagina
+  const [restaurantsForPage, setRestaurantsForPage] = useState(8);
   const indexOfLastRestaurants = currentPage * restaurantsForPage;
   const indexOfFirtsRestaurants = indexOfLastRestaurants - restaurantsForPage;
-  const currentRestaurants = allRest.slice(
+  const currentRestaurants = restaurants.slice(
     indexOfFirtsRestaurants,
     indexOfLastRestaurants
   );
 
   const pagination = (pageNumber) => {
     setCurrentPage(pageNumber);
+    dispatch(setNumberPageActive(parseInt(pageNumber)));
   };
   return (
     <>
-      <Container>
-        {allRest.map(e=>(<Card rating={e.rating} name={e.name} category={e.category} description={e.description} photo={e.photo} id={e.id} reviews={e.reviews} products={e.products} key={e.name}></Card>))}
-      </Container>
       <Pagination
         restaurantsForPage={restaurantsForPage}
-        allRest={allRest.length}
+        allRest={restaurants.length}
         pagination={pagination}
         currentPage={currentPage}
       />
+      <Container>
+        {loading ? (
+          <>
+            <Loading />
+          </>
+        ) : (
+          <>
+            {currentRestaurants.map((restaurant) => (
+              <Card
+                rating={restaurant.rating}
+                name={restaurant.name}
+                category={restaurant.category}
+                description={restaurant.description}
+                photo={restaurant.photo}
+                id={restaurant.id}
+                reviews={restaurant.reviews}
+                products={restaurant.products}
+                key={restaurant.name}
+              ></Card>
+            ))}
+          </>
+        )}
+      </Container>
     </>
   );
 }
