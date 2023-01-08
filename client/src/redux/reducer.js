@@ -1,11 +1,23 @@
 const initialState = {
   allRestaurants: [],
   restaurant: [],
-  restaurantById:[],
+  restaurantDetail: [],
   categories: [],
+  loading: false,
+  pageActive: 1,
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case 'SET_PAGE_ACTIVE':
+      return {
+        ...state,
+        pageActive: action.payload,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case 'GET_ALL_RESTAURANT':
       return {
         ...state,
@@ -25,7 +37,7 @@ export default function rootReducer(state = initialState, action) {
     case 'GET_RESTAURANT_BY_ID':
       return {
         ...state,
-        restaurantById: action.payload,
+        restaurantDetail: action.payload,
       };
     case 'GET_ALL_CATEGORIES':
       return {
@@ -95,18 +107,15 @@ export default function rootReducer(state = initialState, action) {
       };
     case 'FILTER_CATEGORIES':
       const allCategories = state.allRestaurants;
-      console.log(allCategories)
+      console.log(allCategories);
       const categoriesFiltered =
         action.payload === 'All Restaurant'
           ? allCategories
-          : allCategories.filter((el) =>
-              el.category.includes(action.payload)
-            );
+          : allCategories.filter((el) => el.category.includes(action.payload));
       return {
         ...state,
         restaurant: categoriesFiltered,
       };
-    
 
     default:
       return { ...state };
