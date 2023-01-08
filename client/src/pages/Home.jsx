@@ -4,7 +4,6 @@ import Shops from '../components/Shops/Shops';
 import Cards from '../components/cards/Cards';
 */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Cards from '../components/cards/Cards';
 import { Footer } from '../components/footer/Footer';
@@ -12,10 +11,10 @@ import LoginForm from '../components/Login';
 import Navbar from '../components/Navbar';
 import RegisterForm from '../components/RegistroDeUsuario';
 import Section from '../components/Section/Section';
-import Shops from '../components/Shops/Shops';
 import { useDispatch, useSelector } from 'react-redux';
 import { allRestaurants, getAllCategories } from '../redux/actions';
 import { useEffect } from 'react';
+import  Select  from '../components/Select/Select';
 
 const ContainerHome = styled.div`
   width: 100%;
@@ -50,10 +49,8 @@ console.log(allRestaurant, "HOLA")
       </div>
       <ContainerHome>
         <Section />
-        <Shops />
-        <Link to="/formrestaurant">
-          <button>ACA VA EL FORMULARIO </button>
-        </Link>
+        {/* <Shops /> */}
+        <Select/>
         <Cards/>
         <Footer />
       </ContainerHome>

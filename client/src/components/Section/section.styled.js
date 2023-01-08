@@ -1,13 +1,9 @@
 import styled from "styled-components"
 
 export const Header = styled.div`
-background-color:red;
-max-width:1340px;
-height:300px;
-margin: 20px auto;
-display:grid;
-grid-gap:20px;
-grid-template-columns:repeat(2,1fr);
+background-image:url("https://img.freepik.com/foto-gratis/ingredientes-italianos-crudos-frescos-pasta-espagueti-sobre-mesa-textura_23-2148195010.jpg?w=2000");
+height:200px;
+background-repeat: no-repeat;background-size: cover;
 `
 export const Description = styled.div`
 

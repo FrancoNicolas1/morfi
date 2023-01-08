@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 //import { allCategories } from '../../redux/actions';
 import { useState } from 'react';
+import { allRestaurants, getAllCategories, createRestaurant } from '../../redux/actions';
+import validate from './Validation';
+import { useHistory } from 'react-router-dom';
 
 const ContainerPadre = styled.div`
   display: flex;
@@ -86,14 +89,66 @@ const Button = styled.button`
 
 export function FormRestaurant() {
   /////////////////////////////// TRAYENDO EL ESTADO/////////////////////////////
+  const history = useHistory()
   const dispatch = useDispatch();
-  /* const categorys = useSelector((state) => state. allCategories) */
+  const categories = useSelector((state) => state.categories) 
+  const restaurants = useSelector((state) => state.allRestaurants) 
+  console.log(restaurants)
   useEffect(() => {
-    /* dispatch(allCategories()) */
+     dispatch(getAllCategories()) 
+     dispatch(allRestaurants())
   }, []);
   /////////////////////////////////SETEAR EL ESTADO //////////////////////////////////
-  /*   const [error, setError] = useState({});
-  const [restaurant, setRestaurant] = useState({}); */
+  const [error, setError] = useState({});
+  const [restaurant, setRestaurant] = useState({
+    name:"",
+    photo:"",
+    products:[],
+    category:[],
+    description:""
+  }); 
+
+  const handleChange=(e)=>{
+    e.preventDefault()
+    setRestaurant({
+        ...restaurant,
+        [e.target.name]:e.target.value
+    })
+    setError(validate({
+      ...restaurant,
+      [e.target.name]:e.target.value
+  }))
+}  
+
+const handleCategories=(e)=>{
+  e.preventDefault()
+  setRestaurant({
+      ...restaurant,
+      category:[...new Set([...restaurant.category,e.target.value])]
+  })
+}
+
+const handleSubmit=(e)=>{
+  e.preventDefault()
+  let filterByRestaurant= restaurants.filter((e)=>e.name === restaurant.name.toLocaleLowerCase())
+  // console.log(filterPokemon)
+  if(filterByRestaurant.length){
+      alert("Este pokemon ya existe")
+  }       
+  else if(Object.values(error).length > 0){
+       alert ("Llene todos los campos para publicar su Local")
+  }else if(restaurant.name === ""){
+      alert("Debe llenar todos los campos")
+  }else if(restaurant.category.length === 0 || restaurant.category.length > 2){
+   alert("Debe tener alguna categoria y que no supere 2")
+  }else {
+      dispatch(createRestaurant(restaurant))
+      alert ("Su local fue publicado con exito")
+      history.push("/")
+  }
+}
+
+
   return (
     <>
       <ContainerPadre>
@@ -118,42 +173,38 @@ export function FormRestaurant() {
         </Container2>
         <Container1>
           <Title>Registra tu local</Title>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Detail>
               <InputBox>
                 <Detail2>Nombre del local</Detail2>
-                <Input placeholder="Ingrese el nombre..." />
+                <Input placeholder="Ingrese el nombre..." type="text" name="name"  onChange={handleChange} />
+                {error.name && (<label>{error.name}</label>)}
               </InputBox>
               <InputBox>
                 <Detail2>Tipo de Negocio</Detail2>
-                <Select>
-                  {/* {[]?.map((category) => {
-                    return <option>{category.name}</option>;
-                  })} */}
+                <Select onChange={handleCategories}>
+                   {categories?.map((category) => {
+                    return <option value={category.name} name=" category">{category.name}</option>;
+                  })} 
                 </Select>
               </InputBox>
               <InputBox>
-                <Detail2>Sucursales</Detail2>
-                <Input placeholder="Ingrese la cantidad..." />
+                <Detail2>Imagen del Local</Detail2>
+                <Input placeholder="Ingrese la cantidad..." type="text" name="photo" onChange={handleChange} />
+                {error.photo && (<label>{error.photo}</label>)}
               </InputBox>
               <InputBox>
-                <Detail2>Nombre</Detail2>
-                <Input placeholder="Ingrese nombre..." />
+                <Detail2>Productos</Detail2>
+                <Input placeholder="Ingrese nombre..." type="text" name="products" onChange={handleChange} />
+                {error.products && (<label>{error.products}</label>)}
               </InputBox>
               <InputBox>
-                <Detail2>Apellido</Detail2>
-                <Input placeholder="Ingrese apellido..." />
-              </InputBox>
-              <InputBox>
-                <Detail2>Teléfono de contacto</Detail2>
-                <Input placeholder="Ingrese teléfono de contacto" />
-              </InputBox>
-              <InputBox>
-                <Detail2>Correo electrónico</Detail2>
-                <Input placeholder="nombre@mail.com" />
+                <Detail2>Descripción</Detail2>
+                <Input placeholder="Ingrese apellido..." type="text" name="description" onChange={handleChange}/>
+                {error.description && (<label>{error.description}</label>)}
               </InputBox>
             </Detail>
-            <Button>Registrar</Button>
+            <Button type='submit'>Registrar</Button>
           </Form>
         </Container1>
       </ContainerPadre>
