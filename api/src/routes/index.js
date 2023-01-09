@@ -11,5 +11,5 @@ const router = new Router();
 // Add routes
 router.use('/restaurants', restaurantRoute);
 router.use('/users', userRoute);
-
+// router.use('/users', userRoute);
 module.exports = router;
