@@ -1,91 +1,60 @@
-import styled from 'styled-components';
+import { useEffect } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-
-const Container = styled.div`
-  /* border: solid red; */
-  width: 100%;
-  padding: 5%;
-  margin: 0 auto;
-  height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  & .container-img-title {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-
-    gap: 1rem;
-    & img {
-      width: 100%;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: contain;
-    }
-  }
-  & .container-data-product {
-    width: 50%;
-    height: 100%;
-    /* border: solid green; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const BtnBack = styled(Link)`
-  padding: 10px;
-  text-decoration: none;
-  width: 5rem;
-  margin-bottom: 1rem;
-  outline: none;
-  color: #1a120b;
-  background-color: #ece8dd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* border: 1px solid #1a120b; */
-`;
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getRestaurantById } from '../../redux/actions';
+import { Loading } from '../loadingComponent/Loading';
+import { Product } from '../product/Product';
+import { BtnBack, Container } from './cardDetail.styled';
 
 export const CardDetail = (props) => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const restaurantDetail = useSelector((state) => state.restaurantDetail);
+  const loading = useSelector((state) => state.loading);
+
+  const loadDetailRestaurant = async (id) => {
+    await dispatch(getRestaurantById(id));
+  };
+
+  useEffect(() => {
+    loadDetailRestaurant(id);
+  }, [id]);
+
   return (
     <Container>
-      <div className="container-img-title">
-        <BtnBack className="btn-back" to={'/'}>
-          <FaArrowLeft />
-        </BtnBack>
-        <h2>Nombre del Producto</h2>
-        <img
-          className="image-card"
-          src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg"
-          alt=""
-        />
-      </div>
-      <div className="container-data-product">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque?
-        </p>
-      </div>
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <div className="container-img-title">
+            <BtnBack className="btn-back" to={'/'}>
+              <FaArrowLeft fontSize={20} />
+            </BtnBack>
+            <h2 className="title-detail">{restaurantDetail?.name}</h2>
+            <img
+              className="image-card"
+              src={restaurantDetail?.photo}
+              alt={restaurantDetail?.name}
+            />
+            <p className="description">{restaurantDetail?.description}</p>
+          </div>
+          <div className="container-data-products">
+            <h2>Categories</h2>
+            {restaurantDetail?.category.map((categoryElem) => {
+              return <p className="title-categories">{categoryElem}</p>;
+            })}
+            <h2>Products</h2>
+            <div className="container-products">
+              {restaurantDetail?.products.map((productList, i) => {
+                return <Product key={i} products={productList} />;
+              })}
+            </div>
+          </div>
+        </>
+      )}
     </Container>
   );
 };

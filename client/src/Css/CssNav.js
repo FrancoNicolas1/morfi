@@ -38,9 +38,11 @@ display: flex;
 `;
 
 export const Div= styled.div`
- display: flex;
+ /* display: flex;
   justify-content: center;
   align-self: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: row; */
+  background-color:red;
+  height: 100px;
 `;

@@ -4,7 +4,6 @@ import Shops from '../components/Shops/Shops';
 import Cards from '../components/cards/Cards';
 */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Cards from '../components/cards/Cards';
 import { Footer } from '../components/footer/Footer';
@@ -12,10 +11,11 @@ import LoginForm from '../components/Login';
 import Navbar from '../components/Navbar';
 import RegisterForm from '../components/RegistroDeUsuario';
 import Section from '../components/Section/Section';
-import Shops from '../components/Shops/Shops';
 import { useDispatch, useSelector } from 'react-redux';
-import { allRestaurants } from '../redux/actions';
+import { allRestaurants, getAllCategories } from '../redux/actions';
 import { useEffect } from 'react';
+import  Select  from '../components/Select/Select';
+import { SearchBar } from '../components/Searchbar/SearchBar';
 
 const ContainerHome = styled.div`
   width: 100%;
@@ -28,11 +28,14 @@ export default function Home() {
   const [abrir, setAbrir] = useState(false);
   const [abrir1, setAbrir1] = useState(false);
   const allRestaurant = useSelector((state) => state.restaurant);
+  const categories= useSelector((state)=>state.categories)
+  console.log(categories)
 
   useEffect(() => {
     dispatch(allRestaurants());
+    dispatch(getAllCategories())
   }, [dispatch]);
-
+console.log(allRestaurant, "HOLA")
   return (
     <>
       <div>
@@ -47,12 +50,9 @@ export default function Home() {
       </div>
       <ContainerHome>
         <Section />
-        <Shops />
-        <Link to="/formrestaurant">
-          <button>ACA VA EL FORMULARIO </button>
-        </Link>
-        {allRestaurant.map((e) => e.name)}
-        <Cards />
+        {/* <Shops /> */}
+        <Select/>
+        <Cards/>
         <Footer />
       </ContainerHome>
     </>

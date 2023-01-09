@@ -4,6 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 //import { allCategories } from '../../redux/actions';
 import { useState } from 'react';
+import { allRestaurants, getAllCategories, createRestaurant } from '../../redux/actions';
+import validate from './Validation';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const ContainerPadre = styled.div`
   display: flex;
@@ -83,22 +88,105 @@ const Button = styled.button`
   border: 2px solid #ccc;
   cursor: pointer;
 `;
+export const BtnBack = styled(Link)`
+  padding: 10px;
+  text-decoration: none;
+  width: 5rem;
+  margin: 1rem 0;
+  outline: none;
+  border: 1px solid #1a120b;
+  background-color: #ffd15f;
+  color: #1a120b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    color: #1a120b;
+    opacity: 0.7;
+  }
+  /* border: 1px solid #1a120b; */
+`;
+const Label =styled.label`
+color:red;
+`
 
 export function FormRestaurant() {
   /////////////////////////////// TRAYENDO EL ESTADO/////////////////////////////
+  const history = useHistory()
   const dispatch = useDispatch();
-  /* const categorys = useSelector((state) => state. allCategories) */
+  const categories = useSelector((state) => state.categories) 
+  const restaurants = useSelector((state) => state.allRestaurants) 
+  console.log(restaurants)
   useEffect(() => {
-    /* dispatch(allCategories()) */
+     dispatch(getAllCategories()) 
+     dispatch(allRestaurants())
   }, []);
   /////////////////////////////////SETEAR EL ESTADO //////////////////////////////////
-  /*   const [error, setError] = useState({});
-  const [restaurant, setRestaurant] = useState({}); */
+  const [error, setError] = useState({});
+  const [restaurant, setRestaurant] = useState({
+    name:"",
+    photo:"",
+    products:[],
+    category:[],
+    description:""
+  }); 
+
+  const handleChange=(e)=>{
+    e.preventDefault()
+    setRestaurant({
+        ...restaurant,
+        [e.target.name]:e.target.value
+    })
+    setError(validate({
+      ...restaurant,
+      [e.target.name]:e.target.value
+  }))
+}  
+
+const handleCategories=(e)=>{
+  e.preventDefault()
+  setRestaurant({
+      ...restaurant,
+      category:[...new Set([...restaurant.category,e.target.value])]
+  })
+}
+const handleDelete=(e)=>{
+  setRestaurant({
+      ...restaurant,
+      category: restaurant.category.filter((catego)=> catego !== e)
+  })
+}
+
+
+const handleSubmit=(e)=>{
+  e.preventDefault()
+  let filterByRestaurant= restaurants.filter((e)=>e.name === restaurant.name.toLocaleLowerCase())
+  // console.log(filterPokemon)
+  if(filterByRestaurant.length){
+      alert("Este pokemon ya existe")
+  }       
+  else if(Object.values(error).length > 0){
+       alert ("Llene todos los campos para publicar su Local")
+  }else if(restaurant.name === ""){
+      alert("Debe llenar todos los campos")
+  }else if(restaurant.category.length === 0 || restaurant.category.length > 2){
+   alert("Debe tener alguna categoria y que no supere 2")
+  }else {
+      dispatch(createRestaurant(restaurant))
+      alert ("Su local fue publicado con exito")
+      history.push("/")
+  }
+}
+
+
   return (
     <>
       <ContainerPadre>
         <Container2>
           <TitleContainer2>
+          <BtnBack className="btn-back" to={'/'}>
+              <FaArrowLeft fontSize={20} />
+            </BtnBack>
             <Text>
               <h1>
                 Empieza a vender en la app líder en delivery online de
@@ -118,42 +206,46 @@ export function FormRestaurant() {
         </Container2>
         <Container1>
           <Title>Registra tu local</Title>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Detail>
               <InputBox>
                 <Detail2>Nombre del local</Detail2>
-                <Input placeholder="Ingrese el nombre..." />
+                <Input placeholder="Ingrese el nombre..." type="text" name="name"  onChange={handleChange} />
+                {error.name && (<Label>{error.name}</Label>)}
               </InputBox>
               <InputBox>
                 <Detail2>Tipo de Negocio</Detail2>
-                <Select>
-                  {/* {[]?.map((category) => {
-                    return <option>{category.name}</option>;
-                  })} */}
+                <Select onChange={handleCategories}>
+                   {categories?.map((category) => {
+                    return <option value={category.name} name=" category">{category.name}</option>;
+                  })} 
                 </Select>
+                {restaurant.category.map((e)=>{
+            return(
+                <>
+                <label>{e}</label>
+                <button type="button" onClick={()=>handleDelete(e)}>x</button>
+                </>
+            )
+        })}
               </InputBox>
               <InputBox>
-                <Detail2>Sucursales</Detail2>
-                <Input placeholder="Ingrese la cantidad..." />
+                <Detail2>Imagen del Local</Detail2>
+                <Input placeholder="Ingrese la imagen..." type="text" name="photo" onChange={handleChange} />
+                {error.photo && (<Label>{error.photo}</Label>)}
               </InputBox>
               <InputBox>
-                <Detail2>Nombre</Detail2>
-                <Input placeholder="Ingrese nombre..." />
+                <Detail2>Productos</Detail2>
+                <Input placeholder="Ingrese productos..." type="text" name="products" onChange={handleChange} />
+                {error.products && (<Label>{error.products}</Label>)}
               </InputBox>
               <InputBox>
-                <Detail2>Apellido</Detail2>
-                <Input placeholder="Ingrese apellido..." />
-              </InputBox>
-              <InputBox>
-                <Detail2>Teléfono de contacto</Detail2>
-                <Input placeholder="Ingrese teléfono de contacto" />
-              </InputBox>
-              <InputBox>
-                <Detail2>Correo electrónico</Detail2>
-                <Input placeholder="nombre@mail.com" />
+                <Detail2>Descripción</Detail2>
+                <Input placeholder="Ingrese descripcion del comercio..." type="text" name="description" onChange={handleChange}/>
+                {error.description && (<Label>{error.description}</Label>)}
               </InputBox>
             </Detail>
-            <Button>Registrar</Button>
+            <Button type='submit'>Registrar</Button>
           </Form>
         </Container1>
       </ContainerPadre>

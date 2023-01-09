@@ -1,20 +1,48 @@
 const initialState = {
   allRestaurants: [],
   restaurant: [],
+  restaurantDetail: [],
   categories: [],
+  loading: false,
+  pageActive: 1,
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case 'ALL_RESTAURANT':
+    case 'SET_PAGE_ACTIVE':
+      return {
+        ...state,
+        pageActive: action.payload,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    case 'GET_ALL_RESTAURANT':
       return {
         ...state,
         allRestaurants: action.payload,
         restaurant: action.payload,
       };
-    case 'RESTAURANT_BY_NAME':
+    // case 'RESTAURANT_BY_NAME':
+    //   return {
+    //     ...state,
+    //     allRestaurants: action.payload,
+    //   };
+    case 'SEARCH_RESTAURANT':
       return {
         ...state,
-        allRestaurants: action.payload,
+        restaurant: action.payload,
+      };
+    case 'GET_RESTAURANT_BY_ID':
+      return {
+        ...state,
+        restaurantDetail: action.payload,
+      };
+    case 'GET_ALL_CATEGORIES':
+      return {
+        ...state,
+        categories: action.payload,
       };
     case 'ORDER':
       let sortedOrder;
@@ -82,24 +110,17 @@ export default function rootReducer(state = initialState, action) {
       const categoriesFiltered =
         action.payload === 'All Restaurant'
           ? allCategories
-          : allCategories.filter((el) =>
-              el.categories.includes(action.payload)
-            );
+          : allCategories.filter((el) => el.category.includes(action.payload));
       return {
         ...state,
         restaurant: categoriesFiltered,
       };
-    case 'GET_ALL_CATEGORIES':
-      return {
-        ...state,
-        categories: action.payload,
-      };
-    case 'SEARCH_RESTAURANT':
-      return {
-        ...state,
-        restaurant: action.payload,
-      };
-
+      case "REFRESH_PAG":
+                
+      return{
+  ...state,
+  allRestaurants:action.payload
+}
     default:
       return { ...state };
   }
