@@ -27,7 +27,7 @@ const createProduct = async (req, res) => {
     });
     res.json(newProduct);
   } catch (error) {
-    console.error(error);
+    console.error("este es el error", error);
   }
 };
 
@@ -54,9 +54,9 @@ const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const deleteProduct = await Products.destroy({ where: { id } });
-    res.json(deleteProduct);
+    res.send("Este producto ha sido borrado");
   } catch (error) {
-    console.error(error);
+    console.error("este es el error", error);
   }
 };
 
