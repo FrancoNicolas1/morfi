@@ -11,13 +11,10 @@ import {
   Image
 } from './navbar.styled.js';
 import { NavLink } from "react-router-dom";
-
-
-
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = (props) => {
-
+const {loginWithRedirect} = useAuth0()
   return (
     <>
      <Container>
@@ -46,8 +43,8 @@ const Navbar = (props) => {
      </Box>
 
      <BoxButtons>
-     <Buttons onClick={() => {props.setAbrir(true);props.setAbrir1(false);}}>Login</Buttons>
-     <Buttons  onClick={() => {props.setAbrir1(true);props.setAbrir(false);}}>SingUp</Buttons>
+     <Buttons onClick={()=>loginWithRedirect()}>Login</Buttons>
+     {/* <Buttons  onClick={}>SingUp</Buttons> */}
       <NavLink to={"formrestaurant"}>
           <Buttons>Tu Comercio</Buttons>
           </NavLink>

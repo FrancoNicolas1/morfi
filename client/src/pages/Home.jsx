@@ -45,8 +45,8 @@ console.log(allRestaurant, "HOLA")
           abrir1={abrir1}
           setAbrir1={setAbrir1}
         />
-        {abrir ? <LoginForm abrir={abrir} setAbrir={setAbrir} /> : null}
-        {abrir1 ? <RegisterForm abrir1={abrir1} setAbrir1={setAbrir1} /> : null}
+        {/* {abrir ? <LoginForm abrir={abrir} setAbrir={setAbrir} /> : null}
+        {abrir1 ? <RegisterForm abrir1={abrir1} setAbrir1={setAbrir1} /> : null} */}
       </div>
       <ContainerHome>
         <Section />
