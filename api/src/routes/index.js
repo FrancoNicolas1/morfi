@@ -12,10 +12,16 @@ const categories = require("./categories")
 const router = new Router();
 
 // Add routes
+<<<<<<< HEAD
 router.use("/restaurants", restaurantRoute);
 router.use("/users", userRoute);
 router.use("/", products);
 router.use("/", auth);
 router.use("/", categories);
 
+=======
+router.use('/restaurants', restaurantRoute);
+router.use('/users', userRoute);
+// router.use('/users', userRoute);
+>>>>>>> 909772dc5dcc3e8c7f5c3fa695570ddc9263c67f
 module.exports = router;
