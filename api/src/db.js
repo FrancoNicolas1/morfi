@@ -11,15 +11,13 @@ const {
   PGHOST,
   PGPORT,
   PGDATABASE,
+  DB_DEPLOY,
 } = process.env;
 
-const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/morfi`,
-  {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  }
-);
+const sequelize = new Sequelize(DB_DEPLOY, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+});
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -49,29 +47,17 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Users, Products, MyOrders, Restaurant, Favorites, Categories, Review } =
   sequelize.models;
 
-// Aca vendrian las relaciones
-// Un usuario puede tener muchas ordenes y muchas ordenes van a hacer de un Usuario
-Users.hasMany(MyOrders);
-MyOrders.belongsTo(Users);
+Users.belongsToMany(Restaurant, { through: "user_restaurant" });
+Restaurant.belongsToMany(Users, { through: "user_restaurant" });
 
-// Aca vendrian las relaciones
-// Un Usuario puede tener muchos Favoritos y muchas Favoritos van a hacer de un Usuario
-Users.hasMany(Favorites);
-Favorites.belongsTo(Users);
+Restaurant.belongsToMany(Categories, { through: "restaurant_categories" });
+Categories.belongsToMany(Restaurant, { through: "restaurant_categories" });
 
-// Aca vendrian las relaciones
-// Un Restaurant puede tener muchas Ordenes y muchas Ordenes van a hacer de un Restaurante
-Restaurant.hasMany(MyOrders);
-MyOrders.belongsTo(Restaurant);
+Restaurant.belongsToMany(Products, { through: "restaurant_products" });
+Products.belongsToMany(Restaurant, { through: "restaurant_products" });
 
-// Aca vendrian las relaciones
-// Un Restaurant puede tener muchas Review y muchas Review van a hacer de un Restaurante
-Restaurant.hasMany(Review);
-Review.belongsTo(Restaurant);
-
-//APROBAR
-Restaurant.hasMany(Categories);
-Categories.belongsTo(Restaurant);
+Restaurant.belongsToMany(Products, { through: "restaurant_products" });
+Products.belongsToMany(Restaurant, { through: "restaurant_products" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -33,15 +33,16 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
-    myBusinnes: {
-      type: DataTypes.STRING,
-      defaultValue: null,
-    },
     favorites: {
       type: DataTypes.STRING,
       defaultValue: null,
     },
     isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    isBanned: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,

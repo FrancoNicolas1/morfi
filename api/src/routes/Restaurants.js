@@ -1,20 +1,39 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
 // import all controllers
-const controllerRestaurants = require('../controllers/restaurant.controller');
+<<<<<<< HEAD
+const controllerRestaurants = require("../controllers/restaurant.controller");
+=======
+// const controllerRestaurants = require('../controllers/restaurant.controller');
+>>>>>>> 909772dc5dcc3e8c7f5c3fa695570ddc9263c67f
 
 const routes = new Router();
 
 // Add routes
 
-routes.get('/', controllerRestaurants.allRestaurants);
+<<<<<<< HEAD
+routes.get("/", controllerRestaurants.getAllRestaurants);
 
-routes.get('/:id', controllerRestaurants.getById)
+routes.get("/:id", controllerRestaurants.getById);
 
-routes.post('/', controllerRestaurants.postRestaurant)
+routes.post("/:id", controllerRestaurants.newRestaurant);
 
-routes.put('/:id', controllerRestaurants.putRestaurant)
+routes.get("/name", controllerRestaurants.getRestaurantByName);
 
-routes.delete('/:id', controllerRestaurants.deleteRestaurant)
+// routes.post('/', controllerRestaurants.postRestaurant)
+
+// routes.put('/:id', controllerRestaurants.putRestaurant)
+
+=======
+// routes.get('/', controllerRestaurants.allRestaurants);
+
+// routes.get('/:id', controllerRestaurants.getById)
+
+// routes.post('/', controllerRestaurants.postRestaurant)
+
+// routes.put('/:id', controllerRestaurants.putRestaurant)
+
+>>>>>>> 909772dc5dcc3e8c7f5c3fa695570ddc9263c67f
+// routes.delete('/:id', controllerRestaurants.deleteRestaurant)
 
 module.exports = routes;
