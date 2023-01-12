@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, Label, Button1 } from '../Css/CssRegistro';
+import { postUser } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 
 const RegisterForm = (props) => {
   const history= useHistory()
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [state, setState] = useState({
-    username: '',
-    email: '',
-    password: ''
+    name:"", 
+    user_mail:"",
+    password:''
   });
 
 
@@ -17,31 +20,18 @@ const RegisterForm = (props) => {
     const { name, value } = event.target;
     setState({ ...state, [name]: value });
   }
+  const { name, user_mail, password } = state;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    fetch("/register", {
-      method: "POST",
-      body: JSON.stringify({
-        username, email, password
-      })
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          setError(res.error);
-          setIsLoading(false);
-        } else {
-          // Iniciar sesión exitosamente, redirigir al usuario a la página principal
-          history.push("/");
-        }
-      });
+  const handleSubmit=(e)=>{
+    e.preventDefault()
+   
+        dispatch(postUser(state))
+        alert ("Pokemon creado")
+    
+        // history.push("/home")
+    
+}
 
-    // Enviar la información del formulario al servidor
-  }
-
-  const { username, email, password } = state;
   return (
     <Form onSubmit={handleSubmit}>
       <Button1 onClick={()=>{props.setAbrir1(false)}}>X</Button1>
@@ -49,8 +39,8 @@ const RegisterForm = (props) => {
        Username:
         <input
           type="text"
-          name="username"
-          value={username}
+          name="name"
+          value={name}
           onChange={handleChange}
         />
          {error && <p>{error}</p>}
@@ -60,8 +50,8 @@ const RegisterForm = (props) => {
         Email:
         <input
           type="email"
-          name="email"
-          value={email}
+          name="user_mail"
+          value={user_mail}
           onChange={handleChange}
         />
          {error && <p>{error}</p>}

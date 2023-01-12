@@ -59,7 +59,7 @@ export default function Pagination({
 }) {
   const pageActive = useSelector((state) => state.pageActive);
   const loading = useSelector((state) => state.loading);
-  console.log('soyyy', pageActive);
+  // console.log('soyyy', pageActive);
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(allRest / restaurantsForPage); i++) {
     pageNumbers.push(i);
@@ -74,7 +74,7 @@ export default function Pagination({
       pagination(currentPage + 1);
     }
   };
-  console.log(pageNumbers);
+  // console.log(pageNumbers);
   return (
     <>
       {!loading ? (

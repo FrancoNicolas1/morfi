@@ -19,5 +19,4 @@ routes.get("/name", controllerRestaurants.getRestaurantByName);
 
 // routes.put('/:id', controllerRestaurants.putRestaurant)
 
-
 module.exports = routes;

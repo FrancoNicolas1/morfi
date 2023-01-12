@@ -9,20 +9,22 @@ const initialState = {
   loading: false,
   error: null,
   product: [],
+  user: [],
+  allUsers: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case 'SET_PAGE_ACTIVE':
+    case "SET_PAGE_ACTIVE":
       return {
         ...state,
         pageActive: action.payload,
       };
-    case 'SET_LOADING':
+    case "SET_LOADING":
       return {
         ...state,
         loading: action.payload,
       };
-    case 'GET_ALL_RESTAURANT':
+    case "GET_ALL_RESTAURANT":
       return {
         ...state,
         allRestaurants: action.payload,
@@ -33,26 +35,26 @@ export default function rootReducer(state = initialState, action) {
     //     ...state,
     //     allRestaurants: action.payload,
     //   };
-    case 'SEARCH_RESTAURANT':
+    case "SEARCH_RESTAURANT":
       return {
         ...state,
         restaurant: action.payload,
       };
-    case 'GET_RESTAURANT_BY_ID':
+    case "GET_RESTAURANT_BY_ID":
       return {
         ...state,
         restaurantDetail: action.payload,
       };
-    case 'GET_ALL_CATEGORIES':
+    case "GET_ALL_CATEGORIES":
       return {
         ...state,
         categories: action.payload,
       };
-    case 'ORDER':
+    case "ORDER":
       let sortedOrder;
       const allRestaurants = [...state.restaurant];
 
-      if (action.payload === 'asc') {
+      if (action.payload === "asc") {
         sortedOrder = allRestaurants.sort(function (a, b) {
           //comparo ambos valores
           if (a.name > b.name) {
@@ -64,7 +66,7 @@ export default function rootReducer(state = initialState, action) {
           return 0;
         });
       }
-      if (action.payload === 'desc') {
+      if (action.payload === "desc") {
         sortedOrder = allRestaurants.sort(function (a, b) {
           if (a.name > b.name) {
             return -1;
@@ -79,11 +81,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: sortedOrder,
       };
-    case 'RATING':
+    case "RATING":
       let sortedOrdeR;
       const allRestaurants2 = [...state.restaurant];
 
-      if (action.payload === 'Rating-') {
+      if (action.payload === "Rating-") {
         sortedOrdeR = allRestaurants2.sort(function (a, b) {
           if (a.rating > b.rating) {
             return 1;
@@ -94,7 +96,7 @@ export default function rootReducer(state = initialState, action) {
           return 0;
         });
       }
-      if (action.payload === 'Rating+') {
+      if (action.payload === "Rating+") {
         sortedOrdeR = allRestaurants2.sort(function (a, b) {
           if (a.rating > b.rating) {
             return -1;
@@ -109,10 +111,10 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: sortedOrdeR,
       };
-    case 'FILTER_CATEGORIES':
+    case "FILTER_CATEGORIES":
       const allCategories = state.allRestaurants;
       const categoriesFiltered =
-        action.payload === 'All Restaurant'
+        action.payload === "All Restaurant"
           ? allCategories
           : allCategories.filter((el) => el.category.includes(action.payload));
       return {
@@ -145,6 +147,21 @@ case 'PAY_WITH_MERCADOPAGO':
       case 'FETCH_PRODUCT':
       return { ...state, 
         product: action.payload 
+      };
+    case "REFRESH_PAG":
+      return {
+        ...state,
+        allRestaurants: action.payload,
+      };
+    case "LOG_OUT":
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case "GET_ALL_USERS":
+      return {
+        ...state,
+        allUsers: action.payload,
       };
     default:
       return { ...state };

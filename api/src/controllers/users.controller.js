@@ -35,7 +35,6 @@ const getInfoDb = async (req, res) => {
     res.status(400).send(error);
   }
 };
-
 const getInfoById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,7 +57,6 @@ const getInfoById = async (req, res) => {
     res.status(400).send(error);
   }
 };
-
 const isBanned = async (req, res) => {
   const { id } = req.params;
   try {
@@ -107,7 +105,6 @@ const isBanned = async (req, res) => {
     res.status(400).send(error);
   }
 };
-
 const isAdmin = async (req, res) => {
   try {
     const { id } = req.params;
@@ -154,7 +151,6 @@ const isAdmin = async (req, res) => {
     }
   } catch (error) {}
 };
-
 const userUpdate = async (req, res) => {
   try {
     const { id } = req.params;
