@@ -1,21 +1,21 @@
-import axios from 'axios';
+import axios from "axios";
 
 //////////////////////////////// ACTIONS RESTAURANT///////////////////////////////////////
 export function allRestaurants() {
   return async function (dispatch) {
-    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
       let allRestaurants = await axios.get(
-        'https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant'
+        "https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant"
       );
       dispatch({
-        type: 'GET_ALL_RESTAURANT',
+        type: "GET_ALL_RESTAURANT",
         payload: allRestaurants.data,
       });
     } catch (error) {
       console.log(error);
     }
-    dispatch({ type: 'SET_LOADING', payload: false });
+    dispatch({ type: "SET_LOADING", payload: false });
   };
 }
 
@@ -41,40 +41,45 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    let json = await axios.get(`https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant`);
-    let filterProvidorio = json.data.filter((e)=>e.name.toLowerCase().includes(searchInput.toLowerCase()))
-    if(filterProvidorio.length === 0){
-        alert("No se encontro ese Restaurante")
-        const all = await axios.get("https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant")
-        return dispatch({
-          type: 'GET_ALL_RESTAURANT',
-          payload: all.data,
-      });
-    }else{
+    let json = await axios.get(
+      `https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant`
+    );
+    let filterProvidorio = json.data.filter((e) =>
+      e.name.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    if (filterProvidorio.length === 0) {
+      alert("No se encontro ese Restaurante");
+      const all = await axios.get(
+        "https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant"
+      );
       return dispatch({
-        type: 'SEARCH_RESTAURANT',
-        payload: filterProvidorio
+        type: "GET_ALL_RESTAURANT",
+        payload: all.data,
+      });
+    } else {
+      return dispatch({
+        type: "SEARCH_RESTAURANT",
+        payload: filterProvidorio,
       });
     }
-   
   };
 }
 ///////////////////////////////////////////////////////////////////////////////
 export function getRestaurantById(id) {
   return async function (dispatch) {
-    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
       let restaurantById = await axios.get(
         `https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant/${id}`
       );
       dispatch({
-        type: 'GET_RESTAURANT_BY_ID',
+        type: "GET_RESTAURANT_BY_ID",
         payload: restaurantById.data,
       });
     } catch (error) {
       console.log(error);
     }
-    dispatch({ type: 'SET_LOADING', payload: false });
+    dispatch({ type: "SET_LOADING", payload: false });
   };
 }
 
@@ -86,7 +91,7 @@ export function createRestaurant(data) {
         data
       );
       return dispatch({
-        type: 'CREATE_RESTAURANT',
+        type: "CREATE_RESTAURANT",
         payload: createRestaurant.data,
       });
     } catch (error) {
@@ -98,10 +103,10 @@ export function createRestaurant(data) {
 export function getAllCategories() {
   return async function (dispatch) {
     let allCategories = await axios(
-      'https://63b36e9f5901da0ab37f8792.mockapi.io/api/category'
+      "https://63b36e9f5901da0ab37f8792.mockapi.io/api/category"
     );
     return dispatch({
-      type: 'GET_ALL_CATEGORIES',
+      type: "GET_ALL_CATEGORIES",
       payload: allCategories.data,
     });
   };
@@ -109,37 +114,66 @@ export function getAllCategories() {
 /////////////////////////////////// FILTROS Y ORDENAMIENTOS
 export function order(payload) {
   return {
-    type: 'ORDER',
+    type: "ORDER",
     payload,
   };
 }
 
 export function rating(payload) {
   return {
-    type: 'RATING',
+    type: "RATING",
     payload,
   };
 }
 
 export function filterByCategories(payload) {
   return {
-    type: 'FILTER_CATEGORIES',
+    type: "FILTER_CATEGORIES",
     payload,
   };
 }
 
 ///////////////////////////REFRESH////////////////////////////
-export function refreshPag(payload){
-  return{
-      type:"REFRESH_PAG",
-      payload:[]
-  }
+export function refreshPag(payload) {
+  return {
+    type: "REFRESH_PAG",
+    payload: [],
+  };
 }
-
 
 ///////////////////////////////////////////////////////////
 
 // status from pagination:
 export const setNumberPageActive = (pageActive) => {
-  return { type: 'SET_PAGE_ACTIVE', payload: pageActive };
+  return { type: "SET_PAGE_ACTIVE", payload: pageActive };
 };
+
+//////////////////////LOGOUT/////////////////////////////////////
+export const logOut = () => {
+  return { type: "LOG_OUT", payload: [] };
+};
+/////////////////////////////////SINGUP///////
+export function postUser(payload) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post("http://localhost:3001/signup", payload);
+      console.log(json);
+    } catch (error) {
+      console.log(error.response.data.error);
+    }
+  };
+}
+////////////////////////////TODOS LOS USUARIOS///////////////
+export function getAllUsers() {
+  return async function (dispatch) {
+    try {
+      let allUsers = await axios.get("http://localhost:3001/users");
+      dispatch({
+        type: "GET_ALL_USERS",
+        payload: allUsers.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

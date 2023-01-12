@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Logo,
@@ -11,10 +11,18 @@ import {
   Image
 } from './navbar.styled.js';
 import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../redux/actions.js";
+
 
 const Navbar = (props) => {
-const {loginWithRedirect} = useAuth0()
+  const userArray = useSelector(state=> state.user)
+  console.log(userArray)
+const dispatch = useDispatch()
+const handleUserLogOut = () => {
+  dispatch(logOut())
+}
+
   return (
     <>
      <Container>
@@ -43,11 +51,23 @@ const {loginWithRedirect} = useAuth0()
      </Box>
 
      <BoxButtons>
-     <Buttons onClick={()=>loginWithRedirect()}>Login</Buttons>
-     {/* <Buttons  onClick={}>SingUp</Buttons> */}
+     <Buttons    onClick={() => {
+            props.setAbrir(true);
+            props.setAbrir1(false);
+          }}>LogIn</Buttons>
+          
+    
+     {userArray.length?(<>
+      <Buttons onClick={handleUserLogOut} >LogOut</Buttons>   
       <NavLink to={"formrestaurant"}>
           <Buttons>Tu Comercio</Buttons>
           </NavLink>
+     </>):(<>
+      <Buttons onClick={() => {
+            props.setAbrir1(true);
+            props.setAbrir(false);}}>SingUp</Buttons>
+     </>)}       
+      
      </BoxButtons>
  </Container>
     </>
