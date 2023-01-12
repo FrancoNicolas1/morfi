@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Users } = require("../db");
+const emailer = require("../mailer");
 
 const signUp = async (req, res) => {
   try {
@@ -15,9 +16,10 @@ const signUp = async (req, res) => {
       user_mail,
       password: hash,
     });
+    emailer.sendMail(newUser);
     res.json(newUser);
   } catch (error) {
-    console.error(error);
+    console.error("este es el error", error);
   }
 };
 

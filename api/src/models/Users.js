@@ -13,6 +13,7 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     photo: {
       type: DataTypes.TEXT,
@@ -20,6 +21,10 @@ module.exports = (sequelize) => {
     },
     user_mail: {
       type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -33,10 +38,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
-    myBusinnes: {
-      type: DataTypes.STRING,
-      defaultValue: null,
-    },
     favorites: {
       type: DataTypes.STRING,
       defaultValue: null,
@@ -44,6 +45,10 @@ module.exports = (sequelize) => {
     isAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
+    },
+    verified: {
+      type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
   });
