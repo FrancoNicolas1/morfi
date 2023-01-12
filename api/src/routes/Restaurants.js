@@ -1,20 +1,23 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
 // import all controllers
-const controllerRestaurants = require('../controllers/restaurant.controller');
+
+const controllerRestaurants = require("../controllers/restaurant.controller");
 
 const routes = new Router();
 
 // Add routes
 
-routes.get('/', controllerRestaurants.allRestaurants);
+routes.get("/", controllerRestaurants.getAllRestaurants);
 
-routes.get('/:id', controllerRestaurants.getById)
+routes.get("/:id", controllerRestaurants.getById);
 
-routes.post('/', controllerRestaurants.postRestaurant)
+routes.post("/:id", controllerRestaurants.newRestaurant);
 
-routes.put('/:id', controllerRestaurants.putRestaurant)
+routes.get("/name", controllerRestaurants.getRestaurantByName);
 
-routes.delete('/:id', controllerRestaurants.deleteRestaurant)
+// routes.post('/', controllerRestaurants.postRestaurant)
+
+// routes.put('/:id', controllerRestaurants.putRestaurant)
 
 module.exports = routes;

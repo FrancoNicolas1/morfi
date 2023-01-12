@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Logo,
@@ -11,12 +11,17 @@ import {
   Image
 } from './navbar.styled.js';
 import { NavLink } from "react-router-dom";
-
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../redux/actions.js";
 
 
 const Navbar = (props) => {
+  const userArray = useSelector(state=> state.user)
+  console.log(userArray)
+const dispatch = useDispatch()
+const handleUserLogOut = () => {
+  dispatch(logOut())
+}
 
   return (
     <>
@@ -46,11 +51,23 @@ const Navbar = (props) => {
      </Box>
 
      <BoxButtons>
-     <Buttons onClick={() => {props.setAbrir(true);props.setAbrir1(false);}}>Login</Buttons>
-     <Buttons  onClick={() => {props.setAbrir1(true);props.setAbrir(false);}}>SingUp</Buttons>
+     <Buttons    onClick={() => {
+            props.setAbrir(true);
+            props.setAbrir1(false);
+          }}>LogIn</Buttons>
+          
+    
+     {userArray.length?(<>
+      <Buttons onClick={handleUserLogOut} >LogOut</Buttons>   
       <NavLink to={"formrestaurant"}>
           <Buttons>Tu Comercio</Buttons>
           </NavLink>
+     </>):(<>
+      <Buttons onClick={() => {
+            props.setAbrir1(true);
+            props.setAbrir(false);}}>SingUp</Buttons>
+     </>)}       
+      
      </BoxButtons>
  </Container>
     </>

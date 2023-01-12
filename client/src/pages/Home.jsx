@@ -16,6 +16,7 @@ import { allRestaurants, getAllCategories } from '../redux/actions';
 import { useEffect } from 'react';
 import  Select  from '../components/Select/Select';
 import { SearchBar } from '../components/Searchbar/SearchBar';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const ContainerHome = styled.div`
   width: 100%;
@@ -29,13 +30,14 @@ export default function Home() {
   const [abrir1, setAbrir1] = useState(false);
   const allRestaurant = useSelector((state) => state.restaurant);
   const categories= useSelector((state)=>state.categories)
-  console.log(categories)
+  const {logout} = useAuth0()
 
   useEffect(() => {
     dispatch(allRestaurants());
     dispatch(getAllCategories())
   }, [dispatch]);
-console.log(allRestaurant, "HOLA")
+  
+
   return (
     <>
       <div>
@@ -48,11 +50,14 @@ console.log(allRestaurant, "HOLA")
         {abrir ? <LoginForm abrir={abrir} setAbrir={setAbrir} /> : null}
         {abrir1 ? <RegisterForm abrir1={abrir1} setAbrir1={setAbrir1} /> : null}
       </div>
+    
       <ContainerHome>
         <Section />
         {/* <Shops /> */}
         <Select/>
+        {/* <button onClick={()=>logout()}>asfasfasf</button> */}
         <Cards/>
+       
         <Footer />
       </ContainerHome>
     </>

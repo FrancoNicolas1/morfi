@@ -1,199 +1,168 @@
-const axios = require('axios');
-const {Restaurant, Categories, Products} = require('../db.js')
+const axios = require("axios");
+const { Restaurant, Categories, Users, Products } = require("../db");
 
-
-const getRestaurants = async () => {
-  const promise = require('../info/RestInfo.json');
-  const restaurants = promise.map((ele)=>{
-      return {
-          name: ele.name,
-          reviews: ele.reviews[0],
-          photo: ele.photo,
-          products: ele.products.map(e => e.name),
-          categories: ele.category? ele.category[0].name: "None",
-          descriptions: ele.description,
-      }
-  })
-
-  return restaurants;
-};
-
-const allRestaurants = async (req, res) => {
-  try {
-
-    const { name } = req.query;
-    let restaurants = await Restaurant.findAll({
-        include: [{
-            model: Categories,
-            attributes: ["name"],
-            through: {
-                attributes: []
-            }
-        },
-        {
-          model: Products,
-          attributes: ["name"],
-          through: {
-              attributes: []
-          }
-      }],
-        order: [
-            ['id', 'ASC']
-        ]
-    });
-
-    if ( !restaurants.length && !name ) {
-      try {
-          const response = await getRestaurants();
-          const subiraDb = await Restaurant.bulkCreate( response );
-          res.status( 200 ).send( subiraDb );
-
-      } catch ( error ) {
-          console.log( 'error primer condicional', error )
-      }
-    }
-
-  if ( name && restaurants.length ) {
-    try {
-        const restaurant = await Restaurant.findAll( {
-            where: {
-                name: name 
-            },
-            include: [{
-                model: Products,
-                attributes: ["name", "price", "photo"],
-                through: { attributes: [] }
-            }]
-        } )
-
-         restaurant.length ? res.status( 200 ).send( restaurant ) :
-            res.status( 400 ).send( "Restaurant not found" )
-    
-    } catch ( error ) {
-        console.log( 'error en segundo condicional', error )
-    }
-
-  }
-
-  if ( !name && restaurants.length ) {
-    res.status( 200 ).send( restaurants )
-  }
-
-  } catch (error) {
-    console.log(error, 'error en getRestaurants');
-  }
-}
-
-
-const getById = async ( req, res ) => {
-  let { id } = req.params;
-  id = id.toUpperCase()
-  try {
-      const restaurant = await Restaurant.findByPk( id,
-          {
-              include: [{
-                  model: Products,
-                  attributes: ["name", "photo", "price"],
-                  through: { attributes: [] }
-              }],
-              include: [{
-                model: Categories,
-                attributes: ["name"],
-                through: { attributes: [] }
-            }],
-          } )
-      res.status( 200 ).send( restaurant )
-  } catch ( error ) {
-      console.log( 'error en getById', error )
-  }
-} 
-
-const postRestaurant = async (req, res) => {
-    let {
-        name,
-        reviews,
-        photo,
-        products,
-        description,
-        categories
-
-    } = req.body;
-
-    let exists = await Restaurant.findOne({
-        where: { name: name }
-    })
-
-    if (exists) return res.status(406).send("El producto ya existe")
-
-    let restaurantCreate = await Restaurant.create({
-        name,
-        reviews,
-        photo,
-        description,
-    });
-
-    let categoryDB = await Categories.findAll({
-        where: { name: categories }
-    });
-
-    await restaurantCreate.addCategory(categoryDB);
-
-    let productsDB = await Products.findAll({
-        where: { name: products }
-    });
-
-    await restaurantCreate.addCategory(productsDB);
-    res.status(201).send('Restaurante creado');
-
-
-}
-
-const putRestaurant = async (req, res) => {
-  const selectedRestaurant = await Restaurant.findOne({
-      where: {
-          id: req.params.id
-      }
+const getAllRestaurants = async (req, res) => {
+  const getRestaurantsDb = await Restaurant.findAll({
+    attributes: ["id", "name", "photo"],
+    include: Categories,
   });
-  if (selectedRestaurant) {
-      let data = { ...req.body };
-
-      let keys = Object.keys(data);
-
-      keys.forEach(k => {
-          selectedRestaurant[k] = data[k];
-      });
-
-      await selectedRestaurant.save();
-      res.status(200).send("Restaurante actualizado");
-  } else {
-      res.status(404).send("Error en put Restaurante");
-  };
+  res.send(getRestaurantsDb);
 };
 
-const deleteRestaurant = async (req, res) => {
-  const { id } = req.params;
+const newRestaurant = async (req, res) => {
   try {
-
-      const deletedRestaurant = await Restaurant.findOne({
-          where: {
-              id: req.params.id
-          }
+    const { id } = req.params;
+    const { name, photo, categories, descriptions, reviews, products } =
+      req.body;
+    const infoIdUser = await Users.findByPk(id);
+    console.log(categories);
+    // const allCategories = await Categories.findAll();
+    const createRestaurant = await Restaurant.create({
+      name,
+      photo,
+      descriptions,
+      reviews,
+    });
+    categories.forEach(async (category) => {
+      let categoriesMatch = await Categories.findOne({
+        where: { name: category },
       });
-      if (!deletedRestaurant) return 0;
-      await Restaurant.destroy({ where: { id: id } });
-
-      return res.status(200);
+      await createRestaurant.addCategories(categoriesMatch);
+    });
+    // createRestaurant.addUsers(infoIdUser);
+    infoIdUser.addRestaurant(createRestaurant);
+    // createRestaurant.addCategories(allCategories);
+    res.send(infoIdUser);
+  } catch (error) {
+    res.status(404).send(error);
   }
-  catch (err) {
-      return res.status(500).send(`Restaurant could not be deleted (${err})`);
+};
 
-}
-}
+const getRestaurantByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+    console.log(name);
+    const infoAllRestaurant = await Restaurant.findAll({
+      attributes: ["id", "name", "photo"],
+      include: Categories,
+    });
+    console.log(info);
+    if (name) {
+      const searchRestaurant = infoAllRestaurant.filter((resto) =>
+        resto.name.toLowerCase().includes(name.toLowerCase())
+      );
+      searchRestaurant.length
+        ? res.status(200).json(searchRestaurant)
+        : res.status(400).send("No se encontro");
+    } else {
+      res.status(200).json(info);
+    }
+  } catch (error) {
+    res.status(404).json({ error: "Problemas obteniendo Todos" });
+  }
+};
+
+const getById = async (req, res) => {
+  let { id } = req.params;
+  try {
+    const restaurant = await Restaurant.findByPk(id, {
+      attributes: ["id", "name", "photo"],
+      include: Categories,
+    });
+    res.status(200).send(restaurant);
+  } catch (error) {
+    res.status(404).json({ error: "Problemas obteniendo ID" });
+  }
+};
+
+// const postRestaurant = async (req, res) => {
+//     let {
+//         name,
+//         reviews,
+//         photo,
+//         products,
+//         description,
+//         categories
+
+//     } = req.body;
+
+//     let exists = await Restaurant.findOne({
+//         where: { name: name }
+//     })
+
+//     if (exists) return res.status(406).send("El producto ya existe")
+
+//     let restaurantCreate = await Restaurant.create({
+//         name,
+//         reviews,
+//         photo,
+//         description,
+//     });
+
+//     let categoryDB = await Categories.findAll({
+//         where: { name: categories }
+//     });
+
+//     await restaurantCreate.addCategory(categoryDB);
+
+//     let productsDB = await Products.findAll({
+//         where: { name: products }
+//     });
+
+//     await restaurantCreate.addCategory(productsDB);
+//     res.status(201).send('Restaurante creado');
+
+// }
+
+// const putRestaurant = async (req, res) => {
+//   const selectedRestaurant = await Restaurant.findOne({
+//       where: {
+//           id: req.params.id
+//       }
+//   });
+//   if (selectedRestaurant) {
+//       let data = { ...req.body };
+
+//       let keys = Object.keys(data);
+
+//       keys.forEach(k => {
+//           selectedRestaurant[k] = data[k];
+//       });
+
+//       await selectedRestaurant.save();
+//       res.status(200).send("Restaurante actualizado");
+//   } else {
+//       res.status(404).send("Error en put Restaurante");
+//   };
+// };
+
+// const deleteRestaurant = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+
+//       const deletedRestaurant = await Restaurant.findOne({
+//           where: {
+//               id: req.params.id
+//           }
+//       });
+//       if (!deletedRestaurant) return 0;
+//       await Restaurant.destroy({ where: { id: id } });
+
+//       return res.status(200);
+//   }
+//   catch (err) {
+//       return res.status(500).send(`Restaurant could not be deleted (${err})`);
+
+// }
+// }
 
 module.exports = {
-  allRestaurants,
+  //   allRestaurants,
   getById,
-  postRestaurant,
-  putRestaurant,
-  deleteRestaurant,
-}
+  //   postRestaurant,
+  //   putRestaurant,
+  //   deleteRestaurant,
+  getRestaurantByName,
+  getAllRestaurants,
+  newRestaurant,
+};
