@@ -143,3 +143,40 @@ export function refreshPag(payload){
 export const setNumberPageActive = (pageActive) => {
   return { type: 'SET_PAGE_ACTIVE', payload: pageActive };
 };
+
+//////////////////////////MERCADOPAGO/////////////////////////////////
+export function payWithMercadoPago() {
+  return async function (dispatch) {
+    let payment= await axios(
+      'https://localhost:3001/crearOrden'//lo uso en el front en el boton(donde pago todo)
+    );
+    return dispatch({
+      type: 'PAYMENT',
+      payload: payment.data,
+    });
+  };
+}
+
+
+
+//////////////////////////PRODUCT/////////////////////////////////
+export const fetchProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`https://localhost:3001/products/${id}`);
+      dispatch({ type: 'FETCH_PRODUCT', payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const createProduct = async (id) => {
+    try {
+      const response = await axios.post(`https://localhost:3001/create-product/${id}`);
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  };
+

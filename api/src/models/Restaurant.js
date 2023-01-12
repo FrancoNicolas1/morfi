@@ -4,35 +4,33 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define(
-    "Restaurant",
+    "Restaurants",
     {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        primaryKey: true,
-      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       photo: {
         type: DataTypes.TEXT,
-        defaultValue: null,
+        defaultValue: false,
       },
       reviews: {
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: true,
       },
-      categories: [
+      categories:
         {
-          type: DataTypes.STRING,
+          type: DataTypes.ARRAY(DataTypes.JSON),
           allowNull: true,
         },
-      ],
+        products:
+        {
+          type: DataTypes.ARRAY(DataTypes.JSON),
+          allowNull: true,
+        },
       descriptions: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
     },
     { timestamps: false }

@@ -5,6 +5,10 @@ const initialState = {
   categories: [],
   loading: false,
   pageActive: 1,
+  payment: {},
+  loading: false,
+  error: null,
+  product: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -121,6 +125,27 @@ export default function rootReducer(state = initialState, action) {
   ...state,
   allRestaurants:action.payload
 }
+case 'PAY_WITH_MERCADOPAGO':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'PAY_WITH_MERCADOPAGO_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        payment: action.payload,
+      };
+    case 'PAY_WITH_MERCADOPAGO_ERROR':
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+      case 'FETCH_PRODUCT':
+      return { ...state, 
+        product: action.payload 
+      };
     default:
       return { ...state };
   }
