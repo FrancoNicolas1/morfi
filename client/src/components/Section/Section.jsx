@@ -18,7 +18,7 @@ export default function Section (){
     // const history = useHistory();
     const [searchInput, setSearchInput] = useState('');
     const restaurant=useSelector(state=>state.allRestaurants)
-    console.log(restaurant)
+    // console.log(restaurant)
 
     const handleChange = (e) => {
         e.preventDefault();

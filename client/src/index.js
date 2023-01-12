@@ -9,8 +9,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 const domian = process.env.REACT_APP_AUTH0_DOMINIAN;
 const clienId = process.env.REACT_APP_AUTH0;
-console.log(domian);
-console.log(clienId);
+// console.log(domian);
+// console.log(clienId);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

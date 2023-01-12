@@ -13,6 +13,7 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     photo: {
       type: DataTypes.TEXT,
@@ -20,6 +21,10 @@ module.exports = (sequelize) => {
     },
     user_mail: {
       type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -38,11 +43,6 @@ module.exports = (sequelize) => {
       defaultValue: null,
     },
     isAdmin: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-    isBanned: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
