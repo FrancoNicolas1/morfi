@@ -79,7 +79,7 @@ const handleRefresh=()=>{
     event.preventDefault();
     dispatch(filterByCategories(event.target.value));
   }
-    
+    console.log(allCategories)
     return(
     <>
     <Container>
@@ -98,7 +98,7 @@ const handleRefresh=()=>{
       <SelectBotton  id="categories" defaultValue="default" onChange={handleCategories}>
       <option value="default" disabled>Select Categories</option>
               {allCategories?.map((e) => (
-                <option value={e.name}>{e.name}</option>
+                <option value={e}>{e}</option>
               ))}
       </SelectBotton>
       <Button onClick={handleRefresh}>
