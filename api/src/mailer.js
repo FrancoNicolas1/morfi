@@ -12,7 +12,7 @@ const createTrans = () => {
   });
   return transporter;
 };
-const sendMail = async (user) => {
+const sendMail = async (user, uniqueKey) => {
   const transporter = createTrans();
   const info = await transporter.sendMail({
     from: '"Morfi" <frankcito639@gmail.com>',
@@ -180,13 +180,13 @@ padding:10px 20px!important;
 <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:17px;color:#666666;font-size:11px"><span style="font-size:16px;line-height:24px">Gracias por registrarte en nuestro sitio. </span></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:17px;color:#666666;font-size:11px"><span style="font-size:16px;line-height:24px">Antes de iniciar, necesitamos que verifique su email.</span></p></td>
 </tr>
 <tr style="border-collapse:collapse">
-<td bgcolor="#ffffff" align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><!--[if mso]><a href="https://youtube.com" target="_blank" hidden>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="https://youtube.com"
+<td bgcolor="#ffffff" align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><!--[if mso]><a href="http://localhost:5000/verify/${uniqueKey}" target="_blank" hidden>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="http://localhost:5000/verify/${uniqueKey}"
 style="height:41px; v-text-anchor:middle; width:181px" arcsize="0%" stroke="f" fillcolor="#ccad53">
 <w:anchorlock></w:anchorlock>
 <center style='color:#ffffff; font-family:arial, "helvetica neue", helvetica, sans-serif; font-size:15px; font-weight:400; line-height:15px; mso-text-raise:1px'><>Confirm my email</center>
 </v:roundrect></a>
-<![endif]--><!--[if !mso]><!-- --><span class="es-button-border msohide" style="border-style:solid;border-color:#CCAD53;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto;mso-hide:all"><a href="https://youtube.com" class="es-button es-button-1" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#ffffff;font-size:18px;border-style:solid;border-color:#CCAD53;border-width:10px 20px;display:inline-block;background:#CCAD53;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">Confirm my email</a></span><!--<![endif]--></td>
+<![endif]--><!--[if !mso]><!-- --><span class="es-button-border msohide" style="border-style:solid;border-color:#CCAD53;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto;mso-hide:all"><a href="http://localhost:5000/verify/${uniqueKey}" class="es-button es-button-1" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#ffffff;font-size:18px;border-style:solid;border-color:#CCAD53;border-width:10px 20px;display:inline-block;background:#CCAD53;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">Confirm my email</a></span><!--<![endif]--></td>
 </tr>
 </table></td>
 </tr>
@@ -266,4 +266,4 @@ style="height:41px; v-text-anchor:middle; width:181px" arcsize="0%" stroke="f" f
   return;
 };
 
-exports.sendMail = (user) => sendMail(user);
+exports.sendMail = (user, uniqueKey) => sendMail(user, uniqueKey);

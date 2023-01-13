@@ -47,9 +47,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: false,
     },
-    verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+    isValid: { type: DataTypes.BOOLEAN, defaultValue: false },
+    uniqueKey: { type: DataTypes.STRING },
   });
 };
