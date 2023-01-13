@@ -168,6 +168,11 @@ case 'PAY_WITH_MERCADOPAGO':
         ...state,
         allUsers: action.payload,
       };
+    case "LOGIN_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return { ...state };
   }
