@@ -1,15 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Verify from "./verifyEmail";
 
-const Verify = () => {
+function VerifyEmail(props) {
+  const uniqueKey = props.match.params.uniqueKey;
   return (
-    <div>
-      <Link to="/">
-        <button>Home</button>
-      </Link>
-      <p>Gracias por confirmar tu email, ya puedes iniciar sesión</p>
+    <div
+      className="display:flex;
+        justify-content center;
+        align-items:center;width: 100vh; 
+        height:auto;background-color:#fafafa;"
+    >
+      <Verify uniqueKey={uniqueKey} />
     </div>
   );
-};
+}
 
-export default Verify;
+export default VerifyEmail;
