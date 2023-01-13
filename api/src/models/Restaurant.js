@@ -24,12 +24,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      categories: [
-        {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-      ],
+      categories: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
       descriptions: {
         type: DataTypes.TEXT,
         allowNull: false,
