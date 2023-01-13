@@ -13,10 +13,16 @@ module.exports = (sequelize) => {
       defaultValue: null,
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
+      validate: {
+        isDecimal: true,
+      },
     },
     description: {
       type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
     },
     restaurantId: {
       type: DataTypes.INTEGER,
