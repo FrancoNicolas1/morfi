@@ -14,6 +14,7 @@ const getInfoDb = async (req, res) => {
         "isAdmin",
         "createdAt",
         "updatedAt",
+        "password",
       ],
       include: Restaurant,
     });

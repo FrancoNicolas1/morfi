@@ -132,6 +132,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
+    case "LOGIN_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return { ...state };
   }
