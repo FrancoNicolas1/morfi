@@ -213,3 +213,17 @@ export function getAllUsers() {
     }
   };
 }
+/////////////////////////////////LOGIN////////////
+export function loginPostUser(payload) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post("http://localhost:3001/login", payload);
+      return dispatch({
+        type: "LOGIN_USER",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error.response.data.error);
+    }
+  };
+}

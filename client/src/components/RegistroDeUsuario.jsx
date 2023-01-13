@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Form, Label, Button1 } from '../Css/CssRegistro';
 import { postUser } from '../redux/actions';
 import { useDispatch } from 'react-redux';
+import GoogleAuth from './GoogleAuth/GoogleAuth';
 
 const RegisterForm = (props) => {
   const history= useHistory()
@@ -26,13 +27,14 @@ const RegisterForm = (props) => {
     e.preventDefault()
    
         dispatch(postUser(state))
-        alert ("Pokemon creado")
+        alert ("creado")
     
         // history.push("/home")
     
 }
 
   return (
+    <>
     <Form onSubmit={handleSubmit}>
       <Button1 onClick={()=>{props.setAbrir1(false)}}>X</Button1>
       <Label>
@@ -70,7 +72,10 @@ const RegisterForm = (props) => {
       <br />
       {isLoading ? <p>Loading...</p> :
       <Button type="submit">Sign in</Button>}
+         <GoogleAuth/>
     </Form>
+    
+    </>
   );
 };
 

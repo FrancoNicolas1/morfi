@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { postUser } from '../../redux/actions';
 
 export default function GoogleAuth  () {
+    const dispatch = useDispatch()
     const user = useSelector(state => state.user)
-    console.log(user)
+    const [userGoogle, setUserGoogle]= useState({
+        name:"asdSf",
+        user_mail:"",
+        password:"pepe"
+    })
 
+ 
     useEffect(() => {
         const initClient = () => {
             gapi.client.init({
@@ -15,14 +22,22 @@ export default function GoogleAuth  () {
             });
         };
         gapi.load('client:auth2', initClient);
-    });
+    },[]);
 
-    const onSuccess = (res) => {
-        user.push(res.profileObj.email)
-        console.log(res)
-        alert("Sesión iniciada")
+    const onSuccess = async(res) => {
+        const ress=res.profileObj.email
+        await setUserGoogle({
+            ...userGoogle,
+            user_mail:ress
+        })
+        await setTimeout(() => {
+            console.log({...userGoogle})
+            dispatch(postUser({...userGoogle}))
+        }, 100);
+         
     };
-
+   
+   
     const onFailure = (err) => {
         alert('failed:', err);
     };
