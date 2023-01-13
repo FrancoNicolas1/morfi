@@ -10,7 +10,7 @@ const getInfoDb = async (req, res) => {
         "name",
         "photo",
         "user_mail",
-        "isBanned",
+        // "isBanned",
         "isAdmin",
         "createdAt",
         "updatedAt",
@@ -33,6 +33,7 @@ const getInfoDb = async (req, res) => {
     // });
     res.status(200).send(dBDeploy);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };

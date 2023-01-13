@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button1, Form, Button, Label } from "../Css/CssLogin";
 import { Div } from "../Css/CssRegistro";
-import GoogleAuth from "../components/GoogleAuth/GoogleAuth"
+// import GoogleAuth from "../components/GoogleAuth/GoogleAuth"
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, loginPostUser } from "../redux/actions";
 
@@ -12,7 +12,7 @@ const users = useSelector(state => state.allUsers)
 useEffect(()=>{
   dispatch(getAllUsers())
 },[])
-console.log(users)
+// console.log(users)
 const [user, setUser]= useState({
   user_mail:"",
   password:""
@@ -60,7 +60,7 @@ const handleSubmit=(e)=>{
         </Label>
         <br />
         <Button type="submit">Login</Button>
-        {/* <GoogleAuth/> */}
+    
       </Form>
       
   );
