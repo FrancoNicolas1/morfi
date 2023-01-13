@@ -15,7 +15,7 @@ const getProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, photo, price, description } = req.body;
+    const { name, photo, price, description, restaurantId, stock } = req.body;
     if (!name || !photo || !price || !description) {
       res.json({ msg: "Please complete all fields" });
     }
@@ -24,6 +24,8 @@ const createProduct = async (req, res) => {
       photo,
       price,
       description,
+      restaurantId,
+      stock,
     });
     res.json(newProduct);
   } catch (error) {

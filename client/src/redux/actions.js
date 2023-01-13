@@ -6,7 +6,7 @@ export function allRestaurants() {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       let allRestaurants = await axios.get(
-        "https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant"
+        `http://localhost:3001/restaurants`
       );
       dispatch({
         type: "GET_ALL_RESTAURANT",
@@ -41,16 +41,15 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    let json = await axios.get(
-      `https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant`
-    );
-    let filterProvidorio = json.data.filter((e) =>
-      e.name.toLowerCase().includes(searchInput.toLowerCase())
-    );
-    if (filterProvidorio.length === 0) {
+    let json = await axios.get('http://localhost:3001/restaurants/name/getbyname', {
+      params: {
+        name: searchInput,
+      }
+    })
+    if (json.length === 0) {
       alert("No se encontro ese Restaurante");
       const all = await axios.get(
-        "https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant"
+        `http://localhost:3001/restaurants`
       );
       return dispatch({
         type: "GET_ALL_RESTAURANT",
@@ -59,7 +58,7 @@ export function searchRestaurant(searchInput) {
     } else {
       return dispatch({
         type: "SEARCH_RESTAURANT",
-        payload: filterProvidorio,
+        payload: json.data,
       });
     }
   };
@@ -70,7 +69,7 @@ export function getRestaurantById(id) {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       let restaurantById = await axios.get(
-        `https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant/${id}`
+        `http://localhost:3001/restaurants/${id}`
       );
       dispatch({
         type: "GET_RESTAURANT_BY_ID",
@@ -87,7 +86,7 @@ export function createRestaurant(data) {
   return async function (dispatch) {
     try {
       let createRestaurant = await axios.post(
-        `https://63b36e9f5901da0ab37f8792.mockapi.io/api/restaurant`,
+        'http://localhost:3001/restaurants',
         data
       );
       return dispatch({
@@ -103,7 +102,7 @@ export function createRestaurant(data) {
 export function getAllCategories() {
   return async function (dispatch) {
     let allCategories = await axios(
-      "https://63b36e9f5901da0ab37f8792.mockapi.io/api/category"
+      'http://localhost:3001/categories'
     );
     return dispatch({
       type: "GET_ALL_CATEGORIES",
@@ -147,6 +146,43 @@ export function refreshPag(payload) {
 export const setNumberPageActive = (pageActive) => {
   return { type: "SET_PAGE_ACTIVE", payload: pageActive };
 };
+
+//////////////////////////MERCADOPAGO/////////////////////////////////
+export function payWithMercadoPago() {
+  return async function (dispatch) {
+    let payment= await axios(
+      'http://localhost:3001/crearOrden'//lo uso en el front en el boton(donde pago todo)
+    );
+    return dispatch({
+      type: 'PAYMENT',
+      payload: payment.data,
+    });
+  };
+}
+
+
+
+//////////////////////////PRODUCT/////////////////////////////////
+export const fetchProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/products/${id}`);
+      dispatch({ type: 'FETCH_PRODUCT', payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const createProduct = async (id) => {
+    try {
+      const response = await axios.post(`http://localhost:3001/create-product/${id}`);
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 //////////////////////LOGOUT/////////////////////////////////////
 export const logOut = () => {

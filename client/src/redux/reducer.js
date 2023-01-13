@@ -5,6 +5,10 @@ const initialState = {
   categories: [],
   loading: false,
   pageActive: 1,
+  payment: {},
+  loading: false,
+  error: null,
+  product: [],
   user: [],
   allUsers: [],
 };
@@ -107,15 +111,47 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: sortedOrdeR,
       };
-    case "FILTER_CATEGORIES":
-      const allCategories = state.allRestaurants;
+      case "FILTER_CATEGORIES":
+      const allCategory= state.allRestaurants
       const categoriesFiltered =
         action.payload === "All Restaurant"
-          ? allCategories
-          : allCategories.filter((el) => el.category.includes(action.payload));
-      return {
+          ? allCategory
+          : allCategory.filter(item => {
+            return item.Categories.some(category => category.name === action.payload);
+        });
+          console.log(allCategory.filter(item => {
+            return item.Categories.some(category => category.name === action.payload);
+        }))
+          return {
         ...state,
         restaurant: categoriesFiltered,
+      };
+      case "REFRESH_PAG":
+                
+      return{
+  ...state,
+  allRestaurants:action.payload
+}
+case 'PAY_WITH_MERCADOPAGO':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'PAY_WITH_MERCADOPAGO_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        payment: action.payload,
+      };
+    case 'PAY_WITH_MERCADOPAGO_ERROR':
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+      case 'FETCH_PRODUCT':
+      return { ...state, 
+        product: action.payload 
       };
     case "REFRESH_PAG":
       return {

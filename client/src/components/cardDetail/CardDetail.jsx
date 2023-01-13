@@ -43,12 +43,12 @@ export const CardDetail = (props) => {
           </div>
           <div className="container-data-products">
             <h2>Categories</h2>
-            {restaurantDetail?.category.map((categoryElem) => {
+            {restaurantDetail?.category?.map((categoryElem) => {
               return <p className="title-categories">{categoryElem}</p>;
             })}
             <h2>Products</h2>
             <div className="container-products">
-              {restaurantDetail?.products.map((productList, i) => {
+              {restaurantDetail?.products?.map((productList, i) => {
                 return <Product key={i} products={productList} />;
               })}
             </div>
