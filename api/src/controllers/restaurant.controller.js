@@ -1,8 +1,8 @@
 const axios = require("axios");
-const { Restaurant, Categories, Users, Products } = require("../db");
+const { Restaurants, Categories, Users, Products } = require("../db");
 
 const getAllRestaurants = async (req, res) => {
-  const getRestaurantsDb = await Restaurant.findAll({
+  const getRestaurantsDb = await Restaurants.findAll({
     attributes: ["id", "name", "photo"],
     include: Categories,
   });
@@ -15,9 +15,8 @@ const newRestaurant = async (req, res) => {
     const { name, photo, categories, descriptions, reviews, products } =
       req.body;
     const infoIdUser = await Users.findByPk(id);
-    console.log(categories);
     // const allCategories = await Categories.findAll();
-    const createRestaurant = await Restaurant.create({
+    const createRestaurant = await Restaurants.create({
       name,
       photo,
       descriptions,
@@ -27,12 +26,13 @@ const newRestaurant = async (req, res) => {
       let categoriesMatch = await Categories.findOne({
         where: { name: category },
       });
+      console.log(categoriesMatch, "ELMACHE")
       await createRestaurant.addCategories(categoriesMatch);
     });
     // createRestaurant.addUsers(infoIdUser);
     infoIdUser.addRestaurant(createRestaurant);
     // createRestaurant.addCategories(allCategories);
-    res.send(infoIdUser);
+    res.send("Se creo con exito el restaurante");
   } catch (error) {
     res.status(404).send(error);
   }
@@ -41,21 +41,19 @@ const newRestaurant = async (req, res) => {
 const getRestaurantByName = async (req, res) => {
   try {
     const { name } = req.query;
-    console.log(name);
-    const infoAllRestaurant = await Restaurant.findAll({
+    const infoAllRestaurant = await Restaurants.findAll({
       attributes: ["id", "name", "photo"],
       include: Categories,
     });
-    console.log(info);
     if (name) {
       const searchRestaurant = infoAllRestaurant.filter((resto) =>
         resto.name.toLowerCase().includes(name.toLowerCase())
       );
       searchRestaurant.length
         ? res.status(200).json(searchRestaurant)
-        : res.status(400).send("No se encontro");
+        : res.status(400).send(searchRestaurant);
     } else {
-      res.status(200).json(info);
+      res.status(200).json(infoAllRestaurant);
     }
   } catch (error) {
     res.status(404).json({ error: "Problemas obteniendo Todos" });
@@ -65,7 +63,7 @@ const getRestaurantByName = async (req, res) => {
 const getById = async (req, res) => {
   let { id } = req.params;
   try {
-    const restaurant = await Restaurant.findByPk(id, {
+    const restaurant = await Restaurants.findByPk(id, {
       attributes: ["id", "name", "photo"],
       include: Categories,
     });

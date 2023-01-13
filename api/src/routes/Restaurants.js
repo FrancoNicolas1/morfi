@@ -13,7 +13,7 @@ routes.get("/:id", controllerRestaurants.getById);
 
 routes.post("/:id", controllerRestaurants.newRestaurant);
 
-routes.get("/name", controllerRestaurants.getRestaurantByName);
+routes.get("/name/getbyname", controllerRestaurants.getRestaurantByName);
 
 // routes.post('/', controllerRestaurants.postRestaurant)
 

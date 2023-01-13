@@ -111,13 +111,18 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: sortedOrdeR,
       };
-    case "FILTER_CATEGORIES":
-      const allCategories = state.allRestaurants;
+      case "FILTER_CATEGORIES":
+      const allCategory= state.allRestaurants
       const categoriesFiltered =
         action.payload === "All Restaurant"
-          ? allCategories
-          : allCategories.filter((el) => el.category.includes(action.payload));
-      return {
+          ? allCategory
+          : allCategory.filter(item => {
+            return item.Categories.some(category => category.name === action.payload);
+        });
+          console.log(allCategory.filter(item => {
+            return item.Categories.some(category => category.name === action.payload);
+        }))
+          return {
         ...state,
         restaurant: categoriesFiltered,
       };

@@ -23,11 +23,6 @@ module.exports = (sequelize) => {
           type: DataTypes.ARRAY(DataTypes.JSON),
           allowNull: true,
         },
-        products:
-        {
-          type: DataTypes.ARRAY(DataTypes.JSON),
-          allowNull: true,
-        },
       descriptions: {
         type: DataTypes.TEXT,
         allowNull: true,
