@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Products } = require("../db");
+const { Products, Restaurants } = require("../db");
 
 const getProducts = async (req, res) => {
   try {
@@ -27,6 +27,11 @@ const createProduct = async (req, res) => {
       restaurantId,
       stock,
     });
+    let restaurant = await Restaurants.findOne({
+      where: { id: restaurantId },
+    });
+    await restaurant.addProduct(newProduct);
+    console.log(restaurant, "el restaurante correspondiente");
     res.json(newProduct);
   } catch (error) {
     console.error("este es el error", error);

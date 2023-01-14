@@ -43,7 +43,9 @@ const verify = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
+    //PARA QUE ESTE METODO FUNCIONE, LOS USERS TIENEN QUE TENER NAME Y USER_MAIL DISTINTOS A UNO YA EXISTENTE.
     const uniqueKey = randomString();
+    console.log(uniqueKey, "la unique key");
     const { name, photo, user_mail, password } = req.body;
     const salt = 10;
     const hash = await bcrypt.hash(password, salt);
@@ -57,6 +59,7 @@ const signUp = async (req, res) => {
       password: hash,
       uniqueKey,
     });
+    console.log(newUser, "el new user");
     emailer.sendMail(newUser, uniqueKey);
     res.json(newUser);
   } catch (error) {

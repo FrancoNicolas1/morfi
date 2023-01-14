@@ -15,25 +15,25 @@ const newRestaurant = async (req, res) => {
     const { name, photo, categories, descriptions, reviews, products } =
       req.body;
     const infoIdUser = await Users.findByPk(id);
-    // const allCategories = await Categories.findAll();
+    console.log(infoIdUser, "La info id user");
     const createRestaurant = await Restaurants.create({
       name,
       photo,
       descriptions,
       reviews,
     });
-    categories.forEach(async (category) => {
+    await categories.forEach(async (category) => {
       let categoriesMatch = await Categories.findOne({
         where: { name: category },
       });
-      console.log(categoriesMatch, "ELMACHE")
+
       await createRestaurant.addCategories(categoriesMatch);
     });
-    // createRestaurant.addUsers(infoIdUser);
-    infoIdUser.addRestaurant(createRestaurant);
-    // createRestaurant.addCategories(allCategories);
-    res.send("Se creo con exito el restaurante");
+    await createRestaurant.addUsers(infoIdUser);
+    await infoIdUser.addRestaurant(createRestaurant);
+    return res.send("Se creo con exito el restaurante");
   } catch (error) {
+    console.log(error, "el error del post restaurant");
     res.status(404).send(error);
   }
 };
