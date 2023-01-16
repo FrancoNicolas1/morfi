@@ -1,45 +1,35 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import MercadoPagoCheckout from 'react-sdk-mercadopago';
-import { payWithMercadoPago } from '../../redux/actions';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { payWithMercadoPago } from "../../redux/actions";
 
-const PaymentButton = () => {
+const PaymentButton = ({ productosComprados }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const clientId = "TU_CLIENT_ID";
-  const urlCallback = 'TU_URL_CALLBACK';
-
-  const handlePayment = (response) => {
+  const handlePayment = (productosComprados) => {
     setLoading(true);
-    dispatch(payWithMercadoPago(response))
-      .then(() => {
+    payWithMercadoPago(productosComprados)
+      .then((response) => {
         setLoading(false);
-        // Acción a ejecutar en caso de éxito
+        console.log(response);
+        return response;
       })
+      .then((response) => (window.location.href = response))
       .catch(() => {
         setLoading(false);
         // Acción a ejecutar en caso de error
       });
-  }
+  };
 
   return (
     <div>
       {loading ? (
         <p>Cargando...</p>
       ) : (
-        <MercadoPagoCheckout
-          clientId={clientId}
-          urlCallback={urlCallback}
-          onSuccess={handlePayment}
-          onError={() => {
-            // Acción a ejecutar en caso de error
-          }}
-        />
+        <button onClick={() => handlePayment(productosComprados)}>Pagar</button>
       )}
     </div>
   );
 };
 
 export default PaymentButton;
-

@@ -31,7 +31,7 @@ const newRestaurant = async (req, res) => {
     });
     await createRestaurant.addUsers(infoIdUser);
     await infoIdUser.addRestaurant(createRestaurant);
-    return res.send("Se creo con exito el restaurante");
+    return res.send(createRestaurant);
   } catch (error) {
     console.log(error, "el error del post restaurant");
     res.status(404).send(error);
@@ -65,11 +65,11 @@ const getById = async (req, res) => {
   try {
     const restaurant = await Restaurants.findByPk(id, {
       attributes: ["id", "name", "photo"],
-      include: Categories,
+      include: [Categories, Products],
     });
-    res.status(200).send(restaurant);
+    return res.status(200).send(restaurant);
   } catch (error) {
-    res.status(404).json({ error: "Problemas obteniendo ID" });
+    return res.status(404).json({ error: "Problemas obteniendo ID" });
   }
 };
 

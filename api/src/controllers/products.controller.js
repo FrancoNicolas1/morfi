@@ -15,7 +15,8 @@ const getProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, photo, price, description, restaurantId, stock } = req.body;
+    const { id } = req.params;
+    const { name, photo, price, description, stock } = req.body;
     if (!name || !photo || !price || !description) {
       res.json({ msg: "Please complete all fields" });
     }
@@ -24,14 +25,15 @@ const createProduct = async (req, res) => {
       photo,
       price,
       description,
-      restaurantId,
+      restaurantId: id,
       stock,
     });
+    console.log(newProduct, "el producto a agregar");
     let restaurant = await Restaurants.findOne({
-      where: { id: restaurantId },
+      where: { id: id },
     });
-    await restaurant.addProduct(newProduct);
-    console.log(restaurant, "el restaurante correspondiente");
+    const añadirProducto = await restaurant.addProducts(newProduct);
+    console.log(añadirProducto, "el añadir producto");
     res.json(newProduct);
   } catch (error) {
     console.error("este es el error", error);

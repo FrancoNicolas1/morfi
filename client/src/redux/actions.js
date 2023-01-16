@@ -5,9 +5,7 @@ export function allRestaurants() {
   return async function (dispatch) {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
-      let allRestaurants = await axios.get(
-        `http://localhost:3001/restaurants`
-      );
+      let allRestaurants = await axios.get(`http://localhost:3001/restaurants`);
       dispatch({
         type: "GET_ALL_RESTAURANT",
         payload: allRestaurants.data,
@@ -41,16 +39,17 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    let json = await axios.get('http://localhost:3001/restaurants/name/getbyname', {
-      params: {
-        name: searchInput,
+    let json = await axios.get(
+      "http://localhost:3001/restaurants/name/getbyname",
+      {
+        params: {
+          name: searchInput,
+        },
       }
-    })
+    );
     if (json.length === 0) {
       alert("No se encontro ese Restaurante");
-      const all = await axios.get(
-        `http://localhost:3001/restaurants`
-      );
+      const all = await axios.get(`http://localhost:3001/restaurants`);
       return dispatch({
         type: "GET_ALL_RESTAURANT",
         payload: all.data,
@@ -86,7 +85,7 @@ export function createRestaurant(data) {
   return async function (dispatch) {
     try {
       let createRestaurant = await axios.post(
-        'http://localhost:3001/restaurants',
+        "http://localhost:3001/restaurants",
         data
       );
       return dispatch({
@@ -101,9 +100,7 @@ export function createRestaurant(data) {
 /////////////////////////////////////////////ACTIONS CATEGORY///////////////////////////////
 export function getAllCategories() {
   return async function (dispatch) {
-    let allCategories = await axios(
-      'http://localhost:3001/categories'
-    );
+    let allCategories = await axios("http://localhost:3001/categories");
     return dispatch({
       type: "GET_ALL_CATEGORIES",
       payload: allCategories.data,
@@ -148,26 +145,32 @@ export const setNumberPageActive = (pageActive) => {
 };
 
 //////////////////////////MERCADOPAGO/////////////////////////////////
-export function payWithMercadoPago() {
-  return async function (dispatch) {
-    let payment= await axios(
-      'http://localhost:3001/crearOrden'//lo uso en el front en el boton(donde pago todo)
-    );
-    return dispatch({
-      type: 'PAYMENT',
-      payload: payment.data,
+export async function payWithMercadoPago(productosComprados) {
+  try {
+    let data = productosComprados;
+    console.log(data, "la data que envio");
+    let payment = await axios.post("http://localhost:3001/crearOrden", {
+      data,
     });
-  };
+    console.log(payment.data, "LO QUE RECIBO");
+    return payment.data;
+  } catch (err) {
+    console.error(
+      err,
+      "el error a la hora de crear la preferencia con el metodo payWithMercadoPago"
+    );
+    alert(
+      "Hubo un problema a la hora de generar el pago, por favor intente de nuevo y sepa disculpar las molestias ocasionadas."
+    );
+  }
 }
-
-
 
 //////////////////////////PRODUCT/////////////////////////////////
 export const fetchProduct = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`http://localhost:3001/products/${id}`);
-      dispatch({ type: 'FETCH_PRODUCT', payload: response.data });
+      dispatch({ type: "FETCH_PRODUCT", payload: response.data });
     } catch (error) {
       console.log(error);
     }
@@ -175,14 +178,15 @@ export const fetchProduct = (id) => {
 };
 
 export const createProduct = async (id) => {
-    try {
-      const response = await axios.post(`http://localhost:3001/create-product/${id}`);
-      return response
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  try {
+    const response = await axios.post(
+      `http://localhost:3001/create-product/${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //////////////////////LOGOUT/////////////////////////////////////
 export const logOut = () => {
@@ -207,6 +211,31 @@ export function getAllUsers() {
       dispatch({
         type: "GET_ALL_USERS",
         payload: allUsers.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+//////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
+export function setSelectedProducts(products) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: "FILL_CART",
+        payload: products,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function setCheckoutProducts(selectedProducts) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: "FILL_CHECKOUT",
+        payload: selectedProducts,
       });
     } catch (error) {
       console.log(error);

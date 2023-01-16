@@ -11,6 +11,8 @@ const initialState = {
   product: [],
   user: [],
   allUsers: [],
+  cart: [],
+  checkOut: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -111,48 +113,51 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         restaurant: sortedOrdeR,
       };
-      case "FILTER_CATEGORIES":
-      const allCategory= state.allRestaurants
+    case "FILTER_CATEGORIES":
+      const allCategory = state.allRestaurants;
       const categoriesFiltered =
-        action.payload === "All Restaurant"
+        action.payload === "All categories"
           ? allCategory
-          : allCategory.filter(item => {
-            return item.Categories.some(category => category.name === action.payload);
-        });
-          console.log(allCategory.filter(item => {
-            return item.Categories.some(category => category.name === action.payload);
-        }))
-          return {
+          : allCategory.filter((item) => {
+              return item.Categories.some(
+                (category) => category.name === action.payload
+              );
+            });
+      console.log(
+        allCategory.filter((item) => {
+          return item.Categories.some(
+            (category) => category.name === action.payload
+          );
+        })
+      );
+      return {
         ...state,
         restaurant: categoriesFiltered,
       };
-      case "REFRESH_PAG":
-                
-      return{
-  ...state,
-  allRestaurants:action.payload
-}
-case 'PAY_WITH_MERCADOPAGO':
+    case "REFRESH_PAG":
+      return {
+        ...state,
+        allRestaurants: action.payload,
+      };
+    case "PAY_WITH_MERCADOPAGO":
       return {
         ...state,
         loading: true,
       };
-    case 'PAY_WITH_MERCADOPAGO_SUCCESS':
+    case "PAY_WITH_MERCADOPAGO_SUCCESS":
       return {
         ...state,
         loading: false,
         payment: action.payload,
       };
-    case 'PAY_WITH_MERCADOPAGO_ERROR':
+    case "PAY_WITH_MERCADOPAGO_ERROR":
       return {
         ...state,
         loading: false,
         error: action.error,
       };
-      case 'FETCH_PRODUCT':
-      return { ...state, 
-        product: action.payload 
-      };
+    case "FETCH_PRODUCT":
+      return { ...state, product: action.payload };
     case "REFRESH_PAG":
       return {
         ...state,
@@ -167,6 +172,20 @@ case 'PAY_WITH_MERCADOPAGO':
       return {
         ...state,
         allUsers: action.payload,
+      };
+    case "FILL_CART":
+      return {
+        ...state,
+        cart: action.payload,
+      };
+    case "FILL_CHECKOUT":
+      const filteredProducts = action.payload.filter(
+        (el) => el.selected === true
+      );
+      console.log(filteredProducts, "los productos filtrados del reducer");
+      return {
+        ...state,
+        checkOut: filteredProducts,
       };
     default:
       return { ...state };
