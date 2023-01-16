@@ -191,3 +191,31 @@ export function loginPostUser(payload) {
     }
   };
 }
+/////////////////////////////////////////IMAGE CLOUDINARY////////////////////
+export const updateProfileImage = (id, dataFinal) => {
+  return async function (dispatch) {
+    const data = { dataFinal };
+    try {
+      const api = await axios.put(
+        `http://localhost:3001/users/photo/${id}`,
+        data
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+//////////////////////////////////////////////////UPDATE USER /////////////////////////////////////////////
+export const updateProfileUser = (id, data) => {
+  return async function (dispatch) {
+    try {
+      console.log(data, "action user");
+      const api = await axios.put(
+        `http://localhost:3001/users/update/${id}`,
+        data
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

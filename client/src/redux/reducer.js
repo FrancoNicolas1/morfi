@@ -137,6 +137,16 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         user: action.payload,
       };
+    case "UPDATE_PHOTO_PROFILE":
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case "UPDATE_PROFILE_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return { ...state };
   }

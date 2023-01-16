@@ -156,13 +156,12 @@ const isAdmin = async (req, res) => {
 const userUpdate = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, photo, user_mail, password } = req.body;
+    const { name, user_mail, password } = req.body;
     const salt = 10;
     const hash = await bcrypt.hash(password, salt);
     const userUpdate = await Users.update(
       {
         name: name,
-        photo: photo,
         user_mail: user_mail,
         password: hash,
       },
@@ -186,6 +185,20 @@ const deleteUser = async (req, res) => {
     res.status(404).send(error);
   }
 };
+const userPhotoCloudinary = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { dataFinal } = req.body;
+    console.log(dataFinal, "back undefined");
+    const userUpdatedPhoto = await Users.findOne({ _id: id });
+    userUpdatedPhoto.photo = dataFinal;
+    const saved = await userUpdatedPhoto.save();
+    res.status(200).send(saved);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send("ERROR");
+  }
+};
 
 module.exports = {
   getInfoById,
@@ -194,4 +207,5 @@ module.exports = {
   userUpdate,
   isAdmin,
   deleteUser,
+  userPhotoCloudinary,
 };
