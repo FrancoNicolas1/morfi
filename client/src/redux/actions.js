@@ -149,7 +149,7 @@ export const setNumberPageActive = (pageActive) => {
 export async function payWithMercadoPago(productosComprados) {
   try {
     let data = productosComprados;
-    let paymente = await axios.post("http://localhost:3001/crearOrden", data);
+    let payment = await axios.post("http://localhost:3001/crearOrden", data);
   } catch (error) {
     console.error(error);
   }
