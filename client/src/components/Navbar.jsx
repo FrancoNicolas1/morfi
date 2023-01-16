@@ -8,68 +8,80 @@ import {
   Links,
   Link,
   Buttons,
-  Image
-} from './navbar.styled.js';
+  Image,
+} from "./navbar.styled.js";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../redux/actions.js";
 
-
 const Navbar = (props) => {
-  const userArray = useSelector(state=> state.user)
-  console.log(userArray)
-const dispatch = useDispatch()
-const handleUserLogOut = () => {
-  dispatch(logOut())
-}
+  const userArray = useSelector((state) => state.user);
+  console.log(userArray);
+  const dispatch = useDispatch();
+  const handleUserLogOut = () => {
+    dispatch(logOut());
+  };
 
   return (
     <>
-     <Container>
-     
-     <Logo>
-         <Image src="https://img.freepik.com/vector-premium/chef-logo-vector_20448-270.jpg?w=2000" alt="Logo de la marca"/>
-     </Logo>
-     <Box>
-         <LinksList>
-             <Links>
-             <NavLink to={"nosotros"}>
-             <Link>Nosotros</Link>
-            </NavLink>
-             </Links>
-             <Links>
-             <NavLink to={"preguntas"}>
-             <Link>Preguntas frecuentes</Link>
-            </NavLink>
-             </Links>
-             <Links>
-             <NavLink to={"contactenos"}>
-             <Link>Contactenos</Link>
-            </NavLink>
-             </Links>
-         </LinksList>         
-     </Box>
+      <Container>
+        <Logo>
+          <Image
+            src="https://img.freepik.com/vector-premium/chef-logo-vector_20448-270.jpg?w=2000"
+            alt="Logo de la marca"
+          />
+        </Logo>
+        <Box>
+          <LinksList>
+            <Links>
+              <NavLink to={"nosotros"}>
+                <Link>Nosotros</Link>
+              </NavLink>
+            </Links>
+            <Links>
+              <NavLink to={"preguntas"}>
+                <Link>Preguntas frecuentes</Link>
+              </NavLink>
+            </Links>
+            <Links>
+              <NavLink to={"contactenos"}>
+                <Link>Contactenos</Link>
+              </NavLink>
+            </Links>
+          </LinksList>
+        </Box>
 
-     <BoxButtons>
-     <Buttons    onClick={() => {
-            props.setAbrir(true);
-            props.setAbrir1(false);
-          }}>LogIn</Buttons>
-          
-    
-     {userArray.length?(<>
-      <Buttons onClick={handleUserLogOut} >LogOut</Buttons>   
-      <NavLink to={"formrestaurant"}>
-          <Buttons>Tu Comercio</Buttons>
-          </NavLink>
-     </>):(<>
-      <Buttons onClick={() => {
-            props.setAbrir1(true);
-            props.setAbrir(false);}}>SingUp</Buttons>
-     </>)}       
-      
-     </BoxButtons>
- </Container>
+        <BoxButtons>
+          <Buttons
+            onClick={() => {
+              props.setAbrir(true);
+              props.setAbrir1(false);
+            }}
+          >
+            Log in
+          </Buttons>
+
+          {userArray.length ? (
+            <>
+              <Buttons onClick={handleUserLogOut}>Log out</Buttons>
+              <NavLink to={"formrestaurant"}>
+                <Buttons>Tu Comercio</Buttons>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <Buttons
+                onClick={() => {
+                  props.setAbrir1(true);
+                  props.setAbrir(false);
+                }}
+              >
+                Sign Up
+              </Buttons>
+            </>
+          )}
+        </BoxButtons>
+      </Container>
     </>
     // <nav>
     //   <div>

@@ -6,6 +6,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Restaurants",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -18,11 +23,14 @@ module.exports = (sequelize) => {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
         allowNull: true,
       },
-      categories:
-        {
-          type: DataTypes.ARRAY(DataTypes.JSON),
-          allowNull: true,
-        },
+      categories: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
+        allowNull: true,
+      },
+      products: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
+        allowNull: true,
+      },
       descriptions: {
         type: DataTypes.TEXT,
         allowNull: true,

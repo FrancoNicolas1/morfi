@@ -145,6 +145,14 @@ export const setNumberPageActive = (pageActive) => {
 };
 
 //////////////////////////MERCADOPAGO/////////////////////////////////
+
+export async function payWithMercadoPago(productosComprados) {
+  try {
+    let data = productosComprados;
+    console.log(data, "la data que envio");
+    let payment = await axios.post("http://localhost:3001/crearOrden", {
+      data,
+
 export function payWithMercadoPago() {
   return async function (dispatch) {
     let payment = await axios(
@@ -153,8 +161,19 @@ export function payWithMercadoPago() {
     return dispatch({
       type: "PAYMENT",
       payload: payment.data,
+
     });
-  };
+    console.log(payment.data, "LO QUE RECIBO");
+    return payment.data;
+  } catch (err) {
+    console.error(
+      err,
+      "el error a la hora de crear la preferencia con el metodo payWithMercadoPago"
+    );
+    alert(
+      "Hubo un problema a la hora de generar el pago, por favor intente de nuevo y sepa disculpar las molestias ocasionadas."
+    );
+  }
 }
 
 //////////////////////////PRODUCT/////////////////////////////////
@@ -209,6 +228,30 @@ export function getAllUsers() {
     }
   };
 }
+
+//////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
+export function setSelectedProducts(products) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: "FILL_CART",
+        payload: products,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function setCheckoutProducts(selectedProducts) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: "FILL_CHECKOUT",
+        payload: selectedProducts,
+      });
+    } catch (error) {
+      console.log(error);
+
 /////////////////////////////////LOGIN////////////
 export function loginPostUser(payload) {
   return async function (dispatch) {
@@ -220,6 +263,7 @@ export function loginPostUser(payload) {
       });
     } catch (error) {
       console.log(error.response.data.error);
+
     }
   };
 }
