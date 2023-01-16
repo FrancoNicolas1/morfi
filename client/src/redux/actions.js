@@ -145,12 +145,23 @@ export const setNumberPageActive = (pageActive) => {
 };
 
 //////////////////////////MERCADOPAGO/////////////////////////////////
+
 export async function payWithMercadoPago(productosComprados) {
   try {
     let data = productosComprados;
     console.log(data, "la data que envio");
     let payment = await axios.post("http://localhost:3001/crearOrden", {
       data,
+
+export function payWithMercadoPago() {
+  return async function (dispatch) {
+    let payment = await axios(
+      "http://localhost:3001/crearOrden" //lo uso en el front en el boton(donde pago todo)
+    );
+    return dispatch({
+      type: "PAYMENT",
+      payload: payment.data,
+
     });
     console.log(payment.data, "LO QUE RECIBO");
     return payment.data;
@@ -217,6 +228,7 @@ export function getAllUsers() {
     }
   };
 }
+
 //////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
 export function setSelectedProducts(products) {
   return async function (dispatch) {
@@ -239,6 +251,19 @@ export function setCheckoutProducts(selectedProducts) {
       });
     } catch (error) {
       console.log(error);
+
+/////////////////////////////////LOGIN////////////
+export function loginPostUser(payload) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.post("http://localhost:3001/login", payload);
+      return dispatch({
+        type: "LOGIN_USER",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error.response.data.error);
+
     }
   };
 }

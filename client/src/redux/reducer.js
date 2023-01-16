@@ -173,6 +173,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
+
     case "FILL_CART":
       return {
         ...state,
@@ -186,6 +187,12 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         checkOut: filteredProducts,
+
+    case "LOGIN_USER":
+      return {
+        ...state,
+        user: action.payload,
+
       };
     default:
       return { ...state };
