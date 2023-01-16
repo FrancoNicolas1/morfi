@@ -44,7 +44,7 @@ const sendMail = async (user, uniqueKey) => {
         <table role="presentation" style="width:602px;height=400px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
             <td align="center" style="padding:40px 0 30px 0;background:#000000;">
-            <img src="./images/Morfi.jpeg" alt="" width="602px" style="height:400px;display:block;"/>
+            <img src="https://res.cloudinary.com/dlibclk9r/image/upload/v1673885978/morfi/p1bfi9twytb29l9dx7cd.jpg" alt="" width="602px" style="height:400px;display:block;"/>
             </td>
           </tr>
           <tr>
@@ -62,12 +62,12 @@ const sendMail = async (user, uniqueKey) => {
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
                         <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                          <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="./images/appscomida0.jpg" alt="" width="260" style="height:200px;display:block;" /></p>
+                          <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://res.cloudinary.com/dlibclk9r/image/upload/v1673885989/morfi/ub6tdgbykzdxxiw5l8ul.png" alt="" width="260" style="height:200px;display:block;" /></p>
                           <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Empieza a  pedir con tan solo unos clicks. Comienza cuando quieras. Estaremos a tu lado para ayudarte, brindandote una experiencia de interaccion unica.</p>
                         </td>
                         <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
                         <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                          <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="./images/motorizado_delicax.png" alt="" width="260" style="height:200px;display:block;"/></p>
+                          <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://res.cloudinary.com/dlibclk9r/image/upload/v1673886008/morfi/vdl8nkjeva2nqebarxb6.jpg" alt="" width="260" style="height:200px;display:block;"/></p>
                           <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Por cualquier consulta o problema tecnico contactanos a soportemorfi@gmail.com uno de nuestros representantes se pondra en contacto lo antes posible.</p>
                         </td>
                       </tr>

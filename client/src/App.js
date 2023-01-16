@@ -7,14 +7,9 @@ import AboutUs from "./pages/AboutUs";
 import Admin from "./pages/Admin";
 import Error from "./pages/Error";
 import LoginForm from "./components/Login";
-
 import RegisterForm from "./components/RegistroDeUsuario";
 import Checkout from "./components/MercadoPago/Checkout";
-
 import Verify from "./components/Verify/Verify.jsx";
-import RegisterForm from "./components/RegistroDeUsuario";
-import Carrito from "./components/MercadoPago/Carrito";
-
 
 function App() {
   return (

@@ -187,12 +187,12 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         checkOut: filteredProducts,
+      };
 
     case "LOGIN_USER":
       return {
         ...state,
         user: action.payload,
-
       };
     default:
       return { ...state };
