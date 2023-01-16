@@ -149,31 +149,24 @@ export const setNumberPageActive = (pageActive) => {
 export async function payWithMercadoPago(productosComprados) {
   try {
     let data = productosComprados;
-    console.log(data, "la data que envio");
-    let payment = await axios.post("http://localhost:3001/crearOrden", {
-      data,
-
-export function payWithMercadoPago() {
-  return async function (dispatch) {
-    let payment = await axios(
-      "http://localhost:3001/crearOrden" //lo uso en el front en el boton(donde pago todo)
-    );
-    return dispatch({
-      type: "PAYMENT",
-      payload: payment.data,
-
-    });
-    console.log(payment.data, "LO QUE RECIBO");
-    return payment.data;
-  } catch (err) {
-    console.error(
-      err,
-      "el error a la hora de crear la preferencia con el metodo payWithMercadoPago"
-    );
-    alert(
-      "Hubo un problema a la hora de generar el pago, por favor intente de nuevo y sepa disculpar las molestias ocasionadas."
-    );
+    let paymente = await axios.post("http://localhost:3001/crearOrden", data);
+  } catch (error) {
+    console.error(error);
   }
+}
+
+export function payWithMercadoPago1() {
+  return async function (dispatch) {
+    try {
+      let payment = await axios.get("http://localhost:3001/crearOrden");
+      return dispatch({
+        type: "PAYMENT",
+        payload: payment.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
 
 //////////////////////////PRODUCT/////////////////////////////////
@@ -251,6 +244,9 @@ export function setCheckoutProducts(selectedProducts) {
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+}
 
 /////////////////////////////////LOGIN////////////
 export function loginPostUser(payload) {
@@ -263,7 +259,6 @@ export function loginPostUser(payload) {
       });
     } catch (error) {
       console.log(error.response.data.error);
-
     }
   };
 }
