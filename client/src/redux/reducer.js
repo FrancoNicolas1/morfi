@@ -158,11 +158,6 @@ export default function rootReducer(state = initialState, action) {
       };
     case "FETCH_PRODUCT":
       return { ...state, product: action.payload };
-    case "REFRESH_PAG":
-      return {
-        ...state,
-        allRestaurants: action.payload,
-      };
     case "LOG_OUT":
       return {
         ...state,

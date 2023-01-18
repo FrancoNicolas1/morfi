@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { postUser } from "../../redux/actions";
 
 export default function GoogleAuth() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   const [userGoogle, setUserGoogle] = useState({
-    name: "parce",
+    name: "papa",
     user_mail: "harurin567123@gmail.com",
     password: "prueba123",
   });
@@ -24,14 +23,17 @@ export default function GoogleAuth() {
     gapi.load("client:auth2", initClient);
   }, []);
 
-  const onSuccess = async (res) => {
-    const ress = res.profileObj.email;
-    await setUserGoogle({
+  const onSuccess = (res) => {
+    const email = res.profileObj.email;
+    const name = res.profileObj.name;
+    const photo = res.profileObj.imageUrl;
+    setUserGoogle({
       ...userGoogle,
-      user_mail: ress,
+      name: name,
+      user_mail: email,
+      photo: photo,
     });
-    await setTimeout(() => {
-      console.log({ ...userGoogle });
+    setTimeout(() => {
       dispatch(postUser({ ...userGoogle }));
     }, 100);
   };

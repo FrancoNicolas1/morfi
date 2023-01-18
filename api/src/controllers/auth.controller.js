@@ -43,7 +43,6 @@ const verify = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
-    //PARA QUE ESTE METODO FUNCIONE, LOS USERS TIENEN QUE TENER NAME Y USER_MAIL DISTINTOS A UNO YA EXISTENTE.
     const uniqueKey = randomString();
     console.log(uniqueKey, "la unique key");
     const { name, photo, user_mail, password } = req.body;
@@ -59,9 +58,7 @@ const signUp = async (req, res) => {
       password: hash,
       uniqueKey,
     });
-    console.log(newUser, "el new user");
     emailer.sendMail(newUser, uniqueKey);
-    res.json(newUser);
   } catch (error) {
     console.error("este es el error", error);
   }

@@ -200,6 +200,7 @@ export const logOut = () => {
 export function postUser(payload) {
   return async function (dispatch) {
     try {
+      console.log(payload);
       const json = await axios.post("http://localhost:3001/signup", payload);
       console.log(json);
     } catch (error) {
