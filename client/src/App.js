@@ -12,8 +12,7 @@ import RegisterForm from "./components/RegistroDeUsuario";
 import Checkout from "./components/MercadoPago/Checkout";
 
 import Verify from "./components/Verify/Verify.jsx";
-import RegisterForm from "./components/RegistroDeUsuario";
-import Carrito from "./components/MercadoPago/Carrito";
+// import Carrito from "./components/MercadoPago/Carrito";
 
 
 function App() {

@@ -26,10 +26,7 @@ const Navbar = (props) => {
     <>
       <Container>
         <Logo>
-          <Image
-            src="https://img.freepik.com/vector-premium/chef-logo-vector_20448-270.jpg?w=2000"
-            alt="Logo de la marca"
-          />
+          <Image src={require("../img/Logo.jfif")} alt="Logo de la marca" />
         </Logo>
         <Box>
           <LinksList>

@@ -34,6 +34,7 @@ const ListProducts = styled.div`
 
 const Checkout = () => {
   const productosComprados = useSelector((state) => state.checkOut);
+  console.log(productosComprados, "asdfg");
   const total = productosComprados?.reduce(
     (a, b) => a.price * a.quantity + b.price * b.quantity
   );
@@ -60,7 +61,7 @@ const Checkout = () => {
             }}
           >
             <p>Nombre del producto:</p>
-            {productosComprados.map((el) => (
+            {productosComprados?.map((el) => (
               <ListProducts>{el.name}</ListProducts>
             ))}
           </div>
@@ -76,10 +77,23 @@ const Checkout = () => {
             }}
           >
             <p>Descripcion del producto:</p>
-            {productosComprados.map((el) => (
+            {productosComprados?.map((el) => (
               <ListProducts>{el.description}</ListProducts>
             ))}
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              padding: "10px",
+              gap: "0.5vw",
+            }}
+          >
+            <button>ajjjj</button>
+          </div>
+
           <div
             style={{
               display: "flex",
@@ -90,7 +104,7 @@ const Checkout = () => {
             }}
           >
             <p>Precio</p>
-            {productosComprados.map((el) => (
+            {productosComprados?.map((el) => (
               <ListProducts>
                 ${el.price} X {el.quantity}
               </ListProducts>

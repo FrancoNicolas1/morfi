@@ -65,19 +65,31 @@ export function searchRestaurant(searchInput) {
 ///////////////////////////////////////////////////////////////////////////////
 export function getRestaurantById(id) {
   return async function (dispatch) {
-    dispatch({ type: "SET_LOADING", payload: true });
-    try {
-      let restaurantById = await axios.get(
-        `http://localhost:3001/restaurants/${id}`
-      );
-      dispatch({
-        type: "GET_RESTAURANT_BY_ID",
-        payload: restaurantById.data,
-      });
-    } catch (error) {
-      console.log(error);
+    if (id) {
+      dispatch({ type: "SET_LOADING", payload: true });
+      try {
+        let restaurantById = await axios.get(
+          `http://localhost:3001/restaurants/${id}`
+        );
+        dispatch({
+          type: "GET_RESTAURANT_BY_ID",
+          payload: restaurantById.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      dispatch({ type: "SET_LOADING", payload: false });
+    } else {
+      try {
+        const arraycito = [];
+        dispatch({
+          type: "GET_RESTAURANT_BY_ID",
+          payload: arraycito,
+        });
+      } catch (err) {
+        console.log(err, "FALLO DE EL ELSE DEL getRestaurantById");
+      }
     }
-    dispatch({ type: "SET_LOADING", payload: false });
   };
 }
 
@@ -152,16 +164,6 @@ export async function payWithMercadoPago(productosComprados) {
     console.log(data, "la data que envio");
     let payment = await axios.post("http://localhost:3001/crearOrden", {
       data,
-
-export function payWithMercadoPago() {
-  return async function (dispatch) {
-    let payment = await axios(
-      "http://localhost:3001/crearOrden" //lo uso en el front en el boton(donde pago todo)
-    );
-    return dispatch({
-      type: "PAYMENT",
-      payload: payment.data,
-
     });
     console.log(payment.data, "LO QUE RECIBO");
     return payment.data;
@@ -176,28 +178,31 @@ export function payWithMercadoPago() {
   }
 }
 
-//////////////////////////PRODUCT/////////////////////////////////
-export const fetchProduct = (id) => {
-  return async (dispatch) => {
+//////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
+export function setSelectedProducts(products) {
+  return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/products/${id}`);
-      dispatch({ type: "FETCH_PRODUCT", payload: response.data });
+      dispatch({
+        type: "FILL_CART",
+        payload: products,
+      });
     } catch (error) {
       console.log(error);
     }
   };
-};
-
-export const createProduct = async (id) => {
-  try {
-    const response = await axios.post(
-      `http://localhost:3001/create-product/${id}`
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
+}
+export function setCheckoutProducts(selectedProducts) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: "FILL_CHECKOUT",
+        payload: selectedProducts,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 //////////////////////LOGOUT/////////////////////////////////////
 export const logOut = () => {
@@ -229,29 +234,6 @@ export function getAllUsers() {
   };
 }
 
-//////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
-export function setSelectedProducts(products) {
-  return async function (dispatch) {
-    try {
-      dispatch({
-        type: "FILL_CART",
-        payload: products,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
-export function setCheckoutProducts(selectedProducts) {
-  return async function (dispatch) {
-    try {
-      dispatch({
-        type: "FILL_CHECKOUT",
-        payload: selectedProducts,
-      });
-    } catch (error) {
-      console.log(error);
-
 /////////////////////////////////LOGIN////////////
 export function loginPostUser(payload) {
   return async function (dispatch) {
@@ -263,7 +245,6 @@ export function loginPostUser(payload) {
       });
     } catch (error) {
       console.log(error.response.data.error);
-
     }
   };
 }

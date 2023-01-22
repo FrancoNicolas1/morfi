@@ -45,5 +45,10 @@ module.exports = (sequelize) => {
     },
     isValid: { type: DataTypes.BOOLEAN, defaultValue: false },
     uniqueKey: { type: DataTypes.STRING },
+    isBanned: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
 };

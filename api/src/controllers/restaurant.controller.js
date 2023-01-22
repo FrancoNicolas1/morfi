@@ -64,7 +64,7 @@ const getById = async (req, res) => {
   let { id } = req.params;
   try {
     const restaurant = await Restaurants.findByPk(id, {
-      attributes: ["id", "name", "photo"],
+      attributes: ["id", "name", "photo", "descriptions"],
       include: [Categories, Products],
     });
     return res.status(200).send(restaurant);
