@@ -13,6 +13,7 @@ const initialState = {
   allUsers: [],
   cart: [],
   checkOut: [],
+  restaurantProducts: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -168,12 +169,6 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         user: action.payload,
       };
-    case "GET_ALL_USERS":
-      return {
-        ...state,
-        allUsers: action.payload,
-      };
-
     case "FILL_CART":
       return {
         ...state,
@@ -187,14 +182,44 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         checkOut: filteredProducts,
-
-      };case "LOGIN_USER":
-        return {
-          ...state,
-          user: action.payload,
-
-        };
-        default:
+      };
+    case "LOGIN_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "UPDATE_PHOTO_PROFILE":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "UPDATE_PROFILE_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "RETURN_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "GET_ALL_USERS":
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    case "UPDATE_USER": {
+      return { ...state, allUsers: action.payload };
+    }
+    case "BANNED_USER": {
+      return { ...state, allUsers: action.payload };
+    }
+    case "CREATE_RESTAURANT":
+      return {
+        ...state,
+        restaurantProducts: [action.payload],
+      };
+    default:
       return { ...state };
-      }
   }
+}

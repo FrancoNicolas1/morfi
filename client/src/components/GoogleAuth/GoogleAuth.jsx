@@ -7,11 +7,11 @@ import { postUser } from '../../redux/actions';
 export default function GoogleAuth  () {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
-    const [userGoogle, setUserGoogle]= useState({
-        name:"asdSf",
-        user_mail:"",
-        password:"pepe"
-    })
+    // const [userGoogle, setUserGoogle]= useState({
+    //     name:"asdSf",
+    //     user_mail:"",
+    //     password:"pepe"
+    // })
 
  
     useEffect(() => {
@@ -25,15 +25,20 @@ export default function GoogleAuth  () {
     },[]);
 
     const onSuccess = async(res) => {
-        const ress=res.profileObj.email
-        await setUserGoogle({
-            ...userGoogle,
-            user_mail:ress
-        })
-        await setTimeout(() => {
-            console.log({...userGoogle})
-            dispatch(postUser({...userGoogle}))
-        }, 100);
+        // const ress= await res.profileObj.email
+        // console.log(ress)
+        // await setUserGoogle({
+        //     ...userGoogle,
+        //     user_mail:ress
+        // })
+        // console.log(userGoogle)
+        // await setTimeout(() => {
+        //     console.log({...userGoogle})
+        //     dispatch(postUser({...userGoogle}))
+        // }, 100);
+        user.push(res.profileObj.email)
+        console.log(res)
+        alert("Sesión iniciada")
          
     };
    

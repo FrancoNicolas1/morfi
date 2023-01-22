@@ -2,36 +2,74 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, Label, Button1 } from '../Css/CssRegistro';
 import { postUser } from '../redux/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GoogleAuth from './GoogleAuth/GoogleAuth';
-
+import swal from "sweetalert"
+import validateSingUp from './ErrorSignup';
+import styled from 'styled-components';
+const Label2 =styled.label`
+color:red;
+`
 const RegisterForm = (props) => {
   const history= useHistory()
   const dispatch = useDispatch()
+  const users = useSelector((state) => state.allUsers)
+  console.log(users)
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  
   const [state, setState] = useState({
     name:"", 
     user_mail:"",
     password:''
   });
+  const [error, setError] = useState({});
 
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setState({ ...state, [name]: value });
+  const handleChange=(e)=>{
+    e.preventDefault()
+  setState({
+    ...state,
+    [e.target.name]:e.target.value
+  })
+  setError(validateSingUp({
+    ...state,
+    [e.target.name]:e.target.value
+  }))
   }
-  const { name, user_mail, password } = state;
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-   
-        dispatch(postUser(state))
-        alert ("creado")
+    let filterUserName= users.filter((e)=>e.name === state.name)
+    let filterUserEmail= users.filter((e)=>e.user_mail === state.user_mail)
     
-        // history.push("/home")
-    
-}
+    if(filterUserName.length){
+      swal({
+        title: "Ese nombre de usuario ya existe!",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
+    }else if(filterUserEmail.length){
+      swal({
+        title: "Ese email ya existe!",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
+    }
+    else if(Object.values(error).length > 0){
+      swal({
+        title: "Porfavor ingrese datos para continuar",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
+    }else if(state.user_mail === "" && state.password==="" && state.name ===""){
+      swal({
+        title: "Porfavor ingrese datos para continuar",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      }); 
+    }else{
+    dispatch(postUser(state))
+    }
+  }
 
   return (
     <>
@@ -42,10 +80,10 @@ const RegisterForm = (props) => {
         <input
           type="text"
           name="name"
-          value={name}
           onChange={handleChange}
         />
-         {error && <p>{error}</p>}
+        {error.name && (<Label2>{error.name}</Label2>)}
+        
       </Label>
       <br />
       <Label>
@@ -53,10 +91,9 @@ const RegisterForm = (props) => {
         <input
           type="email"
           name="user_mail"
-          value={user_mail}
           onChange={handleChange}
         />
-         {error && <p>{error}</p>}
+        {error.user_mail && (<Label2>{error.user_mail}</Label2>)}
       </Label>
       <br />
       <Label>
@@ -64,15 +101,14 @@ const RegisterForm = (props) => {
         <input
           type="password"
           name="password"
-          value={password}
           onChange={handleChange}
         />
-         {error && <p>{error}</p>}
+        {error.password && (<Label2>{error.password}</Label2>)}
       </Label>
       <br />
       {isLoading ? <p>Loading...</p> :
       <Button type="submit">Sign in</Button>}
-         <GoogleAuth/>
+         {/* <GoogleAuth/> */}
     </Form>
     
     </>

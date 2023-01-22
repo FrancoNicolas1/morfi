@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { setSelectedProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 
+
 const ContainerProduct = styled.div`
   /* border: solid red; */
   display: flex;

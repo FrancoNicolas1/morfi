@@ -1,13 +1,20 @@
 const nodemailer = require("nodemailer");
 
 const createTrans = () => {
+  // const transporter = nodemailer.createTransport({
+  //   host: "smtp.gmail.com",
+  //   port: 465,
+  //   secure: true, // true for 465, false for other ports
+  //   auth: {
+  //     user: "frankcito639@gmail.com", // generated ethereal user
+  //     pass: "fnmuboojokaxxgkl", // generated ethereal password
+  //   },
+  // });
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    service: "Gmail", // true for 465, false for other ports
     auth: {
-      user: "frankcito639@gmail.com", // generated ethereal user
-      pass: "fnmuboojokaxxgkl", // generated ethereal password
+      user: "frankcito639@gmail.com",
+      pass: "fnmuboojokaxxgkl",
     },
   });
   return transporter;
@@ -184,9 +191,9 @@ padding:10px 20px!important;
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="http://localhost:3000/verify/${uniqueKey}"
 style="height:41px; v-text-anchor:middle; width:181px" arcsize="0%" stroke="f" fillcolor="#ccad53">
 <w:anchorlock></w:anchorlock>
-<center style='color:#ffffff; font-family:arial, "helvetica neue", helvetica, sans-serif; font-size:15px; font-weight:400; line-height:15px; mso-text-raise:1px'><>Confirm my email</center>
+<center style='color:#ffffff; font-family:arial, "helvetica neue", helvetica, sans-serif; font-size:15px; font-weight:400; line-height:15px; mso-text-raise:1px'>Confirme su email</center>
 </v:roundrect></a>
-<![endif]--><!--[if !mso]><!-- --><span class="es-button-border msohide" style="border-style:solid;border-color:#CCAD53;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto;mso-hide:all"><a href="http://localhost:3000/verify/${uniqueKey}" class="es-button es-button-1" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#ffffff;font-size:18px;border-style:solid;border-color:#CCAD53;border-width:10px 20px;display:inline-block;background:#CCAD53;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">Confirm my email</a></span><!--<![endif]--></td>
+<![endif]--><!--[if !mso]><!-- --><span class="es-button-border msohide" style="border-style:solid;border-color:#CCAD53;background:#2CB543;border-width:0px;display:inline-block;border-radius:0px;width:auto;mso-hide:all"><a href="http://localhost:3000/verify/${uniqueKey}" class="es-button es-button-1" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#ffffff;font-size:18px;border-style:solid;border-color:#CCAD53;border-width:10px 20px;display:inline-block;background:#CCAD53;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">Confirme su email</a></span><!--<![endif]--></td>
 </tr>
 </table></td>
 </tr>
