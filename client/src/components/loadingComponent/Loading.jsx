@@ -1,9 +1,10 @@
-import { RiLoader4Fill } from 'react-icons/ri';
-import styled from 'styled-components';
+import { RiLoader4Fill } from "react-icons/ri";
+import styled from "styled-components";
 
 const ContainerLoading = styled.div`
   display: flex;
   justify-content: center;
+  align-self: center;
   align-items: center;
   width: 100vw;
   height: 100%;
@@ -21,7 +22,7 @@ const ContainerLoading = styled.div`
 export const Loading = () => {
   return (
     <ContainerLoading>
-      <RiLoader4Fill className="loading" size={80} />;
+      <RiLoader4Fill className="loading" size={80} />
     </ContainerLoading>
   );
 };

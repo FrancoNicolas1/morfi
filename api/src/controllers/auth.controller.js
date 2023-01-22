@@ -28,7 +28,13 @@ const callbackGoogle = async (req, res) => {
       .getToken(code)
       .then((data) => {
         const tokens = data.tokens;
-        console.log(data, "lo que recibe");
+        console.log(data.tokens, "lo que recibe el callbackGoogle");
+        if (tokens.refresh_token !== undefined) {
+          res.cookie("refresh_token", tokens.refresh_token, {
+            httpOnly: false,
+            secure: false,
+          });
+        }
         res.cookie("access_token", tokens.access_token, {
           httpOnly: false,
           secure: false,
@@ -43,26 +49,41 @@ const callbackGoogle = async (req, res) => {
     console.error(err, "el error del callbackGoogle");
   }
 };
+const refresh = async (refreshToken) => {
+  // Utilizo el token de refresco para obtener un token de acceso nuevo
+  try {
+    //Como esta funcion se ejecuta en el servidor cada 60 minutos, es importante verificar que se le pase un token de refresco, porque si no se pasa un token de refresco, no hace nada
+    if (refreshToken) {
+      const { tokens } = await client.refreshToken(refreshToken);
+      console.log(
+        tokens,
+        "los tokens que devuelve con el refreshToken el metodo refresh"
+      );
+      if (tokens) {
+        // console.log(tokens, "EL TOKEN QUE LLEGA");
+        if (tokens.refresh_token !== undefined) {
+          res.cookie("refresh_token", tokens.refresh_token, {
+            httpOnly: false,
+            secure: false,
+          });
+        }
+        res.cookie("access_token", tokens.access_token, {
+          httpOnly: false,
+          secure: false,
+        });
+        res.cookie("id_token", tokens.id_token, {
+          httpOnly: false,
+          secure: false,
+        });
 
-// const refresh = async (refreshToken) => {
-//   // Utilizo el token de refresco para obtener un token de acceso nuevo
-//   try {
-//     //Como esta funcion se ejecuta en el servidor cada 60 minutos, es importante verificar que se le pase un token de refresco, porque si no se pasa un token de refresco, no hace nada
-//     if (refreshToken) {
-//       const { tokens } = await client.refreshToken(refreshToken);
-//       if (tokens) {
-//         console.log(tokens, "EL TOKEN QUE LLEGA");
-//         return res.status(200).json({ error: null, tokens });
-//       }
-//     } else return;
-//   } catch (error) {
-//     console.error(error, "el error del client.refreshToken");
-//     return res.status(400).json({ error: error.message, tokens: null });
-//   }
-// };
-
-// //Este metodo genera un intervalo que ejecuta cada 60 minutos la funcion refresh
-// setInterval(refresh, 60 * 60 * 1000); // refresh token
+        return res.status(200).json({ error: null, tokens });
+      }
+    } else return;
+  } catch (error) {
+    console.error(error, "el error del client.refreshToken");
+    return res.status(400).json({ error: error.message, tokens: null });
+  }
+};
 const private = async (req, res) => {
   const { id_token } = req.query;
   // Verify the access token
@@ -70,9 +91,9 @@ const private = async (req, res) => {
     idToken: id_token,
     audience: process.env.CLIENT_ID,
   });
-  console.log(id_token, "el id token");
+  // console.log(id_token, "el id token");
   const payload = ticket.getPayload();
-  console.log(payload, "lo que devuelve el ingreso");
+  console.log(payload, "lo que devuelve el payload en el metodo private");
   // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
   if (payload.email_verified) {
     res.json(payload);
@@ -158,4 +179,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { private, callbackGoogle, signUp, login, verify };
+module.exports = { refresh, private, callbackGoogle, signUp, login, verify };

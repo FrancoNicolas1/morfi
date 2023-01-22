@@ -424,7 +424,40 @@ export const loginGoogle = (access_token, id_token) => {
         .then((response) => response.data);
       console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
       if (verifyTokens) {
-        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens });
+        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens.tokens });
+      } else {
+        alert("No se recibió un token de verificacion de regreso");
+      }
+    } catch (err) {
+      console.error(err);
+      return dispatch({
+        type: "LOG_OUT",
+        payload: {
+          user: [],
+          accessToken: null,
+          refreshToken: null,
+        },
+      });
+    }
+  };
+};
+
+export const refrescarToken = (refreshToken) => {
+  return async function (dispatch) {
+    try {
+      console.log("estoy entrando a loginGoogle");
+      const params = { refreshToken };
+      console.log(params, "LO QUE ENVIO");
+      const verifyTokens = await axios
+        .get(
+          `http://localhost:3001/refrescarTokenDeGoogle?id_token=${refreshToken}`
+        )
+        .then((response) => response.data);
+      console.log(verifyTokens, "LO QUE DEVUELVE EL REFRESH TOKENS");
+      if (verifyTokens) {
+        const accessToken = verifyTokens.tokens.access_token;
+        const id_token = verifyTokens.tokens.id_token;
+        dispatch(loginGoogle(accessToken, id_token));
       } else {
         alert("No se recibió un token de verificacion de regreso");
       }

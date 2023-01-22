@@ -11,8 +11,8 @@ const Container = styled.div`
   border: 0;
   width: 90%;
   height: 100%;
-  margin: 1rem auto;
   display: grid;
+  margin: 1rem auto;
   gap: 2rem;
   grid-auto-rows: 23rem;
   grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
@@ -47,13 +47,19 @@ export default function Cards() {
         pagination={pagination}
         currentPage={currentPage}
       />
-      <Container>
+      <>
         {loading ? (
-          <>
+          <div
+            style={{
+              alignSelf: "center",
+              justifyContent: "center",
+              margin: 0,
+            }}
+          >
             <Loading />
-          </>
+          </div>
         ) : (
-          <>
+          <Container>
             {currentRestaurants.map((restaurant) => (
               <Card
                 rating={restaurant.rating}
@@ -67,9 +73,9 @@ export default function Cards() {
                 key={restaurant.name}
               ></Card>
             ))}
-          </>
+          </Container>
         )}
-      </Container>
+      </>
     </>
   );
 }
