@@ -12,11 +12,15 @@ import {
 } from "./navbar.styled.js";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../redux/actions.js";
+import { allUsers, logOut } from "../redux/actions.js";
 
 const Navbar = (props) => {
   const userArray = useSelector((state) => state.user);
-  console.log(userArray);
+  console.log(userArray)
+ 
+ useEffect(()=>{
+  dispatch(allUsers())
+ }, [])
   const dispatch = useDispatch();
   const handleUserLogOut = () => {
     dispatch(logOut());
@@ -26,10 +30,7 @@ const Navbar = (props) => {
     <>
       <Container>
         <Logo>
-          <Image
-            src="https://img.freepik.com/vector-premium/chef-logo-vector_20448-270.jpg?w=2000"
-            alt="Logo de la marca"
-          />
+          <Image src={require("../img/Logo.jfif")} alt="Logo de la marca" />
         </Logo>
         <Box>
           <LinksList>
@@ -67,6 +68,15 @@ const Navbar = (props) => {
               <NavLink to={"formrestaurant"}>
                 <Buttons>Tu Comercio</Buttons>
               </NavLink>
+              {userArray?.map((user)=>{
+                return(
+                <>
+                 <NavLink to={"userprofile"} >
+                <Buttons >Perfil</Buttons>
+                </NavLink>
+                </>)
+            })}
+             
             </>
           ) : (
             <>

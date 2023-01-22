@@ -4,7 +4,13 @@ import { Div } from "../Css/CssRegistro";
 // import GoogleAuth from "../components/GoogleAuth/GoogleAuth"
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, loginPostUser } from "../redux/actions";
-import GoogleLogin from "./GoogleAuth/GoogleLogin";
+import validate from "./ErrorLogin";
+import styled from "styled-components";
+import swal from "sweetalert";
+
+const Label2 = styled.label`
+  color: red;
+`;
 
 const LoginForm = (props) => {
   const dispatch = useDispatch();

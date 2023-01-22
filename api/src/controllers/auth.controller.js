@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { Users } = require("../db");
+const { Users, Restaurants } = require("../db");
 const emailer = require("../mailer");
 
 const randomString = () => {
@@ -69,19 +69,21 @@ const login = async (req, res) => {
     const { user_mail, password } = req.body;
     const userFound = await Users.findOne({
       where: { user_mail },
+      include: [{ model: Restaurants }],
     });
+    console.log(userFound);
     if (!userFound) return res.status(400).json("Correo no encontrado.");
-    if (userFound.isValid === false)
-      return res
-        .status(406)
-        .json(
-          "Su cuenta aun no fue validada, por favor revise su casilla de correos."
-        );
+    // if (userFound.isValid === false)
+    //   return res
+    //     .status(406)
+    //     .json(
+    //       "Su cuenta aun no fue validada, por favor revise su casilla de correos."
+    //     );
     const matchPassword = await bcrypt.compare(password, userFound.password);
     if (!matchPassword) {
       return res.status(401).json("Contraseña incorrecta.");
     }
-    res.send("Logueado");
+    res.send(userFound);
   } catch (error) {
     console.error(error);
   }

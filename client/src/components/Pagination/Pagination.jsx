@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { IoCaretBackOutline } from 'react-icons/io5';
-import { IoCaretForwardOutline } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
+import styled from "styled-components";
+import { IoCaretBackOutline } from "react-icons/io5";
+import { IoCaretForwardOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   /* border: solid red; */
@@ -81,7 +81,7 @@ export default function Pagination({
         <>
           <Container>
             <button
-              className={`btn-pagination ${currentPage <= 1 ? 'disable' : ''}`}
+              className={`btn-pagination ${currentPage <= 1 ? "disable" : ""}`}
               onClick={prevHandler}
             >
               <IoCaretBackOutline fontSize={25} />
@@ -89,7 +89,7 @@ export default function Pagination({
             {pageNumbers?.map((number) => (
               <button
                 className={`btn-pagination ${
-                  parseInt(number) == parseInt(pageActive) ? 'focus' : ''
+                  parseInt(number) === parseInt(pageActive) ? "focus" : ""
                 }`}
                 key={number}
                 onClick={() => pagination(number)}
@@ -99,7 +99,7 @@ export default function Pagination({
             ))}
             <button
               className={`btn-pagination ${
-                currentPage >= pageNumbers.length ? 'disable' : ''
+                currentPage >= pageNumbers.length ? "disable" : ""
               }`}
               onClick={nextHandler}
             >

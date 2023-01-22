@@ -115,8 +115,10 @@ export function FormRestaurant() {
   const history = useHistory()
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories) 
+  const user = useSelector((state) => state.user)
+  const idUser =user[0].id
   const restaurants = useSelector((state) => state.allRestaurants) 
-  console.log(restaurants)
+ 
   useEffect(() => {
      dispatch(getAllCategories()) 
      dispatch(allRestaurants())
@@ -126,9 +128,9 @@ export function FormRestaurant() {
   const [restaurant, setRestaurant] = useState({
     name:"",
     photo:"",
-    products:[],
-    category:[],
-    description:""
+    categories:[],
+    descriptions:"",
+    reviews:[1,2,3,4,5]
   }); 
 
   const handleChange=(e)=>{
@@ -163,18 +165,16 @@ const handleSubmit=(e)=>{
   let filterByRestaurant= restaurants.filter((e)=>e.name === restaurant.name.toLocaleLowerCase())
   // console.log(filterPokemon)
   if(filterByRestaurant.length){
-      alert("Este pokemon ya existe")
+      alert("Este restaurante ya existe")
   }       
   else if(Object.values(error).length > 0){
        alert ("Llene todos los campos para publicar su Local")
   }else if(restaurant.name === ""){
       alert("Debe llenar todos los campos")
-  }else if(restaurant.category.length === 0 || restaurant.category.length > 2){
-   alert("Debe tener alguna categoria y que no supere 2")
   }else {
-      dispatch(createRestaurant(restaurant))
+      dispatch(createRestaurant(restaurant,idUser))
       alert ("Su local fue publicado con exito")
-      history.push("/")
+      history.push("/productform")
   }
 }
 
@@ -217,10 +217,10 @@ const handleSubmit=(e)=>{
                 <Detail2>Tipo de Negocio</Detail2>
                 <Select onChange={handleCategories}>
                    {categories?.map((category) => {
-                    return <option value={category.name} name=" category">{category.name}</option>;
+                    return <option value={category.name} name=" category">{category}</option>;
                   })} 
                 </Select>
-                {restaurant.category.map((e)=>{
+                {restaurant.category?.map((e)=>{
             return(
                 <>
                 <label>{e}</label>
@@ -234,11 +234,7 @@ const handleSubmit=(e)=>{
                 <Input placeholder="Ingrese la imagen..." type="text" name="photo" onChange={handleChange} />
                 {error.photo && (<Label>{error.photo}</Label>)}
               </InputBox>
-              <InputBox>
-                <Detail2>Productos</Detail2>
-                <Input placeholder="Ingrese productos..." type="text" name="products" onChange={handleChange} />
-                {error.products && (<Label>{error.products}</Label>)}
-              </InputBox>
+             
               <InputBox>
                 <Detail2>Descripción</Detail2>
                 <Input placeholder="Ingrese descripcion del comercio..." type="text" name="description" onChange={handleChange}/>

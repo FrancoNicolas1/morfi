@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { getRestaurantById, setCheckoutProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
+import { LocalStorage } from "../LocalStorage/LocalStorage";
 import { Product } from "../product/Product";
 import { BtnBack, Container } from "./cardDetail.styled";
 
@@ -14,6 +15,7 @@ export const CardDetail = (props) => {
   const loading = useSelector((state) => state.loading);
   const cart = useSelector((state) => state.cart);
   const checkout = useSelector((state) => state.checkOut);
+  const history = useHistory();
   console.log(
     checkout,
     "FUNCIONO Y ME LLENO PARA MOSTRAR EN LA PASARELA MI REY"
@@ -29,17 +31,27 @@ export const CardDetail = (props) => {
     dispatch(setCheckoutProducts(cart));
     navigate.push("/Checkout");
   };
+  const handleBack = (e) => {
+    e.preventDefault();
+    dispatch(getRestaurantById());
+    history.push("/");
+  };
 
+  // function Guardar() {
+  //   LocalStorage(cart, {});
+  // }
   return (
     <Container>
-      {loading ? (
-        <>
-          <Loading />
-        </>
+      {!restaurantDetail ||
+      !restaurantDetail?.photo ||
+      !restaurantDetail?.name ||
+      !restaurantDetail?.descriptions ||
+      !restaurantDetail?.Products ? (
+        <Loading />
       ) : (
         <>
           <div className="container-img-title">
-            <BtnBack className="btn-back" to={"/"}>
+            <BtnBack className="btn-back" onClick={(e) => handleBack(e)}>
               <FaArrowLeft fontSize={20} />
             </BtnBack>
             <h2 className="title-detail">{restaurantDetail?.name}</h2>
@@ -48,7 +60,8 @@ export const CardDetail = (props) => {
               src={restaurantDetail?.photo}
               alt={restaurantDetail?.name}
             />
-            <p className="description">{restaurantDetail?.description}</p>
+            <h2>Description</h2>
+            <p className="description">{restaurantDetail?.descriptions}</p>
           </div>
           <div className="container-data-products">
             <h2>Categories</h2>

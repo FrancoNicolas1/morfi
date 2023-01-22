@@ -17,13 +17,7 @@ export default function validate(restaurant){
     if(!reg_exImg.test(restaurant.photo)){
             errors.photo="Debe ser png|jpg|jpeg|gif"
     }}
-    if(!restaurant.products){
-        errors.products = "Ingrese nombre..."
-    }else if(restaurant.name.length > 15){
-        errors.products="No debe superar los 15 caracteres"
-    }else if(!regexName.test(restaurant.name)){
-        errors.products="Solo se acepta Letras"
-    }    
+  
     if(!restaurant.description){
         errors.description = "Ingrese descripción..."
     }  

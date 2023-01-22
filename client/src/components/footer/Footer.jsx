@@ -1,30 +1,30 @@
-import { FaInstagram } from 'react-icons/fa';
-import { FaFacebookSquare } from 'react-icons/fa';
-import { FaTwitter } from 'react-icons/fa';
-import { FaYoutube } from 'react-icons/fa';
+import { FaInstagram } from "react-icons/fa";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
 import {
   Container,
   ContainerAuthorInfo,
   LineDetail,
   List,
   Title,
-} from './footer.styled';
+} from "./footer.styled";
 
 export const Footer = () => {
   return (
     <Container>
-      <Title>Landify</Title>
+      <Title>
+        <h1>Morfy</h1>
+      </Title>
       <List>
-        <li>About</li>
-        <li>Feacture</li>
-        <li>Pricing</li>
-        <li>Careers</li>
-        <li>Help</li>
-        <li>Privacy Policy</li>
+        <li>Sobre</li>
+        <li>Fijación de Precios</li>
+        <li>Ayuda</li>
+        <li>Politicas de Privacidad</li>
       </List>
       <LineDetail />
       <ContainerAuthorInfo>
-        <p>© 2023 Landify UI Kit. All rights reserved</p>
+        <p>© 2023 Morfy UI Kit. All rights reserved</p>
         <div className="container-social-media">
           <div className="container-social">
             <FaInstagram fontSize={18} />
