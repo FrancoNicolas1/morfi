@@ -44,20 +44,34 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Users, Products, MyOrders, Restaurant, Favorites, Categories, Review } =
-  sequelize.models;
+const {
+  Users,
+  Products,
+  MyOrders,
+  Restaurants,
+  Favorites,
+  Categories,
+  Reviews,
+} = sequelize.models;
+Users.belongsToMany(
+  Restaurants,
+  { through: "user_restaurant" },
+  { unique: true }
+);
+Restaurants.belongsToMany(
+  Users,
+  { through: "user_restaurant" },
+  { unique: true }
+);
 
-Users.belongsToMany(Restaurant, { through: "user_restaurant" });
-Restaurant.belongsToMany(Users, { through: "user_restaurant" });
+Users.belongsToMany(Restaurants, { through: "user_restaurant" });
+Restaurants.belongsToMany(Users, { through: "user_restaurant" });
 
-Restaurant.belongsToMany(Categories, { through: "restaurant_categories" });
-Categories.belongsToMany(Restaurant, { through: "restaurant_categories" });
+Restaurants.belongsToMany(Categories, { through: "restaurant_categories" });
+Categories.belongsToMany(Restaurants, { through: "restaurant_categories" });
 
-Restaurant.belongsToMany(Products, { through: "restaurant_products" });
-Products.belongsToMany(Restaurant, { through: "restaurant_products" });
-
-Restaurant.belongsToMany(Products, { through: "restaurant_products" });
-Products.belongsToMany(Restaurant, { through: "restaurant_products" });
+Restaurants.hasMany(Products);
+Products.belongsTo(Restaurants);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

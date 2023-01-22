@@ -30,7 +30,7 @@ export default function Home() {
   const [abrir1, setAbrir1] = useState(false);
   const allRestaurant = useSelector((state) => state.restaurant);
   const categories= useSelector((state)=>state.categories)
-  const {logout} = useAuth0()
+
 
   useEffect(() => {
     dispatch(allRestaurants());

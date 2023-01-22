@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Users, Restaurant, Categories } = require("../db");
+const { Users, Restaurants, Categories } = require("../db");
 const bcrypt = require("bcryptjs");
 
 const getInfoDb = async (req, res) => {
@@ -10,27 +10,15 @@ const getInfoDb = async (req, res) => {
         "name",
         "photo",
         "user_mail",
-        // "isBanned",
+        "isBanned",
         "isAdmin",
         "createdAt",
         "updatedAt",
         "password",
       ],
-      include: Restaurant,
+      include: [Restaurants],
     });
 
-    // const users = await dBDeploy.map((user) => {
-    //   return {
-    //     id:user.id,
-    //     name:user.name,
-    //     photo:user.photo,
-    //     user_mail:user.user_mail,
-    //     isBanned:user.isBanned,
-    //     isAdmin:user.isAdmin,
-    //     createdAt:user.createdAt,
-    //     updatedAt:user.updatedAt
-    //   }
-    // });
     res.status(200).send(dBDeploy);
   } catch (error) {
     console.log(error);
@@ -40,20 +28,11 @@ const getInfoDb = async (req, res) => {
 const getInfoById = async (req, res) => {
   try {
     const { id } = req.params;
-    const infoId = await Users.findByPk(id);
+    const infoId = await Users.findByPk(id, {
+      include: [{ model: Restaurants }],
+    });
     console.log(infoId);
     const userById = await infoId.dataValues;
-
-    // return {
-    //   id:user.id,
-    //   name:user.name,
-    //   photo:user.photo,
-    //   user_mail:user.user_mail,
-    //   myOrders:user.myOrders,
-    //   isAdmin:user.isAdmin,
-    //   createdAt:user.createdAt,
-    //   updatedAt:user.updatedAt
-    // }
     res.status(200).send(userById);
   } catch (error) {
     res.status(400).send(error);
@@ -61,97 +40,66 @@ const getInfoById = async (req, res) => {
 };
 const isBanned = async (req, res) => {
   const { id } = req.params;
-  try {
-    const userById = await Users.findByPk(id);
-    console.log(userById);
-    if (userById.dataValues.isBanned === false) {
-      try {
-        const userUpdated = await Users.update(
-          {
-            isBanned: true,
-          },
-          {
-            where: {
-              id,
-            },
-          }
-        );
-        if (userUpdated) {
-          const userFind = await Users.findByPk(id);
-          res.status(200).send(userFind);
-        }
-      } catch (error) {
-        res.status(400).send(error);
+
+  const userById = await Users.findByPk(id);
+  if (userById.isBanned === true) {
+    const userUpdated = await Users.update(
+      {
+        isBanned: false,
+      },
+      {
+        where: {
+          id,
+        },
       }
-    } else if (userById.dataValues.isBanned === true) {
-      try {
-        const userUpdated = await Users.update(
-          {
-            isBanned: false,
-          },
-          {
-            where: {
-              id,
-            },
-          }
-        );
-        if (userUpdated) {
-          const userFind = await Users.findByPk(id);
-          res.status(200).send(userFind);
-        }
-      } catch (error) {
-        res.status(400).send(error);
+    );
+
+    res.status(200).send(userUpdated);
+  } else {
+    const userUpdated = await Users.update(
+      {
+        isBanned: true,
+      },
+      {
+        where: {
+          id,
+        },
       }
-    }
-  } catch (error) {
-    res.status(400).send(error);
+    );
+
+    res.status(200).send(userUpdated);
   }
 };
 const isAdmin = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const userById = await Users.findByPk(id);
-    console.log(userById);
-    if (userById.dataValues.isAdmin === false) {
-      try {
-        const userUpdated = await Users.update(
-          {
-            isAdmin: true,
-          },
-          {
-            where: {
-              id,
-            },
-          }
-        );
-        if (userUpdated) {
-          const userFind = await Users.findByPk(id);
-          res.status(200).send(userFind);
-        }
-      } catch (error) {
-        res.status(400).send(error);
+  const { id } = req.params;
+  const userById = await Users.findByPk(id);
+  if (userById.isAdmin === true) {
+    const userUpdated = await Users.update(
+      {
+        isAdmin: false,
+      },
+      {
+        where: {
+          id,
+        },
       }
-    } else if (userById.dataValues.isAdmin === true) {
-      try {
-        const userUpdated = await Users.update(
-          {
-            isAdmin: false,
-          },
-          {
-            where: {
-              id,
-            },
-          }
-        );
-        if (userUpdated) {
-          const userFind = await Users.findByPk(id);
-          res.status(200).send(userFind);
-        }
-      } catch (error) {
-        res.status(400).send(error);
+    );
+
+    res.status(200).send(userUpdated);
+  } else {
+    const userUpdated = await Users.update(
+      {
+        isAdmin: true,
+      },
+      {
+        where: {
+          id,
+        },
       }
-    }
-  } catch (error) {}
+    );
+
+    res.status(200).send(userUpdated);
+  }
 };
 const userUpdate = async (req, res) => {
   try {
@@ -171,7 +119,8 @@ const userUpdate = async (req, res) => {
         },
       }
     );
-    res.status(200).send(userUpdate.dataValues);
+    const userId = await Users.findByPk(id);
+    res.status(200).send(userId);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -190,9 +139,10 @@ const userPhotoCloudinary = async (req, res) => {
     const { id } = req.params;
     const { dataFinal } = req.body;
     console.log(dataFinal, "back undefined");
-    const userUpdatedPhoto = await Users.findOne({ _id: id });
+    const userUpdatedPhoto = await Users.findByPk(id);
     userUpdatedPhoto.photo = dataFinal;
     const saved = await userUpdatedPhoto.save();
+    console.log(saved);
     res.status(200).send(saved);
   } catch (error) {
     console.log(error.message);

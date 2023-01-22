@@ -5,7 +5,6 @@ const getCategories = async (req, res) => {
   try {
     const JSON = require("../info/Categories.json");
     const allCategories = JSON.map((category) => category.name);
-    console.log(allCategories);
     // console.log(typesPokemon)
     allCategories.forEach((e) => {
       Categories.findOrCreate({

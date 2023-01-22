@@ -5,8 +5,15 @@ const initialState = {
   categories: [],
   loading: false,
   pageActive: 1,
+  payment: {},
+  loading: false,
+  error: null,
+  product: [],
   user: [],
   allUsers: [],
+  cart: [],
+  checkOut: [],
+  restaurantProducts: [],
 };
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -108,15 +115,50 @@ export default function rootReducer(state = initialState, action) {
         restaurant: sortedOrdeR,
       };
     case "FILTER_CATEGORIES":
-      const allCategories = state.allRestaurants;
+      const allCategory = state.allRestaurants;
       const categoriesFiltered =
-        action.payload === "All Restaurant"
-          ? allCategories
-          : allCategories.filter((el) => el.category.includes(action.payload));
+        action.payload === "All categories"
+          ? allCategory
+          : allCategory.filter((item) => {
+              return item.Categories.some(
+                (category) => category.name === action.payload
+              );
+            });
+      console.log(
+        allCategory.filter((item) => {
+          return item.Categories.some(
+            (category) => category.name === action.payload
+          );
+        })
+      );
       return {
         ...state,
         restaurant: categoriesFiltered,
       };
+    case "REFRESH_PAG":
+      return {
+        ...state,
+        allRestaurants: action.payload,
+      };
+    case "PAY_WITH_MERCADOPAGO":
+      return {
+        ...state,
+        loading: true,
+      };
+    case "PAY_WITH_MERCADOPAGO_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        payment: action.payload,
+      };
+    case "PAY_WITH_MERCADOPAGO_ERROR":
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    case "FETCH_PRODUCT":
+      return { ...state, product: action.payload };
     case "REFRESH_PAG":
       return {
         ...state,
@@ -127,25 +169,55 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         user: action.payload,
       };
+    case "FILL_CART":
+      return {
+        ...state,
+        cart: action.payload,
+      };
+    case "FILL_CHECKOUT":
+      const filteredProducts = action.payload.filter(
+        (el) => el.selected === true
+      );
+      console.log(filteredProducts, "los productos filtrados del reducer");
+      return {
+        ...state,
+        checkOut: filteredProducts,
+      };
+    case "LOGIN_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "UPDATE_PHOTO_PROFILE":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "UPDATE_PROFILE_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
+    case "RETURN_USER":
+      return {
+        ...state,
+        user: [action.payload],
+      };
     case "GET_ALL_USERS":
       return {
         ...state,
         allUsers: action.payload,
       };
-    case "LOGIN_USER":
+    case "UPDATE_USER": {
+      return { ...state, allUsers: action.payload };
+    }
+    case "BANNED_USER": {
+      return { ...state, allUsers: action.payload };
+    }
+    case "CREATE_RESTAURANT":
       return {
         ...state,
-        user: action.payload,
-      };
-    case "UPDATE_PHOTO_PROFILE":
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case "UPDATE_PROFILE_USER":
-      return {
-        ...state,
-        user: action.payload,
+        restaurantProducts: [action.payload],
       };
     default:
       return { ...state };

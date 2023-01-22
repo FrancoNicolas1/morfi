@@ -7,14 +7,15 @@ const controllerRestaurants = require("../controllers/restaurant.controller");
 const routes = new Router();
 
 // Add routes
-
 routes.get("/", controllerRestaurants.getAllRestaurants);
 
 routes.get("/:id", controllerRestaurants.getById);
 
 routes.post("/:id", controllerRestaurants.newRestaurant);
 
-routes.get("/name", controllerRestaurants.getRestaurantByName);
+routes.get("/name/getbyname", controllerRestaurants.getRestaurantByName);
+
+routes.delete("/:id", controllerRestaurants.deleteRestaurant);
 
 // routes.post('/', controllerRestaurants.postRestaurant)
 

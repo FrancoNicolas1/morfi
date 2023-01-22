@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { updateProfileImage, updateProfileUser } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteRestaurantForId, updateProfileImage, updateProfileUser } from "../../redux/actions";
 import styled from "styled-components"
+import swal from "sweetalert"
+import { Link } from 'react-router-dom';
+
 
 const Container = styled.div`
 width:100%;
@@ -22,13 +25,26 @@ height:450px;
 background-color: white;
 `
 const Box2 = styled.div`
+ overflow: hidden;
 width:300px;
-height: 300px;
-background-color: black;
+height: 450px;
+background-color: red;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+`
+
+const Box3 = styled.div`
+width:350px;
+height:450px;
+background-color: white;
 `
 const ImageUpdate = styled.img`
-width:80px;
-height: 80px;
+ width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid gray;
 `
 const Form = styled.form`
 
@@ -47,30 +63,92 @@ const Title = styled.p`
 const Button = styled.button`
 margin-top:10px;
 `
+const Select=styled.input`
+
+`
+const BtnBack = styled(Link)`
+  padding: 10px;
+  text-decoration: none;
+  width: 5rem;
+  margin: 1rem 0;
+  outline: none;
+  border: 1px solid #1a120b;
+  background-color: #ffd15f;
+  color: #1a120b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    color: #1a120b;
+    opacity: 0.7;
+  }
+  /* border: 1px solid #1a120b; */
+`;
+const P=styled.p`
+background-color:blue;
+`
+const Label2 =styled.label`
+color:red;
+`
 
 export default function UserProfile (){
     const dispatch = useDispatch()
+    const userArray = useSelector((state) => state.user);
+    const userRestaurant = userArray[0].Restaurants.map((res) => res)
+    const users = useSelector((state) => state.allUsers)
+    const [error, setError] = useState({});
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(false)
-    const id = "dc1f39a7-22a3-4534-acf2-ce060176d687"
+    const idUser =userArray[0].id
+
     const [user, setUser] = useState({
         name:"",
         user_mail:"",
         password:""
     })
-    
+ 
     const updateUser = (e)=>{
         e.preventDefault()
         setUser({
             ...user,
             [e.target.name]:e.target.value
         })
-    }
+          }
+       
     const submitUserUpdate = (e) =>{
         e.preventDefault()
-        dispatch(updateProfileUser(id,user))
-        alert("se actualizo con exito papa")
+        let reg_password =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+        let filterUserName= users.filter((e)=>e.name === user.name)
+        let filterUserEmail= users.filter((e)=>e.user_mail === user.user_mail)
+    if(filterUserName.length){
+      swal({
+        title: "Ese nombre de usuario ya existe!",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
     }
+else if(filterUserEmail.length){
+      swal({
+        title: "Ese email ya existe!",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
+    }
+    else if(!reg_password.test(user.user_mail)){
+        swal({
+            title: "Ingrese un mail valido",
+            text: "Cliclea para continuar...",
+            icon: "warning",
+          });
+    }else {
+        dispatch(updateProfileUser(idUser,user))
+        swal({
+            title: "Se actualizo con exito tu perfil!",
+            text: "Cliclea para continuar...",
+            icon: "success",
+          });
+        }
+        }
     const uploadImage = async (e) => {
         const files = e.target.files
         const data = new FormData()
@@ -84,19 +162,22 @@ export default function UserProfile (){
                 body:data,
             })
            const file = await res.json()
-
            setImage(file.secure_url)
            const dataFinal =res.url
-           console.log(dataFinal)
            setLoading(false)
-           dispatch(updateProfileImage(id,dataFinal))
-           alert("SE ACTUALICO SU FOTO")
+           dispatch(updateProfileImage(idUser,dataFinal))
+           swal({
+            title: "Se actualizo su foto de perfil!",
+            text: "Cliclea para continuar...",
+            icon: "success",
+          });
     }
     return(
     <>
    <Container>
         <Box1>
             <Form onSubmit={submitUserUpdate}>
+                <h1>Tu Perfil</h1>
       <Title>Name:</Title>
         <Input
         type={"text"}
@@ -109,6 +190,7 @@ export default function UserProfile (){
         name={"user_mail"}
         onChange={updateUser}
         />
+          
          <Title>Password:</Title>
 
          <Input 
@@ -116,20 +198,44 @@ export default function UserProfile (){
         name={"password"}
         onChange={updateUser}
         />
+      
         <Button type="submit">Modificar</Button>  
         </Form>
-        <Title>Actualize su  de perfil</Title>
-        <input
-    type={"file"}
+        <Select type={"file"}
     name={"file"}
-    placeholder={"Suba su imagen"}
-    onChange={uploadImage}
-    />
-      {loading ? (<h3>Cargando</h3>): (<ImageUpdate src={image}/>)}  
+    onChange={uploadImage}/>
+      
         </Box1>
         <Box2>
-
+        {loading ? (<h3>Cargando</h3>): (<ImageUpdate src={image}/>)}  
+            {userArray?.map((user)=>{
+                return(
+                <>
+                <h4>Name</h4>
+                <p>{user.name}</p>
+                <h4>Password</h4>
+             
+                <P>{user.password}</P>
+                
+                <h4>Mail</h4>
+                <p>{user.user_mail}</p>
+                </>)
+            })}
         </Box2>
+        <Box3>
+          <h1>Tus Restaurantes</h1>
+          {userRestaurant?.map((res) => {
+            return(
+              <>
+              <h1>{res.name}</h1>
+              <p>{res.photo}</p>
+              <button onClick={() =>dispatch(deleteRestaurantForId(res.id, idUser))}>Delete Restaurant</button>
+              </>
+            )
+          })}
+
+        </Box3>
    </Container>
+   <BtnBack className="btn-back" to={'/'}></BtnBack>
     </>)
 }

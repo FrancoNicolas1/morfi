@@ -4,11 +4,19 @@ import { Div } from "../Css/CssRegistro";
 // import GoogleAuth from "../components/GoogleAuth/GoogleAuth"
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, loginPostUser } from "../redux/actions";
+import validate from "./ErrorLogin";
+import styled from "styled-components";
+import swal from "sweetalert"
+
+const Label2 =styled.label`
+color:red;
+`
+
 
 const LoginForm = (props) => {
-
 const dispatch = useDispatch()
-const users = useSelector(state => state.allUsers)
+const users = useSelector((state) => state.allUsers)
+console.log(users)
 useEffect(()=>{
   dispatch(getAllUsers())
 },[])
@@ -17,23 +25,41 @@ const [user, setUser]= useState({
   user_mail:"",
   password:""
 })
+const [error, setError] = useState({});
 const handleChange=(e)=>{
-e.preventDefault()
+  e.preventDefault()
 setUser({
   ...user,
   [e.target.name]:e.target.value
 })
+setError(validate({
+  ...user,
+  [e.target.name]:e.target.value
+}))
 }
 const handleSubmit=(e)=>{
-  e.preventDefault()    
-   dispatch(loginPostUser(user))
-   console.log(user)
-      alert ("ingresaste")
+  e.preventDefault()
+if(Object.values(error).length > 0){
+  swal({
+    title: "Porfavor ingrese datos para continuar",
+    text: "Cliclea para continuar...",
+    icon: "warning",
+  });
+}else if(user.user_mail === "" && user.password===""){
+  swal({
+    title: "Porfavor ingrese datos para continuar",
+    text: "Cliclea para continuar...",
+    icon: "warning",
+  }); 
+}else{
+  dispatch(loginPostUser(user))
   
+}
 }
 
  
   return (
+    <>
       <Form onSubmit={handleSubmit} >
       <Button1 onClick={()=>{props.setAbrir(false)}}>X</Button1>
         <Label for="input1">
@@ -45,7 +71,7 @@ const handleSubmit=(e)=>{
             onChange={handleChange}
            
           />
-           {/* {error && <p>{error}</p>} */}
+          {error.user_mail && (<Label2>{error.user_mail}</Label2>)}
         </Label>
         <br />
         <Label for="input2">
@@ -56,13 +82,12 @@ const handleSubmit=(e)=>{
             name="password"
             onChange={handleChange}
           />
-           {/* {error && <p>{error}</p>} */}
+          {error.password && (<Label2>{error.password}</Label2>)}
         </Label>
         <br />
         <Button type="submit">Login</Button>
-    
       </Form>
-      
+      </>
   );
 };
 
