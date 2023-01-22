@@ -10,7 +10,7 @@ const Label2 = styled.label`
   color: red;
 `;
 const RegisterForm = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.allUsers);
   console.log(users);

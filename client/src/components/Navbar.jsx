@@ -12,7 +12,7 @@ import {
 } from "./navbar.styled.js";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allUsers, logOut } from "../redux/actions.js";
+import { logOut } from "../redux/actions.js";
 import Cookies from "js-cookie";
 
 const Navbar = (props) => {
