@@ -13,17 +13,18 @@ import {
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allUsers, logOut } from "../redux/actions.js";
+import Cookies from "js-cookie";
 
 const Navbar = (props) => {
   const userArray = useSelector((state) => state.user);
-  console.log(userArray)
- 
- useEffect(()=>{
-  dispatch(allUsers())
- }, [])
+  console.log(userArray);
   const dispatch = useDispatch();
+
   const handleUserLogOut = () => {
+    Cookies.remove("id_token");
+    Cookies.remove("access_token");
     dispatch(logOut());
+    window.location.href = "/";
   };
 
   return (
@@ -35,48 +36,59 @@ const Navbar = (props) => {
         <Box>
           <LinksList>
             <Links>
-              <NavLink to={"nosotros"}>
-                <Link>Nosotros</Link>
+              <NavLink
+                style={{ textDecoration: "none", color: "white" }}
+                to={"nosotros"}
+              >
+                Nosotros
               </NavLink>
             </Links>
             <Links>
-              <NavLink to={"preguntas"}>
-                <Link>Preguntas frecuentes</Link>
+              <NavLink
+                style={{ textDecoration: "none", color: "white" }}
+                to={"preguntas"}
+              >
+                Preguntas frecuentes
               </NavLink>
             </Links>
             <Links>
-              <NavLink to={"contactenos"}>
-                <Link>Contactenos</Link>
+              <NavLink
+                to={"contactenos"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Contacto
               </NavLink>
             </Links>
           </LinksList>
         </Box>
 
         <BoxButtons>
-          <Buttons
-            onClick={() => {
-              props.setAbrir(true);
-              props.setAbrir1(false);
-            }}
-          >
-            Log in
-          </Buttons>
+          {userArray.length ? null : (
+            <Buttons
+              onClick={() => {
+                props.setAbrir(true);
+                props.setAbrir1(false);
+              }}
+            >
+              Ingresar
+            </Buttons>
+          )}
 
           {userArray.length ? (
             <>
-              <Buttons onClick={handleUserLogOut}>Log out</Buttons>
+              <Buttons onClick={handleUserLogOut}>Salir</Buttons>
               <NavLink to={"formrestaurant"}>
                 <Buttons>Tu Comercio</Buttons>
               </NavLink>
-              {userArray?.map((user)=>{
-                return(
-                <>
-                 <NavLink to={"userprofile"} >
-                <Buttons >Perfil</Buttons>
-                </NavLink>
-                </>)
-            })}
-             
+              {userArray?.map((user) => {
+                return (
+                  <>
+                    <NavLink to={"userprofile"}>
+                      <Buttons>Perfil</Buttons>
+                    </NavLink>
+                  </>
+                );
+              })}
             </>
           ) : (
             <>
@@ -86,7 +98,7 @@ const Navbar = (props) => {
                   props.setAbrir(false);
                 }}
               >
-                Sign Up
+                Registrar
               </Buttons>
             </>
           )}

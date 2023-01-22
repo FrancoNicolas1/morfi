@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, Label, Button1 } from "../Css/CssRegistro";
 import { postUser } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import GoogleAuth from "./GoogleAuth/GoogleAuth";
 import swal from "sweetalert";
 import validateSingUp from "./ErrorSignup";
 import styled from "styled-components";
@@ -46,19 +45,19 @@ const RegisterForm = (props) => {
     if (filterUserName.length) {
       swal({
         title: "Ese nombre de usuario ya existe!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else if (filterUserEmail.length) {
       swal({
         title: "Ese email ya existe!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else if (
@@ -68,7 +67,7 @@ const RegisterForm = (props) => {
     ) {
       swal({
         title: "Porfavor ingrese datos para continuar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else {
@@ -87,25 +86,43 @@ const RegisterForm = (props) => {
           X
         </Button1>
         <Label>
-          Username:
-          <input type="text" name="name" onChange={handleChange} />
+          Nombre de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
           {error.name && <Label2>{error.name}</Label2>}
         </Label>
         <br />
         <Label>
           Email:
-          <input type="email" name="user_mail" onChange={handleChange} />
+          <input
+            style={{ borderColor: "white" }}
+            type="email"
+            name="user_mail"
+            onChange={handleChange}
+          />
           {error.user_mail && <Label2>{error.user_mail}</Label2>}
         </Label>
         <br />
         <Label>
-          Password:
-          <input type="password" name="password" onChange={handleChange} />
+          Contraseña:
+          <input
+            style={{ borderColor: "white" }}
+            type="password"
+            name="password"
+            onChange={handleChange}
+          />
           {error.password && <Label2>{error.password}</Label2>}
         </Label>
         <br />
-        {isLoading ? <p>Loading...</p> : <Button type="submit">Sign in</Button>}
-        {/* <GoogleAuth/> */}
+        {isLoading ? (
+          <p>Cargando...</p>
+        ) : (
+          <Button type="submit">Registrar</Button>
+        )}
       </Form>
     </>
   );

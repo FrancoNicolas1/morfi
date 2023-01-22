@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useDispatch } from "react-redux";
 import { postUser } from "../../redux/actions";
+import { AiFillGoogleCircle } from "react-icons/ai";
 
 export default function GoogleAuth() {
   const dispatch = useDispatch();
@@ -12,46 +12,26 @@ export default function GoogleAuth() {
     password: "prueba123",
   });
 
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId:
-          "715037409449-8e88u9scbkftob2bfdejv2d1b9ou75u7.apps.googleusercontent.com",
-        scope: "",
-      });
-    };
-    gapi.load("client:auth2", initClient);
-  }, []);
+  const clientId =
+    "715037409449-8e88u9scbkftob2bfdejv2d1b9ou75u7.apps.googleusercontent.com";
+  const url = "http://localhost:3001/obtencionDeTokensGoogle";
 
-  const onSuccess = (res) => {
-    const email = res.profileObj.email;
-    const name = res.profileObj.name;
-    const photo = res.profileObj.imageUrl;
-    setUserGoogle({
-      ...userGoogle,
-      name: name,
-      user_mail: email,
-      photo: photo,
-    });
-    setTimeout(() => {
-      dispatch(postUser({ ...userGoogle }));
-    }, 100);
-  };
+  const handleLogin = () => {
+    // Generate the URL for the Google OAuth 2.0 authorization page
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${url}&scope=email&response_type=code`;
 
-  const onFailure = (err) => {
-    alert("failed:", err);
+    // Redirect the user to the authorization page
+    window.location.href = authUrl;
   };
 
   return (
-    <>
-      <GoogleLogin
-        clientId="715037409449-8e88u9scbkftob2bfdejv2d1b9ou75u7.apps.googleusercontent.com"
-        buttonText="Inicia sesión con Google"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={true}
-      />
-    </>
+    <AiFillGoogleCircle
+      color="white"
+      fill="white"
+      size="4em"
+      onClick={handleLogin}
+    >
+      Login with Google
+    </AiFillGoogleCircle>
   );
 }

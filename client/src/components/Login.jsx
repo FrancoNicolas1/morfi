@@ -7,6 +7,7 @@ import { getAllUsers, loginPostUser } from "../redux/actions";
 import validate from "./ErrorLogin";
 import styled from "styled-components";
 import swal from "sweetalert";
+import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 const Label2 = styled.label`
   color: red;
@@ -47,8 +48,9 @@ const LoginForm = (props) => {
         X
       </Button1>
       <Label for="input1">
-        UserMail:
+        Nombre de usuario:
         <input
+          style={{ borderColor: "white" }}
           id="input1"
           type="text"
           name="user_mail"
@@ -58,8 +60,9 @@ const LoginForm = (props) => {
       </Label>
       <br />
       <Label for="input2">
-        Password:
+        Contraseña:
         <input
+          style={{ borderColor: "white" }}
           id="input2"
           type="password"
           name="password"
@@ -68,7 +71,8 @@ const LoginForm = (props) => {
         {/* {error && <p>{error}</p>} */}
       </Label>
       <br />
-      <Button type="submit">Login</Button>
+      <Button type="submit">Ingresar</Button>
+      <GoogleAuth />
     </Form>
   );
 };

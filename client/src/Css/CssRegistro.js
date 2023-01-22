@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Button = styled.button`
-align-self: center;
+  align-self: center;
   cursor: pointer;
   margin: 10px 10px 40px 0px;
   font-size: smaller;
@@ -9,12 +9,14 @@ align-self: center;
   padding: 0.6rem 0.8rem;
   margin-left: 4px;
   border-radius: 4px;
-  background: rgb(124, 0, 0);
-  color:rgb(197, 151, 151);
+  background: #fd7e14;
+  color: white;
+  border-color: white;
   width: fit-content;
 `;
 
 export const Form = styled.form`
+  padding: 1rem;
   cursor: pointer;
   align-items: center;
   display: flex;
@@ -22,16 +24,17 @@ export const Form = styled.form`
   justify-content: center;
   width: 30%;
   font-weight: bolder;
-  background:rgb(214, 211, 216);
+  background: #ff613c;
   box-shadow: 0 0 4px #000000;
-  position: absolute;
-  left:35%;
-  top:40%;
-  overflow: hidden;
-  z-index:200;
-  `;
 
-  export const Button1 = styled.button`
+  position: absolute;
+  left: 35%;
+  top: 40%;
+  overflow: hidden;
+  z-index: 200;
+`;
+
+export const Button1 = styled.button`
   cursor: pointer;
   margin: 10px 10px 0px 0px;
   font-size: smaller;
@@ -39,14 +42,16 @@ export const Form = styled.form`
   padding: 0.6rem 0.8rem;
   margin-left: 4px;
   border-radius: 4px;
-  background: rgb(124, 0, 0);
-  color:rgb(197, 151, 151);
+  border-color: white;
+  background: #fd7e14;
+  color: white;
   width: fit-content;
   align-self: flex-end;
 `;
 
 export const Label = styled.label`
-display:flex;
-flex-direction: column;
-gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: white;
 `;

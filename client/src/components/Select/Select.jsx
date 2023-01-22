@@ -30,9 +30,9 @@ const Box = styled.div`
   gap: 8px;
 `;
 const SelectBotton = styled.select`
-  width: 150px;
+  width: 230px;
   cursor: pointer;
-  padding: 7px 10px;
+  padding: 5px 10px;
   height: 42px;
   outline: 0;
   border: 0;
@@ -79,22 +79,28 @@ export default function Select() {
     event.preventDefault();
     dispatch(filterByCategories(event.target.value));
   }
-  console.log(allCategories);
+  // console.log(allCategories);
   return (
     <>
       <Container>
         <p>Nuestros Comercios</p>
         <Box>
-          <SelectBotton onChange={(event) => handleFilter(event)}>
+          <SelectBotton
+            defaultValue="default"
+            onChange={(event) => handleFilter(event)}
+          >
             <option value="default" disabled>
-              Order Alphabetical
+              Ordenar alfabeticamente
             </option>
             <option value="asc">A - Z</option>
             <option value="desc">Z - A</option>
           </SelectBotton>
-          <SelectBotton onChange={(event) => handleFilterRating(event)}>
+          <SelectBotton
+            defaultValue="default"
+            onChange={(event) => handleFilterRating(event)}
+          >
             <option value="default" disabled>
-              Order Rating
+              Ordenar por rating
             </option>
             <option value="Rating+">Rating+</option>
             <option value="Rating-">Rating-</option>
@@ -105,14 +111,14 @@ export default function Select() {
             onChange={handleCategories}
           >
             <option value="default" disabled>
-              Select Categories
+              Seleccionar categorías
             </option>
-            <option value="All categories">All categories</option>
+            <option value="All categories">Todas las categorías</option>
             {allCategories?.map((e) => (
               <option value={e}>{e}</option>
             ))}
           </SelectBotton>
-          <Button onClick={handleRefresh}>Reset</Button>
+          <Button onClick={handleRefresh}>Reiniciar</Button>
         </Box>
       </Container>
 

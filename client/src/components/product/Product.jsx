@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { setSelectedProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 
-
 const ContainerProduct = styled.div`
   /* border: solid red; */
   display: flex;
@@ -14,10 +13,13 @@ const ContainerProduct = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 0;
-  background-color: #ece8dd;
-  border: 1px solid #1a120b;
+  background-color: #ff613c;
+  height: fit-content;
+  borderbottom: 1px solid #1a120b;
+  borderleft: 1px solid #1a120b;
+  borderright: 1px solid #1a120b;
   & .list-products {
-    padding: 0;
+    padding: 0.5rem;
     list-style: none;
     margin: 0 auto;
     width: 100%;
@@ -25,21 +27,14 @@ const ContainerProduct = styled.div`
       background-color: #ffff9f;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       justify-content: space-between;
-      margin-bottom: 1rem;
       /* padding: 5px; */
       height: 5rem;
       border: 1px solid #1a120b;
       text-align: center;
     }
-    & .title-product {
-      font-size: 1.2rem;
-      text-align: center;
-      padding: 0.2rem;
-    }
     & .photo-product {
-      width: 60px;
+      width: 17.5%;
       height: 100%;
       background-position: center center;
       background-repeat: no-repeat;
@@ -48,6 +43,7 @@ const ContainerProduct = styled.div`
     & .price {
       display: flex;
       flex-direction: row;
+      width: 22.5%;
       justify-content: space-between;
       align-self: center;
       text-align: center;
@@ -78,13 +74,7 @@ const ContainerProduct = styled.div`
       }
     }
     & .div-text {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-self: center;
-      text-align: center;
-      align-items: center;
-      padding: 10px;
+      width: 45%;
       gap: 1.5rem;
     }
     & .div-button {
@@ -92,6 +82,7 @@ const ContainerProduct = styled.div`
       align-self: flex-end;
       text-align: center;
       gap: 10px;
+      width: 15%;
       flex-direction: row;
       align-items: center;
       padding: 10px;
@@ -100,6 +91,7 @@ const ContainerProduct = styled.div`
     & .diver {
       width: 100%;
       display: flex;
+      padding: 0.5rem;
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;

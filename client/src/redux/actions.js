@@ -94,6 +94,19 @@ export function getRestaurantById(id) {
   };
 }
 
+export async function createProduct(idRestaurante, producto) {
+  try {
+    await axios
+      .post(`http://localhost:3001/create-product/${idRestaurante}`, {
+        idRestaurante,
+        producto,
+      })
+      .then(() => alert("Producto creado con éxito!"));
+  } catch (err) {
+    console.error(err, "el error del createProduct action");
+  }
+}
+
 export function createRestaurant(restaurant, idUser) {
   return async function (dispatch) {
     try {
@@ -392,6 +405,39 @@ export const updateBanned = (id, data) => {
       dispatch({ type: "BANNED_USER", payload: sortedUsers });
     } catch (error) {
       return { error: error.message };
+    }
+  };
+};
+
+export const loginGoogle = (access_token, id_token) => {
+  return async function (dispatch) {
+    try {
+      console.log("estoy entrando a loginGoogle");
+
+      const params = { id_token };
+      const headers = { accessToken: access_token };
+      console.log(params, headers, "LO QUE ENVIO");
+      const verifyTokens = await axios
+        .get(
+          `http://localhost:3001/verificacionDeTokensGoogle?id_token=${id_token}`
+        )
+        .then((response) => response.data);
+      console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
+      if (verifyTokens) {
+        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens });
+      } else {
+        alert("No se recibió un token de verificacion de regreso");
+      }
+    } catch (err) {
+      console.error(err);
+      return dispatch({
+        type: "LOG_OUT",
+        payload: {
+          user: [],
+          accessToken: null,
+          refreshToken: null,
+        },
+      });
     }
   };
 };

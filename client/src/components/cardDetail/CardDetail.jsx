@@ -49,32 +49,121 @@ export const CardDetail = (props) => {
       !restaurantDetail?.Products ? (
         <Loading />
       ) : (
-        <>
-          <div className="container-img-title">
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div
+            style={{
+              gap: "5vw",
+              border: "3px solid black",
+              width: "100%",
+            }}
+          >
             <BtnBack className="btn-back" onClick={(e) => handleBack(e)}>
               <FaArrowLeft fontSize={20} />
             </BtnBack>
-            <h2 className="title-detail">{restaurantDetail?.name}</h2>
-            <img
-              className="image-card"
-              src={restaurantDetail?.photo}
-              alt={restaurantDetail?.name}
-            />
-            <h2>Description</h2>
-            <p className="description">{restaurantDetail?.descriptions}</p>
-          </div>
-          <div className="container-data-products">
-            <h2>Categories</h2>
-            {restaurantDetail?.Categories?.map((categoryElem) => {
-              return <p className="title-categories">{categoryElem.name}</p>;
-            })}
-            <h2>Products</h2>
-            <div className="container-products">
-              <Product filledCart={cart} products={restaurantDetail.Products} />
+            <div className="container-img-title">
+              <h2
+                className="title-detail"
+                style={{
+                  color: "white",
+                  alignSelf: "center",
+                  textDecoration: "underline",
+                }}
+              >
+                {restaurantDetail?.name}
+              </h2>
+              <img
+                className="image-card"
+                src={restaurantDetail?.photo}
+                alt={restaurantDetail?.name}
+              />
+              <h2
+                style={{
+                  color: "white",
+                  alignSelf: "center",
+                }}
+              >
+                Descripción
+              </h2>
+              <p
+                className="description"
+                style={{
+                  alignSelf: "center",
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  width: "60%",
+                }}
+              >
+                {restaurantDetail?.descriptions}
+              </p>
             </div>
-            <button onClick={() => goCart()}>Ir a pagar!</button>
+            <div className="container-data-products">
+              <h2
+                style={{
+                  top: 0,
+                  justifyContent: "flex-start",
+                  color: "white",
+                  alignSelf: "center",
+                  textDecoration: "underline",
+                }}
+              >
+                Productos disponibles:
+              </h2>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  border: "1px solid black",
+                  width: "fit-content",
+                  backgroundColor: " #ff613c",
+                }}
+              >
+                {restaurantDetail?.Categories?.map((categoryElem) => {
+                  return (
+                    <h2
+                      className="title-categories"
+                      style={{
+                        color: "white",
+                        alignSelf: "center",
+                        textDecoration: "underline",
+                        width: "100%",
+                        textAlign: "center",
+                        backgroundColor: "#ff613c",
+                      }}
+                    >
+                      {categoryElem.name}
+                    </h2>
+                  );
+                })}
+                <div className="container-products">
+                  <Product
+                    filledCart={cart}
+                    products={restaurantDetail.Products}
+                  />
+                </div>
+              </div>
+
+              <button
+                style={{
+                  cursor: "pointer",
+                  margin: "10px 10px 0px 0px",
+                  fontSize: "smaller",
+                  fontWeight: "bolder",
+                  padding: "0.6rem 0.8rem",
+                  marginLeft: "4px",
+                  borderRadius: "4px",
+                  borderColor: "white",
+                  background: "#fd7e14",
+                  color: "white",
+                  width: "fit-content",
+                  alignSelf: "center",
+                }}
+                onClick={() => goCart()}
+              >
+                Ir a pagar!
+              </button>
+            </div>
           </div>
-        </>
+        </div>
       )}
     </Container>
   );

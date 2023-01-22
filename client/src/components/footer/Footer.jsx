@@ -24,7 +24,7 @@ export const Footer = () => {
       </List>
       <LineDetail />
       <ContainerAuthorInfo>
-        <p>© 2023 Morfy UI Kit. All rights reserved</p>
+        <p>© 2023 Morfy UI Kit. Todos los derechos reservados.</p>
         <div className="container-social-media">
           <div className="container-social">
             <FaInstagram fontSize={18} />

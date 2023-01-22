@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { FormRestaurant } from "./components/FormRestaurant/FormRestaurant";
 import Home from "./pages/Home";
@@ -9,8 +9,30 @@ import LoginForm from "./components/Login";
 import RegisterForm from "./components/RegistroDeUsuario";
 import Checkout from "./components/MercadoPago/Checkout";
 import Verify from "./components/Verify/Verify.jsx";
-
+import UserProfile from "./components/UserProfile/UserProfile";
+import Admin1 from "./components/Admin/Admin";
+import { Product } from "./components/product/Product";
+import FormProducts from "./components/FormProducts/FormProducts";
+import Support from "./components/Support/Support";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { loginGoogle } from "./redux/actions";
 function App() {
+  //Trae el dispatch
+  const dispatch = useDispatch();
+  //Mete un useEffect que se activa cada vez que cambia el token de refresco
+
+  const accessToken = Cookies.get("access_token");
+  const id_token = Cookies.get("id_token");
+  useEffect(() => {
+    // Dispatch the LOGIN action to save the new tokens
+    console.log(id_token, document.cookie.id_token, "los tokens");
+    if (accessToken && id_token) {
+      console.log("ESTOY ENTRANDO A LA FUNCION");
+      dispatch(loginGoogle(accessToken, id_token));
+    }
+  }, [accessToken, id_token]);
+
   return (
     <BrowserRouter>
       <Switch>
@@ -25,7 +47,6 @@ function App() {
         <Route exact path="/verify/:uniqueKey" component={Verify} />
         <Route exact path="/admin" component={Admin1} />
         <Route exact path={"/support"} component={Support} />
-        <Route exact path={"/formproduct"} component={Product} />
         <Route exact path={"/productform"} component={FormProducts} />
         <Route path="*" component={Error} />
       </Switch>

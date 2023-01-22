@@ -120,10 +120,10 @@ export default function rootReducer(state = initialState, action) {
         action.payload === "All categories"
           ? allCategory
           : allCategory.filter((item) => {
-            return item.Categories.some(
-              (category) => category.name === action.payload
-            );
-          });
+              return item.Categories.some(
+                (category) => category.name === action.payload
+              );
+            });
       console.log(
         allCategory.filter((item) => {
           return item.Categories.some(
@@ -178,13 +178,6 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         checkOut: filteredProducts,
       };
-<<<<<<< HEAD
-
-    case "LOGIN_USER":
-      return {
-        ...state,
-        user: action.payload,
-=======
     case "LOGIN_USER":
       return {
         ...state,
@@ -220,7 +213,11 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         restaurantProducts: [action.payload],
->>>>>>> 5481c45029dc49dd35ab2cca85274a3d9386fe67
+      };
+    case "LOGIN_GOOGLE":
+      return {
+        ...state,
+        user: [action.payload],
       };
     default:
       return { ...state };
