@@ -19,8 +19,14 @@ const RegisterForm = (props) => {
 
   const [state, setState] = useState({
     name: "",
+    surname:"",
     user_mail: "",
     password: "",
+    phone:"",
+    identification:"",
+    postalCode:"",
+    street_name:"",
+    street_number:""
   });
   const [error, setError] = useState({});
 
@@ -91,6 +97,46 @@ const RegisterForm = (props) => {
         >
           X
         </Button1>
+        <Label>
+          Nombre de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
+          {error.name && <Label2>{error.name}</Label2>}
+        </Label>
+        <Label>
+          Apellido de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
+          {error.name && <Label2>{error.name}</Label2>}
+        </Label>
+        <Label>
+          Nombre de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
+          {error.name && <Label2>{error.name}</Label2>}
+        </Label>
+        <Label>
+          Nombre de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
+          {error.name && <Label2>{error.name}</Label2>}
+        </Label>
         <Label>
           Nombre de usuario:
           <input

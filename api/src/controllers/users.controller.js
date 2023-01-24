@@ -15,6 +15,12 @@ const getInfoDb = async (req, res) => {
         "createdAt",
         "updatedAt",
         "password",
+        "surname",
+        "phone",
+        "identification",
+        "postalCode",
+        "street_name",
+        "street_number",
       ],
       include: [Restaurants],
     });
@@ -104,7 +110,17 @@ const isAdmin = async (req, res) => {
 const userUpdate = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, user_mail, password } = req.body;
+    const {
+      name,
+      user_mail,
+      password,
+      surname,
+      phone,
+      identification,
+      postalCode,
+      street_name,
+      street_number,
+    } = req.body;
     const salt = 10;
     const hash = await bcrypt.hash(password, salt);
     const userUpdate = await Users.update(
@@ -112,6 +128,12 @@ const userUpdate = async (req, res) => {
         name: name,
         user_mail: user_mail,
         password: hash,
+        surname: surname,
+        phone: phone,
+        identification: identification,
+        postalCode: postalCode,
+        street_name: street_name,
+        street_number: street_number,
       },
       {
         where: {

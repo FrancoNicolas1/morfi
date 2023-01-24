@@ -14,6 +14,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
+
     photo: {
       type: DataTypes.TEXT,
       defaultValue: null,
@@ -50,10 +51,30 @@ module.exports = (sequelize) => {
     },
     isValid: { type: DataTypes.BOOLEAN, defaultValue: false },
     uniqueKey: { type: DataTypes.STRING },
-    isBanned: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+
+    surname: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    phone: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
+    identification: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
+    postalCode: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
+    street_name: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    street_number: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
     },
   });
 };
