@@ -50,33 +50,17 @@ const RegisterForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let filterUserName = users.filter((e) => e.name === state.name);
+   
     let filterUserEmail = users.filter((e) => e.user_mail === state.user_mail);
     // console.log(filterUserName)
     // console.log(filterUserEmail)
-    if (filterUserName.length) {
-      swal({
-        title: "Ese nombre de usuario ya existe!",
-        text: "Clickea para continuar...",
-        icon: "warning",
-      });
-    } else if (filterUserEmail.length) {
-      swal({
-        title: "Ese email ya existe!",
-        text: "Clickea para continuar...",
-        icon: "warning",
-      });
-    } else if (Object.values(error).length > 0) {
+ if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Clickea para continuar...",
         icon: "warning",
       });
-    } else if (
-      state.user_mail === "" &&
-      state.password === "" &&
-      state.name === ""
-    ) {
+    } else if (  state.name === "" && state.surname === "" && state.user_mail === "" &&state.password === "" &&state.phone === "" &&state.identification === ""&&state.postalCode === "" &&state.street_name === "" &&state.street_number === "") {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Clickea para continuar...",
@@ -107,45 +91,16 @@ const RegisterForm = (props) => {
           />
           {error.name && <Label2>{error.name}</Label2>}
         </Label>
+        <br />
         <Label>
           Apellido de usuario:
           <input
             style={{ borderColor: "white" }}
             type="text"
-            name="name"
+            name="surname"
             onChange={handleChange}
           />
-          {error.name && <Label2>{error.name}</Label2>}
-        </Label>
-        <Label>
-          Nombre de usuario:
-          <input
-            style={{ borderColor: "white" }}
-            type="text"
-            name="name"
-            onChange={handleChange}
-          />
-          {error.name && <Label2>{error.name}</Label2>}
-        </Label>
-        <Label>
-          Nombre de usuario:
-          <input
-            style={{ borderColor: "white" }}
-            type="text"
-            name="name"
-            onChange={handleChange}
-          />
-          {error.name && <Label2>{error.name}</Label2>}
-        </Label>
-        <Label>
-          Nombre de usuario:
-          <input
-            style={{ borderColor: "white" }}
-            type="text"
-            name="name"
-            onChange={handleChange}
-          />
-          {error.name && <Label2>{error.name}</Label2>}
+          {error.surname && <Label2>{error.surname}</Label2>}
         </Label>
         <br />
         <Label>
@@ -168,6 +123,62 @@ const RegisterForm = (props) => {
             onChange={handleChange}
           />
           {error.password && <Label2>{error.password}</Label2>}
+        </Label>
+        <br />
+        
+        <Label>
+          Telefono:
+          <input
+            style={{ borderColor: "white" }}
+            type="number"
+            name="phone"
+            onChange={handleChange}
+          />
+          {error.phone && <Label2>{error.phone}</Label2>}
+        </Label>
+        <br />
+        <Label>
+          DNI de usuario:
+          <input
+            style={{ borderColor: "white" }}
+            type="number"
+            name="identification"
+            onChange={handleChange}
+          />
+          {error.identification && <Label2>{error.identification}</Label2>}
+        </Label>
+        <br />
+        <Label>
+          Codigo Postal:
+          <input
+            style={{ borderColor: "white" }}
+            type="number"
+            name="postalCode"
+            onChange={handleChange}
+          />
+          {error.postalCode && <Label2>{error.postalCode}</Label2>}
+        </Label>
+        <br />
+        <Label>
+          Nombre de calle:
+          <input
+            style={{ borderColor: "white" }}
+            type="text"
+            name="street_name"
+            onChange={handleChange}
+          />
+          {error.street_name && <Label2>{error.street_name}</Label2>}
+        </Label>
+        <br />
+        <Label>
+          Numero de calle:
+          <input
+            style={{ borderColor: "white" }}
+            type="number"
+            name="street_number"
+            onChange={handleChange}
+          />
+          {error.street_number && <Label2>{error.street_number}</Label2>}
         </Label>
         <br />
         {isLoading ? (
