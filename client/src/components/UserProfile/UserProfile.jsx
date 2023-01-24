@@ -94,7 +94,9 @@ color:red;
 export default function UserProfile (){
     const dispatch = useDispatch()
     const userArray = useSelector((state) => state.user);
-    const userRestaurant = userArray[0].Restaurants.map((res) => res)
+    console.log(userArray)
+    const userRestaurant = userArray[0].Restaurants?.map((res) => res)
+    console.log(userRestaurant)
     const users = useSelector((state) => state.allUsers)
     const [error, setError] = useState({});
     const [image, setImage] = useState("")
@@ -162,9 +164,8 @@ else if(filterUserEmail.length){
                 body:data,
             })
            const file = await res.json()
-           setImage(file.secure_url)
-           const dataFinal =res.url
-           setLoading(false)
+           console.log(file.secure_url)
+           const dataFinal =file.secure_url
            dispatch(updateProfileImage(idUser,dataFinal))
            swal({
             title: "Se actualizo su foto de perfil!",
@@ -207,16 +208,19 @@ else if(filterUserEmail.length){
       
         </Box1>
         <Box2>
-        {loading ? (<h3>Cargando</h3>): (<ImageUpdate src={image}/>)}  
+        {userArray?.map((e)=>{
+          return(
+          <>
+           <ImageUpdate src={e.photo}/>
+          </>)
+        })}
             {userArray?.map((user)=>{
                 return(
                 <>
                 <h4>Name</h4>
                 <p>{user.name}</p>
                 <h4>Password</h4>
-             
                 <P>{user.password}</P>
-                
                 <h4>Mail</h4>
                 <p>{user.user_mail}</p>
                 </>)
@@ -224,6 +228,7 @@ else if(filterUserEmail.length){
         </Box2>
         <Box3>
           <h1>Tus Restaurantes</h1>
+  
           {userRestaurant?.map((res) => {
             return(
               <>
@@ -233,6 +238,7 @@ else if(filterUserEmail.length){
               </>
             )
           })}
+       
 
         </Box3>
    </Container>

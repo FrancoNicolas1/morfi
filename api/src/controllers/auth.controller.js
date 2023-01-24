@@ -103,7 +103,7 @@ const private = async (req, res) => {
 };
 
 const verify = async (req, res) => {
-  const { uniqueKey } = req.query;
+  const { uniqueKey } = req.params;
   console.log(uniqueKey);
 
   const user = await Users.findOne({
@@ -135,10 +135,31 @@ const signUp = async (req, res) => {
   try {
     const uniqueKey = randomString();
     console.log(uniqueKey, "la unique key");
-    const { name, photo, user_mail, password } = req.body;
+    const {
+      name,
+      photo,
+      user_mail,
+      password,
+      surname,
+      phone,
+      identification,
+      postalCode,
+      street_name,
+      street_number,
+    } = req.body;
     const salt = 10;
     const hash = await bcrypt.hash(password, salt);
-    if (!name || !user_mail || !password) {
+    if (
+      !name ||
+      !user_mail ||
+      !password ||
+      !surname ||
+      !phone ||
+      !identification ||
+      !postalCode ||
+      !street_name ||
+      !street_number
+    ) {
       res.json({ msg: "Please complete all fields" });
     }
     let newUser = await Users.create({
@@ -147,8 +168,15 @@ const signUp = async (req, res) => {
       user_mail,
       password: hash,
       uniqueKey,
+      surname,
+      phone,
+      identification,
+      postalCode,
+      street_name,
+      street_number,
     });
     emailer.sendMail(newUser, uniqueKey);
+    res.json(newUser);
   } catch (error) {
     console.error("este es el error", error);
   }

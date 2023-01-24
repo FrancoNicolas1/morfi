@@ -11,16 +11,7 @@ export default function validate(restaurant){
     }else if(!regexName.test(restaurant.name)){
         errors.name="Solo se acepta Letras"
     }
-    if(!reg_exUrl.test(restaurant.photo)){
-        errors.photo="No se detecta una Url"
-    }else if(reg_exUrl.test(restaurant.photo)){
-    if(!reg_exImg.test(restaurant.photo)){
-            errors.photo="Debe ser png|jpg|jpeg|gif"
-    }}
-  
-    if(!restaurant.description){
-        errors.description = "Ingrese descripción..."
-    }  
+ 
 
 
    
