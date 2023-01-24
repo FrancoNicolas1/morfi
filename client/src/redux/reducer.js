@@ -173,7 +173,7 @@ export default function rootReducer(state = initialState, action) {
       const filteredProducts = action.payload.filter(
         (el) => el.selected === true
       );
-      console.log(filteredProducts, "los productos filtrados del reducer");
+      // console.log(filteredProducts, "los productos filtrados del reducer");
       return {
         ...state,
         checkOut: filteredProducts,

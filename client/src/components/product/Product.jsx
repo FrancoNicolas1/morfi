@@ -102,16 +102,28 @@ const ContainerProduct = styled.div`
 export const Product = (props) => {
   const { products, filledCart } = props;
   const [cart, setCart] = useState(
-    products?.map((el) => ({ ...el, quantity: 0 }))
+    products?.map((el) => ({ ...el, quantity: 0 })).sort((a, b) => a.id - b.id)
   );
+  console.log(cart, "el carrito que quiero mostrar");
   const dispatch = useDispatch();
-  const restaurantId = useParams();
+  //este useEffect recibe los datos del local Storage y si estan definidos los settea en la tienda de Redux para que el carrito se maneje de forma global
+  useEffect(() => {
+    const carritoEnLocalStorage = JSON.parse(
+      window.localStorage.getItem("cart")
+    );
+    console.log(carritoEnLocalStorage, "lo que necuentro");
+    if (carritoEnLocalStorage !== undefined && carritoEnLocalStorage !== null) {
+      console.log("Ejecute esto y trolie");
+      setCart(carritoEnLocalStorage);
+      dispatch(setSelectedProducts(carritoEnLocalStorage));
+    }
+  }, [products]);
   //Funcion que recibe los datos actuales del producto como llegan desde la DB y luego encuentra el producto a alterar y lo marca y le reduce el stock en 1. Luego en la action se filtran los seleccionados y se despachan al back end.
   const handleAdd = (name, price, stock, id) => {
     const alteredProduct = cart.find((el) => el.name === name);
+    console.log(stock, "el stock");
     const newProduct = {
       ...alteredProduct,
-      stock: alteredProduct.stock > 0 ? alteredProduct.stock - 1 : 0,
       quantity:
         alteredProduct.quantity < stock ? alteredProduct.quantity + 1 : stock,
       selected: true,
@@ -120,27 +132,28 @@ export const Product = (props) => {
     let otherProducts = cart.filter((el) => el.name !== name);
     otherProducts.push(newProduct);
     let allProducts = otherProducts;
+    window.localStorage.setItem("cart", JSON.stringify(allProducts));
     setCart(allProducts);
     console.log(allProducts);
     dispatch(setSelectedProducts(allProducts));
   };
   const handleDecrease = (name, price, stock, id) => {
-    const alteredProduct = cart.find((el) => el.name === name);
-    const newProduct = {
-      ...alteredProduct,
-      stock: alteredProduct.stock < stock ? alteredProduct.stock + 1 : stock,
-      quantity: alteredProduct.quantity > 0 ? alteredProduct.quantity - 1 : 0,
-      selected: alteredProduct.stock + 1 === stock ? false : true,
-    };
+    if (filledCart.length > 0) {
+      const alteredProduct = cart.find((el) => el.name === name);
+      const newProduct = {
+        ...alteredProduct,
+        quantity: alteredProduct.quantity > 0 ? alteredProduct.quantity - 1 : 0,
+        selected: alteredProduct.stock + 1 === stock ? false : true,
+      };
 
-    let otherProducts = cart.filter((el) => el.name !== name);
-    otherProducts.push(newProduct);
-    let allProducts = otherProducts;
-    setCart(allProducts);
-    dispatch(setSelectedProducts(allProducts));
+      let otherProducts = cart.filter((el) => el.name !== name);
+      otherProducts.push(newProduct);
+      let allProducts = otherProducts;
+      window.localStorage.setItem("cart", JSON.stringify(allProducts));
+      setCart(allProducts);
+      dispatch(setSelectedProducts(allProducts));
+    }
   };
-  console.log(cart, "el carrito actual");
-
   return (
     <ContainerProduct>
       {products?.map((el) =>
@@ -168,7 +181,7 @@ export const Product = (props) => {
                     +
                   </button>
                   <div>
-                    {filledCart.find((e) => e.name === el.name) ? (
+                    {filledCart?.find((e) => e.name === el.name) ? (
                       <div
                         style={{ alignSelf: "center", margin: 0, padding: 0 }}
                       >
@@ -189,7 +202,9 @@ export const Product = (props) => {
                 </div>
               </div>
             </li>
-            {filledCart.find((e) => e.name === el.name)?.stock === 0 ? (
+            {filledCart.length > 0 &&
+            filledCart?.find((e) => e.name === el.name)?.stock ===
+              filledCart?.find((e) => e.name === el.name)?.quantity ? (
               <div>
                 Disculpe, lamentablemente no contamos con un stock para mas
                 unidades que las seleccionadas en este momento.

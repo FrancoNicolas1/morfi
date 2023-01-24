@@ -28,8 +28,11 @@ export const CardDetail = (props) => {
     loadDetailRestaurant(id);
   }, [id]);
   const goCart = () => {
-    dispatch(setCheckoutProducts(cart));
-    navigate.push("/Checkout");
+    if (cart.length > 0) {
+      dispatch(setCheckoutProducts(cart));
+      window.localStorage.setItem("checkout", JSON.stringify(cart));
+      navigate.push("/Checkout");
+    }
   };
   const handleBack = (e) => {
     e.preventDefault();
@@ -40,6 +43,7 @@ export const CardDetail = (props) => {
   // function Guardar() {
   //   LocalStorage(cart, {});
   // }
+  console.log(restaurantDetail, "el que llega");
   return (
     <Container>
       {!restaurantDetail ||
@@ -137,7 +141,7 @@ export const CardDetail = (props) => {
                 <div className="container-products">
                   <Product
                     filledCart={cart}
-                    products={restaurantDetail.Products}
+                    products={restaurantDetail?.Products}
                   />
                 </div>
               </div>
@@ -156,7 +160,9 @@ export const CardDetail = (props) => {
                   color: "white",
                   width: "fit-content",
                   alignSelf: "center",
+                  opacity: cart.length === 0 ? 0.6 : 1,
                 }}
+                disabled={cart.length === 0 ? true : false}
                 onClick={() => goCart()}
               >
                 Ir a pagar!

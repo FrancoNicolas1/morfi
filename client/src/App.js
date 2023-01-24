@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { FormRestaurant } from "./components/FormRestaurant/FormRestaurant";
 import Home from "./pages/Home";
@@ -17,11 +17,17 @@ import Support from "./components/Support/Support";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { loginGoogle, refrescarToken } from "./redux/actions";
+import ProtectedRoute from "./pages/protectedRoute";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
   //Mete un useEffect que se activa cada vez que cambia el token de refresco
+  const user = useSelector((state) => state.user);
+  console.log(user && user.length > 0);
 
+  //Aca me traigo el usuario, pregunto si esta lleno y si esta lleno esta autenticado, entonces puede acceder a las rutas protegidas por ProtectedRoute
+  const isAuthenticated = user && user.length > 0 ? true : false;
+  console.log(isAuthenticated, "A");
   const accessToken = Cookies.get("access_token");
   const id_token = Cookies.get("id_token");
   const refreshToken = Cookies.get("refresh_token");
@@ -40,22 +46,43 @@ function App() {
     }
     //Este metodo genera un intervalo que ejecuta cada 60 minutos la funcion refresh
   }, [accessToken, id_token, refreshToken]);
-
+  //ENVUELVO LAS RUTAS QUE NO SE PUEDEN ACCEDER GRATIS EN PROTECTEDROUTES
   return (
     <BrowserRouter>
       <Switch>
+        <ProtectedRoute
+          exact
+          path={"/formrestaurant"}
+          component={FormRestaurant}
+          isAuthenticated={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path="/admin"
+          component={Admin1}
+          isAuthenticated={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path={"/productform"}
+          component={FormProducts}
+          isAuthenticated={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path="/checkout"
+          component={Checkout}
+          isAuthenticated={isAuthenticated}
+        />
+
         <Route exact path="/" component={Home} />
-        <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/detail/:id" component={CardDetail} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/register" component={RegisterForm} />
         <Route exact path="/aboutus" component={AboutUs} />
-        <Route exact path={"/formrestaurant"} component={FormRestaurant} />
-        <Route exact path={"/userprofile"} component={UserProfile} />
         <Route exact path="/verify/:uniqueKey" component={Verify} />
-        <Route exact path="/admin" component={Admin1} />
+        <Route exact path={"/userprofile"} component={UserProfile} />
         <Route exact path={"/support"} component={Support} />
-        <Route exact path={"/productform"} component={FormProducts} />
         <Route path="*" component={Error} />
       </Switch>
     </BrowserRouter>

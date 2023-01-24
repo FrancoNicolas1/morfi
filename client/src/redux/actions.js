@@ -441,7 +441,8 @@ export const loginGoogle = (access_token, id_token) => {
         .then((response) => response.data);
       console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
       if (verifyTokens) {
-        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens.tokens });
+        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens });
+        dispatch({ type: "LOGIN_USER", payload: verifyTokens });
       } else {
         alert("No se recibió un token de verificacion de regreso");
       }

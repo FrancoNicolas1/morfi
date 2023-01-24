@@ -6,11 +6,6 @@ import { AiFillGoogleCircle } from "react-icons/ai";
 
 export default function GoogleAuth() {
   const dispatch = useDispatch();
-  const [userGoogle, setUserGoogle] = useState({
-    name: "papa",
-    user_mail: "harurin567123@gmail.com",
-    password: "prueba123",
-  });
 
   const clientId =
     "715037409449-8e88u9scbkftob2bfdejv2d1b9ou75u7.apps.googleusercontent.com";

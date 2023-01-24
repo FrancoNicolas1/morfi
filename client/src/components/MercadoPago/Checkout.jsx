@@ -37,24 +37,55 @@ const ListProducts = styled.div`
   gap: 2vw;
 `;
 
+const ListButton = styled.button`
+  width: 24px;
+  color: black;
+  border-radius: 5px;
+  background-color: orange;
+  &:hover {
+    color:black;
+    background-color: red;
+  },
+`;
+
 const Checkout = () => {
   const productosComprados = useSelector((state) => state.checkOut);
 
-  const [estadoDeProductos, setEstadoDeProductos] = useState([
-    ...productosComprados,
-  ]);
+  const [estadoDeProductos, setEstadoDeProductos] =
+    useState(productosComprados);
   const history = useHistory();
   const dispatch = useDispatch();
+  //Este despacha a la tienda global el estado de productos cada vez que cambia el mismo
   useEffect(() => {
+    console.log("deberia cambiar pero xD", estadoDeProductos);
     dispatch(setCheckoutProducts(estadoDeProductos));
+    if (estadoDeProductos.length > 0) {
+      console.log("cambio los locales");
+      window.localStorage.setItem(
+        "checkout",
+        JSON.stringify(estadoDeProductos)
+      );
+      window.localStorage.setItem("cart", JSON.stringify(estadoDeProductos));
+    }
   }, [estadoDeProductos]);
+
+  useEffect(() => {
+    const checkoutEnLocalStorage = JSON.parse(
+      window.localStorage.getItem("checkout")
+    );
+    if (checkoutEnLocalStorage !== undefined) {
+      setEstadoDeProductos(checkoutEnLocalStorage);
+    }
+  }, []);
+
   const total =
     productosComprados !== undefined && productosComprados !== null
       ? productosComprados
-          .map((el) => el.price * el.quantity)
+          ?.filter((el) => el.quantity !== 0)
+          ?.map((el) => el.price * el.quantity)
           .reduce((a, b) => a + b, 0)
       : 0;
-  console.log(total, "el total");
+
   return (
     <BackgroundCheckout>
       <BtnBack
@@ -86,9 +117,11 @@ const Checkout = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>Nombre del producto:</p>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>{el.name}</ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              ?.map((el) => (
+                <ListProducts key={el.id}>{el.name}</ListProducts>
+              ))}
           </div>
           <div
             style={{
@@ -102,9 +135,11 @@ const Checkout = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>Descripcion del producto:</p>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>{el.description}</ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              .map((el) => (
+                <ListProducts key={el.id}>{el.description}</ListProducts>
+              ))}
           </div>
           <div
             style={{
@@ -119,28 +154,39 @@ const Checkout = () => {
           >
             <br></br>
             <br></br>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>
-                <button
-                  style={{
-                    width: "24px",
-                    color: "black",
-                    borderRadius: "5px",
-                    backgroundColor: "orange",
-                  }}
-                  onClick={() => {
-                    if (el.quantity >= 0) {
-                      setEstadoDeProductos([
-                        ...estadoDeProductos,
-                        (el.quantity = el.quantity + 1),
-                      ]);
-                    }
-                  }}
-                >
-                  +
-                </button>
-              </ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              .map((el, index) => (
+                <ListProducts key={el.id}>
+                  <ListButton
+                    onClick={() => {
+                      if (el.quantity >= 0) {
+                        const newEstado = {
+                          ...estadoDeProductos[index],
+                          quantity: el.quantity + 1,
+                        };
+                        console.log(newEstado, "el new estado re bugueado");
+                        let estadosFiltrados = estadoDeProductos.filter(
+                          (e) => e.id !== newEstado.id
+                        );
+                        console.log(estadosFiltrados, "los estados filtrados");
+                        estadosFiltrados.push(newEstado);
+
+                        // const estadoSort = estadosFiltrados.sort(
+                        //   (a, b) => a.id - b.id
+                        // );
+                        // console.log(
+                        //   estadoSort,
+                        //   "assdfaFUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+                        // );
+                        setEstadoDeProductos(estadosFiltrados);
+                      }
+                    }}
+                  >
+                    +
+                  </ListButton>
+                </ListProducts>
+              ))}
           </div>
           <div
             style={{
@@ -155,28 +201,43 @@ const Checkout = () => {
           >
             <br></br>
             <br></br>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>
-                <button
-                  style={{
-                    width: "24px",
-                    color: "black",
-                    borderRadius: "5px",
-                    backgroundColor: "orange",
-                  }}
-                  onClick={() => {
-                    if (el.quantity > 0) {
-                      setEstadoDeProductos([
-                        ...estadoDeProductos,
-                        (el.quantity = el.quantity - 1),
-                      ]);
-                    }
-                  }}
-                >
-                  -
-                </button>
-              </ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              ?.map((el, index) => (
+                <ListProducts key={el.id}>
+                  <ListButton
+                    onClick={() => {
+                      console.log(el.quantity, "DEBERIA SER MAYOR A 0 REY ");
+                      if (el.quantity > 0) {
+                        const newEstado = {
+                          ...estadoDeProductos[index],
+                          quantity: el.quantity - 1,
+                        };
+                        console.log(newEstado, "el estado re bugeuado del -");
+                        let estadosFiltrados = estadoDeProductos.filter(
+                          (e) => e.id !== newEstado.id
+                        );
+                        console.log(
+                          estadosFiltrados,
+                          "los estados filtrados RE BUG"
+                        );
+                        estadosFiltrados.push(newEstado);
+
+                        // const estadoSort = estadosFiltrados.sort(
+                        //   (a, b) => a.id - b.id
+                        // );
+                        // console.log(
+                        //   estadoSort,
+                        //   "assdfaFUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+                        // );
+                        setEstadoDeProductos(estadosFiltrados);
+                      } else alert("es el else");
+                    }}
+                  >
+                    -
+                  </ListButton>
+                </ListProducts>
+              ))}
           </div>
           <div
             style={{
@@ -198,11 +259,13 @@ const Checkout = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>Precio</p>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>
-                <div>${el.price} </div>
-              </ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              ?.map((el) => (
+                <ListProducts key={el.id}>
+                  <div>${el.price} </div>
+                </ListProducts>
+              ))}
           </div>
           <div
             style={{
@@ -214,11 +277,13 @@ const Checkout = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>Cantidad</p>
-            {productosComprados?.map((el) => (
-              <ListProducts key={el.id}>
-                X<div> {el.quantity} </div>
-              </ListProducts>
-            ))}
+            {productosComprados
+              ?.filter((el) => el.quantity !== 0)
+              ?.map((el) => (
+                <ListProducts key={el.id}>
+                  X<div> {el.quantity} </div>
+                </ListProducts>
+              ))}
           </div>
         </div>
 
