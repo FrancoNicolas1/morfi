@@ -258,7 +258,6 @@ export const logOut = () => {
 export function postUser(payload) {
   return async function (dispatch) {
     try {
-      console.log(payload);
       const json = await axios.post("http://localhost:3001/signup", payload);
       swal({
         title: "Creo su usuario con exito!!",
@@ -266,7 +265,7 @@ export function postUser(payload) {
         icon: "success",
       });
     } catch (error) {
-      console.log(error.response.data.error);
+      console.error(error.response.data.error, "error postUser action");
     }
   };
 }
