@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, Label, Button1 } from "../Css/CssRegistro";
-import { postUser } from "../redux/actions";
+import { allUsers, postUser } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import swal from "sweetalert";
 import validateSingUp from "./ErrorSignup";
 import styled from "styled-components";
+import { useEffect } from "react";
 const Label2 = styled.label`
   color: red;
 `;
@@ -13,7 +14,7 @@ const RegisterForm = (props) => {
   // const history = useHistory();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.allUsers);
-  console.log(users);
+  // console.log(users);
   const [isLoading, setIsLoading] = useState(false);
 
   const [state, setState] = useState({
@@ -22,6 +23,10 @@ const RegisterForm = (props) => {
     password: "",
   });
   const [error, setError] = useState({});
+
+  useEffect(()=>{
+    dispatch(allUsers())
+  },[])
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -41,7 +46,8 @@ const RegisterForm = (props) => {
     e.preventDefault();
     let filterUserName = users.filter((e) => e.name === state.name);
     let filterUserEmail = users.filter((e) => e.user_mail === state.user_mail);
-
+    // console.log(filterUserName)
+    // console.log(filterUserEmail)
     if (filterUserName.length) {
       swal({
         title: "Ese nombre de usuario ya existe!",

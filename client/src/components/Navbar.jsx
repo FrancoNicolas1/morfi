@@ -103,6 +103,11 @@ const Navbar = (props) => {
             </>
           )}
         </BoxButtons>
+        {userArray && userArray[0] && userArray[0].isAdmin === true 
+  ? <> <NavLink to={"admin"}>
+  <Buttons>Admin</Buttons>
+</NavLink></> 
+  : <></>}
       </Container>
     </>
     // <nav>

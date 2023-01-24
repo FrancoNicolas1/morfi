@@ -16,6 +16,7 @@ const Label2 = styled.label`
 const LoginForm = (props) => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.allUsers);
+  const [error, setError] = useState({});
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
@@ -30,12 +31,29 @@ const LoginForm = (props) => {
       ...user,
       [e.target.name]: e.target.value,
     });
+    setError(validate({
+      ...user,
+      [e.target.name]:e.target.value
+    }))
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginPostUser(user));
-    console.log(user);
-    alert("ingresaste");
+    e.preventDefault()
+    if(Object.values(error).length > 0){
+      swal({
+        title: "Porfavor ingrese datos para continuar",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      });
+    }else if(user.user_mail === "" && user.password===""){
+      swal({
+        title: "Porfavor ingrese datos para continuar",
+        text: "Cliclea para continuar...",
+        icon: "warning",
+      }); 
+    }else{
+      dispatch(loginPostUser(user))
+      
+    }
   };
 
   return (
@@ -56,7 +74,7 @@ const LoginForm = (props) => {
           name="user_mail"
           onChange={handleChange}
         />
-        {/* {error && <p>{error}</p>} */}
+         {error.user_mail && (<Label2>{error.user_mail}</Label2>)}
       </Label>
       <br />
       <Label for="input2">
@@ -68,7 +86,7 @@ const LoginForm = (props) => {
           name="password"
           onChange={handleChange}
         />
-        {/* {error && <p>{error}</p>} */}
+         {error.password && (<Label2>{error.password}</Label2>)}
       </Label>
       <br />
       <Button type="submit">Ingresar</Button>

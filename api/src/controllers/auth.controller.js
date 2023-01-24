@@ -104,6 +104,7 @@ const private = async (req, res) => {
 
 const verify = async (req, res) => {
   const { uniqueKey } = req.params;
+
   const user = await Users.findOne({
     where: { uniqueKey },
   });
@@ -147,6 +148,7 @@ const signUp = async (req, res) => {
       uniqueKey,
     });
     emailer.sendMail(newUser, uniqueKey);
+    res.json(newUser);
   } catch (error) {
     console.error("este es el error", error);
   }
