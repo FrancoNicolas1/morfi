@@ -16,7 +16,7 @@ import FormProducts from "./components/FormProducts/FormProducts";
 import Support from "./components/Support/Support";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { loginGoogle } from "./redux/actions";
+import { loginGoogle, refrescarToken } from "./redux/actions";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -24,14 +24,22 @@ function App() {
 
   const accessToken = Cookies.get("access_token");
   const id_token = Cookies.get("id_token");
+  const refreshToken = Cookies.get("refresh_token");
+
   useEffect(() => {
     // Dispatch the LOGIN action to save the new tokens
-    console.log(id_token, document.cookie.id_token, "los tokens");
+    console.log(id_token, "los tokens");
     if (accessToken && id_token) {
       console.log("ESTOY ENTRANDO A LA FUNCION");
       dispatch(loginGoogle(accessToken, id_token));
     }
-  }, [accessToken, id_token]);
+
+    if (refreshToken !== undefined) {
+      console.log("entro a refrescar el token");
+      setInterval(refrescarToken(refreshToken), 60 * 60 * 1000); // refresh token
+    }
+    //Este metodo genera un intervalo que ejecuta cada 60 minutos la funcion refresh
+  }, [accessToken, id_token, refreshToken]);
 
   return (
     <BrowserRouter>
