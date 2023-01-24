@@ -9,6 +9,8 @@ import validate from './Validation';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+import { NavLink } from "react-router-dom";
+import swal from "sweetalert";
 
 const ContainerPadre = styled.div`
   display: flex;
@@ -109,12 +111,16 @@ export const BtnBack = styled(Link)`
 const Label =styled.label`
 color:red;
 `
+const Select1=styled.input`
+
+`
 
 export function FormRestaurant() {
   /////////////////////////////// TRAYENDO EL ESTADO/////////////////////////////
   const history = useHistory()
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories) 
+  const restaurantCreate = useSelector((state)=> state.restaurantProducts)
   const user = useSelector((state) => state.user)
   const idUser =user[0].id
   const restaurants = useSelector((state) => state.allRestaurants) 
@@ -132,7 +138,7 @@ export function FormRestaurant() {
     descriptions:"",
     reviews:[1,2,3,4,5]
   }); 
-
+console.log(restaurant)
   const handleChange=(e)=>{
     e.preventDefault()
     setRestaurant({
@@ -149,32 +155,60 @@ const handleCategories=(e)=>{
   e.preventDefault()
   setRestaurant({
       ...restaurant,
-      category:[...new Set([...restaurant.category,e.target.value])]
+      categories:[...new Set([...restaurant.categories,e.target.value])]
   })
 }
 const handleDelete=(e)=>{
   setRestaurant({
       ...restaurant,
-      category: restaurant.category.filter((catego)=> catego !== e)
+      categories: restaurant.categories.filter((catego)=> catego !== e)
   })
 }
 
+const uploadImage = async (e) => {
+  const files = e.target.files
+  const data = new FormData()
+  data.append("file", files[0])
+  data.append("upload_preset", "vmfhvx1d")
+  const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dlibclk9r/upload",
+      {
+          method: "POST",
+          body:data,
+      })
+     const file = await res.json()
+     console.log(file.secure_url)
+     const dataFinal =file.secure_url
+     setRestaurant({
+      ...restaurant,
+      photo: dataFinal
+  })
+}
 
 const handleSubmit=(e)=>{
   e.preventDefault()
   let filterByRestaurant= restaurants.filter((e)=>e.name === restaurant.name.toLocaleLowerCase())
-  // console.log(filterPokemon)
   if(filterByRestaurant.length){
-      alert("Este restaurante ya existe")
+    swal({
+      title: "Ese nombre ya existe...",
+      text: "Cliclea para continuar...",
+      icon: "warning",
+    });
   }       
   else if(Object.values(error).length > 0){
-       alert ("Llene todos los campos para publicar su Local")
+    swal({
+      title: "Llene todos los campos para crear su restaurante...",
+      text: "Cliclea para continuar...",
+      icon: "warning",
+    });
   }else if(restaurant.name === ""){
-      alert("Debe llenar todos los campos")
+    swal({
+      title: "Llene todos los campos porfavor...",
+      text: "Cliclea para continuar...",
+      icon: "warning",
+    });
   }else {
       dispatch(createRestaurant(restaurant,idUser))
-      alert ("Su local fue publicado con exito")
-      history.push("/productform")
   }
 }
 
@@ -229,20 +263,26 @@ const handleSubmit=(e)=>{
             )
         })}
               </InputBox>
-              <InputBox>
+      
                 <Detail2>Imagen del Local</Detail2>
-                <Input placeholder="Ingrese la imagen..." type="text" name="photo" onChange={handleChange} />
-                {error.photo && (<Label>{error.photo}</Label>)}
-              </InputBox>
+                
+                <Select1 type={"file"}
+                name={"file"}
+                onChange={uploadImage}/>
              
+      
               <InputBox>
                 <Detail2>Descripción</Detail2>
-                <Input placeholder="Ingrese descripcion del comercio..." type="text" name="description" onChange={handleChange}/>
-                {error.description && (<Label>{error.description}</Label>)}
+                <Input placeholder="Ingrese descripcion del comercio..." type="text" name="descriptions" onChange={handleChange}/>
+               
               </InputBox>
             </Detail>
-            <Button type='submit'>Registrar</Button>
+            {restaurantCreate.length?( <NavLink to={"productform"}>
+          <button> productos</button>   
+          </NavLink>):(<> <Button type='submit'>Registrar</Button></>) }
           </Form>
+
+         
         </Container1>
       </ContainerPadre>
     </>

@@ -94,14 +94,17 @@ export function getRestaurantById(id) {
   };
 }
 
-export async function createProduct(idRestaurante, producto) {
+export async function createProduct(products, idRestaurant) {
   try {
-    await axios
-      .post(`http://localhost:3001/create-product/${idRestaurante}`, {
-        idRestaurante,
-        producto,
-      })
-      .then(() => alert("Producto creado con éxito!"));
+    let createProduct = await axios.post(
+      `http://localhost:3001/create-product/${idRestaurant}`,
+      products
+    );
+    swal({
+      title: "Creo su producto con exito!!",
+      text: "Cliclea para continuar...",
+      icon: "success",
+    });
   } catch (err) {
     console.error(err, "el error del createProduct action");
   }
@@ -110,6 +113,7 @@ export async function createProduct(idRestaurante, producto) {
 export function createRestaurant(restaurant, idUser) {
   return async function (dispatch) {
     try {
+      console.log(restaurant);
       let createRestaurant = await axios.post(
         `http://localhost:3001/restaurants/${idUser}`,
         restaurant
@@ -117,6 +121,11 @@ export function createRestaurant(restaurant, idUser) {
       dispatch({
         type: "CREATE_RESTAURANT",
         payload: createRestaurant.data,
+      });
+      swal({
+        title: "Creo su restaurante con exito!!",
+        text: "Cliclea para continuar...",
+        icon: "success",
       });
     } catch (error) {
       console.log(error);
@@ -130,6 +139,11 @@ export function deleteRestaurantForId(idRes, idUser) {
       let restaurantById = await axios.delete(
         `http://localhost:3001/restaurants/${idRes}`
       );
+      swal({
+        title: "Elimino con exito su restaurante!!",
+        text: "Cliclea para continuar...",
+        icon: "success",
+      });
       let userId = await axios.get(`http://localhost:3001/users/${idUser}`);
       return dispatch({
         type: "RETURN_USER",
@@ -259,11 +273,14 @@ export function postUser(payload) {
     try {
       console.log(payload);
       const json = await axios.post("http://localhost:3001/signup", payload);
-      swal({
-        title: "Creo su usuario con exito!!",
-        text: "Cliclea para continuar...",
-        icon: "success",
-      });
+      console.log("entro o alla la estan entrando");
+      if (json.status === 200) {
+        swal({
+          title: "Creo su usuario con exito!!",
+          text: "Cliclea para continuar...",
+          icon: "success",
+        });
+      }
     } catch (error) {
       console.log(error.response.data.error);
     }
@@ -441,3 +458,4 @@ export const loginGoogle = (access_token, id_token) => {
     }
   };
 };
+//////////////////////////// CLOUDINARY RESTAURANT //////////////////

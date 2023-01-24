@@ -82,7 +82,7 @@ const private = async (req, res) => {
 };
 
 const verify = async (req, res) => {
-  const { uniqueKey } = req.query;
+  const { uniqueKey } = req.params;
   console.log(uniqueKey);
 
   const user = await Users.findOne({
@@ -128,6 +128,7 @@ const signUp = async (req, res) => {
       uniqueKey,
     });
     emailer.sendMail(newUser, uniqueKey);
+    res.json(newUser);
   } catch (error) {
     console.error("este es el error", error);
   }
