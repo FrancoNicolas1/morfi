@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { loginGoogle, refrescarToken } from "./redux/actions";
 import ProtectedRoute from "./pages/protectedRoute";
+import InfoGoogleCliente from "./components/MercadoPago/InfoGoogleCliente";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -60,6 +61,12 @@ function App() {
           exact
           path="/admin"
           component={Admin1}
+          isAuthenticated={isAuthenticated}
+        />
+        <ProtectedRoute
+          exact
+          path="/cartRegister"
+          component={InfoGoogleCliente}
           isAuthenticated={isAuthenticated}
         />
         <ProtectedRoute

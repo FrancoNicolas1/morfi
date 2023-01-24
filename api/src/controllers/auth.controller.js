@@ -166,7 +166,7 @@ const signUp = async (req, res) => {
       name,
       photo,
       user_mail,
-      password: hash,
+      password,
       uniqueKey,
       surname,
       phone,
@@ -175,8 +175,8 @@ const signUp = async (req, res) => {
       street_name,
       street_number,
     });
-    emailer.sendMail(newUser, uniqueKey);
-    res.json(newUser);
+    await emailer.sendMail(newUser, uniqueKey);
+    if (newUser) return res.json(newUser);
   } catch (error) {
     console.error("este es el error", error);
   }

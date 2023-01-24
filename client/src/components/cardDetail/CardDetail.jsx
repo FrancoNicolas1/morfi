@@ -15,6 +15,8 @@ export const CardDetail = (props) => {
   const loading = useSelector((state) => state.loading);
   const cart = useSelector((state) => state.cart);
   const checkout = useSelector((state) => state.checkOut);
+  const actualUser = useSelector((state) => state.user);
+  console.log(actualUser, "el usuario actual");
   const history = useHistory();
   console.log(
     checkout,
@@ -28,7 +30,13 @@ export const CardDetail = (props) => {
     loadDetailRestaurant(id);
   }, [id]);
   const goCart = () => {
-    if (cart.length > 0) {
+    if (actualUser[0]?.email && actualUser[0]?.aud) {
+      console.log("entre a este 1");
+      dispatch(setCheckoutProducts(cart));
+      window.localStorage.setItem("checkout", JSON.stringify(cart));
+      navigate.push("/cartRegister");
+    } else if (cart.length > 0) {
+      console.log("entre a este 2");
       dispatch(setCheckoutProducts(cart));
       window.localStorage.setItem("checkout", JSON.stringify(cart));
       navigate.push("/Checkout");

@@ -1,26 +1,41 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Button, Form, Label, Button1 } from "../Css/CssRegistro";
-import { allUsers, postUser } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import swal from "sweetalert";
-import validateSingUp from "./ErrorSignup";
 import styled from "styled-components";
-import { useEffect } from "react";
-const Label2 = styled.label`
-  color: red;
-`;
-const RegisterForm = (props) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.allUsers);
-  // console.log(users);
-  const [isLoading, setIsLoading] = useState(false);
+import swal from "sweetalert";
+import { Button } from "../../Css/CssRegistro";
+import { postUser } from "../../redux/actions";
+import validateSingUp from "../ErrorSignup";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  align-items: center;
+`;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ff613c;
+  align-items: center;
+`;
+const Label2 = styled.label`
+  color: black;
+`;
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: black;
+`;
+const InfoGoogleCliente = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [state, setState] = useState({
     name: "",
     surname: "",
-    user_mail: "",
+    user_mail: user[0]?.email,
     password: "",
     phone: "",
     identification: "",
@@ -28,32 +43,8 @@ const RegisterForm = (props) => {
     street_name: "",
     street_number: "",
   });
-  const [error, setError] = useState({});
-
-  useEffect(() => {
-    dispatch(allUsers());
-  }, []);
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-    setError(
-      validateSingUp({
-        ...state,
-        [e.target.name]: e.target.value,
-      })
-    );
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let filterUserEmail = users.filter((e) => e.user_mail === state.user_mail);
-    // console.log(filterUserName)
-    // console.log(filterUserEmail)
+  console.log(state, "que esta mandando");
+  const handleSubmit = () => {
     if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
@@ -80,21 +71,32 @@ const RegisterForm = (props) => {
       dispatch(postUser(state));
     }
   };
+  const [error, setError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const handleChange = (e) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+    setError(
+      validateSingUp({
+        ...state,
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
 
   return (
-    <>
+    <Container>
       <Form onSubmit={handleSubmit}>
-        <Button1
-          onClick={() => {
-            props.setAbrir1(false);
-          }}
-        >
-          X
-        </Button1>
+        <h2 style={{ padding: "1vw" }}>
+          Para continuar con tu compra por favor completá los siguientes datos:
+        </h2>
         <Label>
-          Nombre de usuario:
+          Nombre:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="text"
             name="name"
             onChange={handleChange}
@@ -103,31 +105,21 @@ const RegisterForm = (props) => {
         </Label>
         <br />
         <Label>
-          Apellido de usuario:
+          Apellido:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="text"
             name="surname"
             onChange={handleChange}
           />
           {error.surname && <Label2>{error.surname}</Label2>}
         </Label>
-        <br />
-        <Label>
-          Email:
-          <input
-            style={{ borderColor: "white" }}
-            type="email"
-            name="user_mail"
-            onChange={handleChange}
-          />
-          {error.user_mail && <Label2>{error.user_mail}</Label2>}
-        </Label>
+
         <br />
         <Label>
           Contraseña:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="password"
             name="password"
             onChange={handleChange}
@@ -135,11 +127,10 @@ const RegisterForm = (props) => {
           {error.password && <Label2>{error.password}</Label2>}
         </Label>
         <br />
-
         <Label>
           Telefono:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="number"
             name="phone"
             onChange={handleChange}
@@ -150,7 +141,7 @@ const RegisterForm = (props) => {
         <Label>
           DNI de usuario:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="number"
             name="identification"
             onChange={handleChange}
@@ -161,7 +152,7 @@ const RegisterForm = (props) => {
         <Label>
           Codigo Postal:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="number"
             name="postalCode"
             onChange={handleChange}
@@ -172,7 +163,7 @@ const RegisterForm = (props) => {
         <Label>
           Nombre de calle:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="text"
             name="street_name"
             onChange={handleChange}
@@ -183,7 +174,7 @@ const RegisterForm = (props) => {
         <Label>
           Numero de calle:
           <input
-            style={{ borderColor: "white" }}
+            style={{ borderColor: "white", width: "20vw" }}
             type="number"
             name="street_number"
             onChange={handleChange}
@@ -194,11 +185,11 @@ const RegisterForm = (props) => {
         {isLoading ? (
           <p>Cargando...</p>
         ) : (
-          <Button type="submit">Registrar</Button>
+          <Button type="submit">Continuar</Button>
         )}
       </Form>
-    </>
+    </Container>
   );
 };
 
-export default RegisterForm;
+export default InfoGoogleCliente;
