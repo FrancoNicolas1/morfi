@@ -19,20 +19,20 @@ const RegisterForm = (props) => {
 
   const [state, setState] = useState({
     name: "",
-    surname:"",
+    surname: "",
     user_mail: "",
     password: "",
-    phone:"",
-    identification:"",
-    postalCode:"",
-    street_name:"",
-    street_number:""
+    phone: "",
+    identification: "",
+    postalCode: "",
+    street_name: "",
+    street_number: "",
   });
   const [error, setError] = useState({});
 
-  useEffect(()=>{
-    dispatch(allUsers())
-  },[])
+  useEffect(() => {
+    dispatch(allUsers());
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -50,17 +50,27 @@ const RegisterForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   
+
     let filterUserEmail = users.filter((e) => e.user_mail === state.user_mail);
     // console.log(filterUserName)
     // console.log(filterUserEmail)
- if (Object.values(error).length > 0) {
+    if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Clickea para continuar...",
         icon: "warning",
       });
-    } else if (  state.name === "" && state.surname === "" && state.user_mail === "" &&state.password === "" &&state.phone === "" &&state.identification === ""&&state.postalCode === "" &&state.street_name === "" &&state.street_number === "") {
+    } else if (
+      state.name === "" &&
+      state.surname === "" &&
+      state.user_mail === "" &&
+      state.password === "" &&
+      state.phone === "" &&
+      state.identification === "" &&
+      state.postalCode === "" &&
+      state.street_name === "" &&
+      state.street_number === ""
+    ) {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Clickea para continuar...",
@@ -82,7 +92,7 @@ const RegisterForm = (props) => {
           X
         </Button1>
         <Label>
-          Nombre de usuario:
+          Nombre:
           <input
             style={{ borderColor: "white" }}
             type="text"
@@ -93,7 +103,7 @@ const RegisterForm = (props) => {
         </Label>
         <br />
         <Label>
-          Apellido de usuario:
+          Apellido:
           <input
             style={{ borderColor: "white" }}
             type="text"
@@ -125,7 +135,7 @@ const RegisterForm = (props) => {
           {error.password && <Label2>{error.password}</Label2>}
         </Label>
         <br />
-        
+
         <Label>
           Telefono:
           <input

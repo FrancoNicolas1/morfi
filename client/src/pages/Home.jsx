@@ -12,7 +12,11 @@ import Navbar from "../components/Navbar";
 import RegisterForm from "../components/RegistroDeUsuario";
 import Section from "../components/Section/Section";
 import { useDispatch, useSelector } from "react-redux";
-import { allRestaurants, getAllCategories } from "../redux/actions";
+import {
+  allRestaurants,
+  getAllCategories,
+  setSelectedProducts,
+} from "../redux/actions";
 import { useEffect } from "react";
 import Select from "../components/Select/Select";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -34,6 +38,16 @@ export default function Home() {
   useEffect(() => {
     dispatch(allRestaurants());
     dispatch(getAllCategories());
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      dispatch({
+        type: "LOGIN_USER",
+        payload: user,
+      });
+    }
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkout");
+    dispatch(setSelectedProducts([]));
   }, [dispatch]);
 
   return (

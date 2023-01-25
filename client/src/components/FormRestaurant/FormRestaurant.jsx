@@ -71,7 +71,6 @@ const Select = styled.select`
 const Container2 = styled.div`
   height: 90%;
   width: 100%;
-
   padding: 25px 30px;
 `;
 const TitleContainer2 = styled.div``;
@@ -117,7 +116,6 @@ const Label =styled.label`
 color:red;
 `
 const Select1=styled.input`
-
 `
 const Image=styled.img`
 width: 200px;

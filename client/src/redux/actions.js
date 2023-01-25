@@ -103,7 +103,7 @@ export async function createProduct(products, idRestaurant) {
     );
     swal({
       title: "Creo su producto con exito!!",
-      text: "Cliclea para continuar...",
+      text: "Clickea para continuar...",
       icon: "success",
     });
   } catch (err) {
@@ -126,7 +126,7 @@ export function createRestaurant(restaurant, idUser) {
       });
       swal({
         title: "Creo su restaurante con exito!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
     } catch (error) {
@@ -143,7 +143,7 @@ export function deleteRestaurantForId(idRes, idUser) {
       );
       swal({
         title: "Elimino con exito su restaurante!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
       let userId = await axios.get(`http://localhost:3001/users/${idUser}`);
@@ -270,24 +270,35 @@ export const logOut = () => {
   return { type: "LOG_OUT", payload: [] };
 };
 /////////////////////////////////SINGUP///////
-export function postUser(payload) {
+export function postUser(usuarioDelFormGoogle) {
   return async function (dispatch) {
     try {
-      console.log(payload);
-      const json = await axios.post("http://localhost:3001/signup", payload);
+      console.log(usuarioDelFormGoogle, "LO QUE MANDO");
+      const json = await axios.post(
+        "http://localhost:3001/signup",
+        usuarioDelFormGoogle
+      );
       console.log("entro o alla la estan entrando");
       if (json.status === 200) {
+        dispatch(loginPostUser(usuarioDelFormGoogle));
+      } else {
         swal({
-          title: "Creo su usuario con exito!!",
-          text: "Cliclea para continuar...",
-          icon: "success",
+          title: "Lamentablemente hubo un error al enviar el formulario",
+          text: "Clickea para continuar...",
+          icon: "error",
         });
       }
     } catch (error) {
-      console.log(error.response.data.error);
+      swal({
+        title: `Lamentablemente se produjo un error : ${error.response.data}`,
+        text: "Clickea para continuar...",
+        icon: "error",
+      });
+      console.log(error, "el error del post USER");
     }
   };
 }
+
 ////////////////////////////TODOS LOS USUARIOS///////////////
 export function getAllUsers() {
   return async function (dispatch) {
@@ -310,9 +321,10 @@ export function loginPostUser(payload) {
       const json = await axios.post("http://localhost:3001/login", payload);
       swal({
         title: "Bienvenido!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
+      localStorage.setItem("user", JSON.stringify(json.data));
       return dispatch({
         type: "LOGIN_USER",
         payload: json.data,
@@ -320,7 +332,7 @@ export function loginPostUser(payload) {
     } catch (error) {
       swal({
         title: "Los datos son incorrectos, vuelva a intentar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     }
@@ -442,9 +454,43 @@ export const loginGoogle = (access_token, id_token) => {
           `http://localhost:3001/verificacionDeTokensGoogle?id_token=${id_token}`
         )
         .then((response) => response.data);
-      console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
+      const userDeGoogle = [verifyTokens];
       if (verifyTokens) {
-        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens });
+        dispatch({ type: "LOGIN_GOOGLE", payload: userDeGoogle });
+        dispatch({ type: "LOGIN_USER", payload: userDeGoogle });
+      } else {
+        alert("No se recibió un token de verificacion de regreso");
+      }
+    } catch (err) {
+      console.error(err);
+      return dispatch({
+        type: "LOG_OUT",
+        payload: {
+          user: [],
+          accessToken: null,
+          refreshToken: null,
+        },
+      });
+    }
+  };
+};
+
+export const refrescarToken = (refreshToken) => {
+  return async function (dispatch) {
+    try {
+      console.log("estoy entrando a loginGoogle");
+      const params = { refreshToken };
+      console.log(params, "LO QUE ENVIO");
+      const verifyTokens = await axios
+        .get(
+          `http://localhost:3001/refrescarTokenDeGoogle?id_token=${refreshToken}`
+        )
+        .then((response) => response.data);
+      console.log(verifyTokens, "LO QUE DEVUELVE EL REFRESH TOKENS");
+      if (verifyTokens) {
+        const accessToken = verifyTokens.tokens.access_token;
+        const id_token = verifyTokens.tokens.id_token;
+        dispatch(loginGoogle(accessToken, id_token));
       } else {
         alert("No se recibió un token de verificacion de regreso");
       }

@@ -14,7 +14,7 @@ export const Footer = () => {
   return (
     <Container>
       <Title>
-        <h1>Morfy</h1>
+        <h1 style={{ fontWeight: "bold" }}>Morfy</h1>
       </Title>
       <List>
         <li>Sobre</li>
