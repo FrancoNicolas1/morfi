@@ -49,7 +49,11 @@ export function searchRestaurant(searchInput) {
       }
     );
     if (json.length === 0) {
-      alert("No se encontro ese Restaurante");
+      swal({
+        title: "No se encontró el restaurante",
+        text: "Clickea para continuar...",
+        icon: "warning",
+      });
       const all = await axios.get(`http://localhost:3001/restaurants`);
       return dispatch({
         type: "GET_ALL_RESTAURANT",
@@ -453,10 +457,13 @@ export const loginGoogle = (access_token, id_token) => {
         .then((response) => response.data);
       const userDeGoogle = [verifyTokens];
       if (verifyTokens) {
+        console.log("caso verify Token");
         dispatch({ type: "LOGIN_GOOGLE", payload: userDeGoogle });
         dispatch({ type: "LOGIN_USER", payload: userDeGoogle });
       } else {
-        alert("No se recibió un token de verificacion de regreso");
+        console.log("caso else");
+        dispatch({ type: "LOGIN_GOOGLE", payload: null });
+        dispatch({ type: "LOGIN_USER", payload: null });
       }
     } catch (err) {
       console.error(err);
