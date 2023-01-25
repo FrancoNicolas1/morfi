@@ -8,7 +8,7 @@ import validateSingUp from "./ErrorSignup";
 import styled from "styled-components";
 import { useEffect } from "react";
 const Label2 = styled.label`
-  color: black;
+  color: red;
 `;
 const RegisterForm = (props) => {
   const history = useHistory();

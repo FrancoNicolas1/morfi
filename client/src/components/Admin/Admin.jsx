@@ -8,6 +8,7 @@ import '@tremor/react/dist/esm/tremor.css';
 
 function Admin1() {
    const dispatch = useDispatch()
+   const user = useSelector((state) => state.user)
    const users = useSelector((state) => state.allUsers)
    const restaurants = useSelector((state) => state.allRestaurants)
    const adminUsers = users.filter((user) => user.isAdmin === true).length;
@@ -46,7 +47,186 @@ const dataProducts = [
 ];
     return (
 <>
-<div class="d-flex" id="wrapper">
+<body>
+   <input type="checkbox" id="menu-toggle"/>
+    <div class="sidebar">
+       
+        
+        <div class="side-content">
+            <div class="profile">
+                <img class="profile-img bg-img"src={user[0].photo}/>
+                <h4>{user[0].name}</h4>
+                <small>Administrador</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                       <a href="" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="" class="active">
+                            <span class="las la-home"></span>
+                            <small>Volver</small>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        
+       
+        
+        
+        <main>
+            
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <small>Home / Dashboard</small>
+            </div>
+            
+            <div class="page-content">
+            
+                <div class="analytics">
+        
+                    <DonutChart
+                        data={dataAdmin}
+                        category="value"
+                        dataKey="name"
+                        colors={[ "blue" ]}
+                        variant="pie"
+                        valueFormatter={undefined}
+                        label={undefined}
+                        showLabel={true}
+                        showTooltip={true}
+                        showAnimation={true}
+                        height="h-44"
+                        marginTop="mt-0"
+                    />
+            
+                    <DonutChart
+                        data={dataBanned}
+                        category="value"
+                        dataKey="name"
+                        colors={[ "red", "green" ]}
+                        variant="pie"
+                        valueFormatter={undefined}
+                        label={undefined}
+                        showLabel={true}
+                        showTooltip={true}
+                        showAnimation={true}
+                        height="h-44"
+                        marginTop="mt-0"
+                    />
+                     <div class="card">
+                        <div class="card-head">
+                            <h2>{restaurants.length}</h2>
+                            <span class="las la-user-friends"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Restaurantes publicados en la plataforma</small>
+                            <div class="card-indicator">
+                                <div class="indicator one" ></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{allProducts.length}</h2>
+                            <span class="las la-user-friends"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Productos en la plataforma</small>
+                            <div class="card-indicator">
+                                <div class="indicator one" ></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="records table-responsive">
+
+                    
+                    <div>
+                        <table width="100%" >
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th><span class="las la-sort"></span> USUARIO</th>
+                                    <th><span class="las la-sort"></span> RESTAURANTES</th>
+                                    <th><span class="las la-sort"></span> ADMIN/ USER</th>
+                                    <th><span class="las la-sort"></span> BANEADO</th>
+                                    <th><span class="las la-sort"></span> TELEFONO</th>
+                                    <th><span class="las la-sort"></span> ACTIONS</th>
+                                    <th><span class="las la-sort"></span> ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {users?.map((user,index)=>{
+                          return(
+                            <tr>
+                            <td>{index+1}</td>
+                            <td>
+                                <div class="client">
+                                 <img class="client-img bg-img" src={user.photo}/>
+                                    <div class="client-info">
+                                        <h4>{user.name}</h4>
+                                        <small>{user.user_mail}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {user.Restaurants.length}
+                            </td>
+                    
+                            <td>
+                                {user.isAdmin? <><p>Admin</p></>:<><p>User</p></>}
+                            </td>
+                            <td>
+                                {user.isBanned? <><p>Banned</p></>:<><p>No Banned</p></>}
+                            </td>
+                            <td>
+                                {user.phone}
+                            </td>
+                            <td>
+                            <button type="button" class="btn m-2 btn-primary btn-lg active" onClick={() => handleUpdateUserAdmin(user.id)}>User/Admin</button>
+                            </td>
+                            <td>
+                            <button type="button" class="btn btn-danger btn-lg active" onClick={() => handleUpdateBanned(user.id)} >Banned/No Banned</button>
+                            </td>
+                            
+                            <td>
+                                <div class="actions">
+                                    <span class="lab la-telegram-plane"></span>
+                                    <span class="las la-eye"></span>
+                                    <span class="las la-ellipsis-v"></span>
+                                </div>
+                            </td>
+                        </tr>
+                          )
+                        })}         
+                              
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            
+            </div>
+            
+        </main>
+        
+    </div>
+</body>
+{/* <div class="d-flex" id="wrapper">
   <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4"/>
           <div class="d-flex align-items-center justify-content-center ">
@@ -146,7 +326,7 @@ const dataProducts = [
           </div>
       </div>
 </div>
-</div>
+</div> */}
 </>
     )
 }

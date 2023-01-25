@@ -10,7 +10,7 @@ import swal from "sweetalert";
 import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 const Label2 = styled.label`
-  color: black;
+  color: red;
 `;
 
 const LoginForm = (props) => {
