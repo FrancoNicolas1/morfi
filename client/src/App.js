@@ -17,6 +17,7 @@ import Support from "./components/Support/Support";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { loginGoogle } from "./redux/actions";
+import Nosotros from "./components/Nosotros/Nosotros";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
         <Route exact path="/admin" component={Admin1} />
         <Route exact path={"/support"} component={Support} />
         <Route exact path={"/productform"} component={FormProducts} />
+        <Route exact path={"/nosotros"} component={Nosotros} />
         <Route path="*" component={Error} />
       </Switch>
     </BrowserRouter>

@@ -14,10 +14,10 @@ import swal from "sweetalert";
 
 const ContainerPadre = styled.div`
   display: flex;
-  height: 100vh;
+  height: 110vh;
   align-items: center;
-  background-image: url(https://images.deliveryhero.io/image/pedidosya/home-backgrounds/home-background-ar.jpg?quality=100&width=1345),
-    url(https://images.deliveryhero.io/image/pedidosya/home-backgrounds/home-background-others.jpg?quality=100&width=1345);
+  background-image: url(https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80),
+    url(https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,6 +60,10 @@ const Input = styled.input`
   padding-left: 15px;
   font-size: 16px;
 `;
+const Input1 = styled.textarea`
+   width: 400px;
+  height: 100px;
+`;
 const Select = styled.select`
   margin-left: 10px;
 `;
@@ -89,6 +93,7 @@ const Button = styled.button`
   border-radius: 100px;
   border: 2px solid #ccc;
   cursor: pointer;
+  margin-top:20px;
 `;
 export const BtnBack = styled(Link)`
   padding: 10px;
@@ -113,6 +118,11 @@ color:red;
 `
 const Select1=styled.input`
 
+`
+const Image=styled.img`
+width: 200px;
+height: 200px;
+border-radius:50%;
 `
 
 export function FormRestaurant() {
@@ -209,6 +219,9 @@ const handleSubmit=(e)=>{
     });
   }else {
       dispatch(createRestaurant(restaurant,idUser))
+      setTimeout(() => {
+        history.push("/productform");
+      }, 2000);
   }
 }
 
@@ -218,19 +231,16 @@ const handleSubmit=(e)=>{
       <ContainerPadre>
         <Container2>
           <TitleContainer2>
-          <BtnBack className="btn-back" to={'/'}>
-              <FaArrowLeft fontSize={20} />
-            </BtnBack>
+          
             <Text>
               <h1>
-                Empieza a vender en la app líder en delivery online de
+                Empieza a vender en nuestra plataforma online de
                 Latinoamérica
               </h1>
             </Text>
             <Text2>
               <p>→ El mejor canal de ventas para tu local</p>
               <p>→ En el bolsillo de millones de usuarios</p>
-              <p>→ El sistema de entrega más avanzado</p>
               <p>→ Todo tu menú online y autogestionable</p>
             </Text2>
             <Text3>
@@ -254,7 +264,7 @@ const handleSubmit=(e)=>{
                     return <option value={category.name} name=" category">{category}</option>;
                   })} 
                 </Select>
-                {restaurant.category?.map((e)=>{
+                {restaurant.categories?.map((e)=>{
             return(
                 <>
                 <label>{e}</label>
@@ -269,17 +279,16 @@ const handleSubmit=(e)=>{
                 <Select1 type={"file"}
                 name={"file"}
                 onChange={uploadImage}/>
-             
+
+                {restaurant.photo? (<><Image src={restaurant.photo}/></>):(<></>)}
       
               <InputBox>
                 <Detail2>Descripción</Detail2>
-                <Input placeholder="Ingrese descripcion del comercio..." type="text" name="descriptions" onChange={handleChange}/>
+                <Input1 placeholder="Ingrese descripcion del comercio..." type="text" name="descriptions" onChange={handleChange}/>
                
               </InputBox>
             </Detail>
-            {restaurantCreate.length?( <NavLink to={"productform"}>
-          <button> productos</button>   
-          </NavLink>):(<> <Button type='submit'>Registrar</Button></>) }
+            <Button type='submit'>Registrar</Button>
           </Form>
 
          

@@ -46,7 +46,7 @@ const Navbar = (props) => {
             <Links>
               <NavLink
                 style={{ textDecoration: "none", color: "white" }}
-                to={"preguntas"}
+                to={"support"}
               >
                 Preguntas frecuentes
               </NavLink>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import swal from "sweetalert";
+import { useHistory } from "react-router-dom";
 
 //////////////////////////////// ACTIONS RESTAURANT///////////////////////////////////////
 export function allRestaurants() {
@@ -118,6 +119,7 @@ export function createRestaurant(restaurant, idUser) {
         `http://localhost:3001/restaurants/${idUser}`,
         restaurant
       );
+
       dispatch({
         type: "CREATE_RESTAURANT",
         payload: createRestaurant.data,
@@ -348,6 +350,7 @@ export const updateProfileImage = (id, dataFinal) => {
 export const updateProfileUser = (id, data) => {
   return async function (dispatch) {
     try {
+      console.log(data);
       const api = await axios.put(
         `http://localhost:3001/users/update/${id}`,
         data
