@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
 import { Button } from "../../Css/CssRegistro";
@@ -32,6 +33,9 @@ const Label = styled.label`
 const InfoGoogleCliente = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [error, setError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
   const [state, setState] = useState({
     name: "",
     surname: "",
@@ -44,35 +48,21 @@ const InfoGoogleCliente = () => {
     street_number: "",
   });
   console.log(state, "que esta mandando");
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Clickea para continuar...",
         icon: "warning",
       });
-    } else if (
-      state.name === "" &&
-      state.surname === "" &&
-      state.user_mail === "" &&
-      state.password === "" &&
-      state.phone === "" &&
-      state.identification === "" &&
-      state.postalCode === "" &&
-      state.street_name === "" &&
-      state.street_number === ""
-    ) {
-      swal({
-        title: "Porfavor ingrese datos para continuar",
-        text: "Clickea para continuar...",
-        icon: "warning",
-      });
     } else {
+      console.log(state, "el state que mando y me estoy por despachar");
       dispatch(postUser(state));
+      history.push("/checkout");
     }
   };
-  const [error, setError] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     e.preventDefault();
     setState({
@@ -185,7 +175,38 @@ const InfoGoogleCliente = () => {
         {isLoading ? (
           <p>Cargando...</p>
         ) : (
-          <Button type="submit">Continuar</Button>
+          <Button
+            disabled={
+              state.name === "" ||
+              state.surname === "" ||
+              state.user_mail === "" ||
+              state.password === "" ||
+              state.phone === "" ||
+              state.identification === "" ||
+              state.postalCode === "" ||
+              state.street_name === "" ||
+              state.street_number === ""
+                ? true
+                : false
+            }
+            style={{
+              opacity:
+                state.name === "" ||
+                state.surname === "" ||
+                state.user_mail === "" ||
+                state.password === "" ||
+                state.phone === "" ||
+                state.identification === "" ||
+                state.postalCode === "" ||
+                state.street_name === "" ||
+                state.street_number === ""
+                  ? 0.6
+                  : 1,
+            }}
+            type="submit"
+          >
+            Continuar
+          </Button>
         )}
       </Form>
     </Container>

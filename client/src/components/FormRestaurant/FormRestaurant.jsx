@@ -1,14 +1,18 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 //import { allCategories } from '../../redux/actions';
-import { useState } from 'react';
-import { allRestaurants, getAllCategories, createRestaurant } from '../../redux/actions';
-import validate from './Validation';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+import { useState } from "react";
+import {
+  allRestaurants,
+  getAllCategories,
+  createRestaurant,
+} from "../../redux/actions";
+import validate from "./Validation";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import swal from "sweetalert";
 
@@ -108,117 +112,118 @@ export const BtnBack = styled(Link)`
   }
   /* border: 1px solid #1a120b; */
 `;
-const Label =styled.label`
-color:red;
-`
-const Select1=styled.input`
-
-`
+const Label = styled.label`
+  color: red;
+`;
+const Select1 = styled.input``;
 
 export function FormRestaurant() {
   /////////////////////////////// TRAYENDO EL ESTADO/////////////////////////////
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories) 
-  const restaurantCreate = useSelector((state)=> state.restaurantProducts)
-  const user = useSelector((state) => state.user)
-  const idUser =user[0].id
-  const restaurants = useSelector((state) => state.allRestaurants) 
- 
+  const categories = useSelector((state) => state.categories);
+  const restaurantCreate = useSelector((state) => state.restaurantProducts);
+  const user = useSelector((state) => state.user);
+  const idUser = user[0].id;
+  const restaurants = useSelector((state) => state.allRestaurants);
+
   useEffect(() => {
-     dispatch(getAllCategories()) 
-     dispatch(allRestaurants())
+    dispatch(getAllCategories());
+    dispatch(allRestaurants());
   }, []);
   /////////////////////////////////SETEAR EL ESTADO //////////////////////////////////
   const [error, setError] = useState({});
   const [restaurant, setRestaurant] = useState({
-    name:"",
-    photo:"",
-    categories:[],
-    descriptions:"",
-    reviews:[1,2,3,4,5]
-  }); 
-console.log(restaurant)
-  const handleChange=(e)=>{
-    e.preventDefault()
+    name: "",
+    photo: "",
+    categories: [],
+    descriptions: "",
+    reviews: [1, 2, 3, 4, 5],
+  });
+  console.log(restaurant);
+  const handleChange = (e) => {
+    e.preventDefault();
     setRestaurant({
+      ...restaurant,
+      [e.target.name]: e.target.value,
+    });
+    setError(
+      validate({
         ...restaurant,
-        [e.target.name]:e.target.value
-    })
-    setError(validate({
-      ...restaurant,
-      [e.target.name]:e.target.value
-  }))
-}  
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
 
-const handleCategories=(e)=>{
-  e.preventDefault()
-  setRestaurant({
+  const handleCategories = (e) => {
+    e.preventDefault();
+    setRestaurant({
       ...restaurant,
-      categories:[...new Set([...restaurant.categories,e.target.value])]
-  })
-}
-const handleDelete=(e)=>{
-  setRestaurant({
+      categories: [...new Set([...restaurant.categories, e.target.value])],
+    });
+  };
+  const handleDelete = (e) => {
+    setRestaurant({
       ...restaurant,
-      categories: restaurant.categories.filter((catego)=> catego !== e)
-  })
-}
+      categories: restaurant.categories.filter((catego) => catego !== e),
+    });
+  };
 
-const uploadImage = async (e) => {
-  const files = e.target.files
-  const data = new FormData()
-  data.append("file", files[0])
-  data.append("upload_preset", "vmfhvx1d")
-  const res = await fetch(
+  const uploadImage = async (e) => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "vmfhvx1d");
+    const res = await fetch(
       "https://api.cloudinary.com/v1_1/dlibclk9r/upload",
       {
-          method: "POST",
-          body:data,
-      })
-     const file = await res.json()
-     console.log(file.secure_url)
-     const dataFinal =file.secure_url
-     setRestaurant({
+        method: "POST",
+        body: data,
+      }
+    );
+    const file = await res.json();
+    console.log(file.secure_url);
+    const dataFinal = file.secure_url;
+    setRestaurant({
       ...restaurant,
-      photo: dataFinal
-  })
-}
+      photo: dataFinal,
+    });
+  };
 
-const handleSubmit=(e)=>{
-  e.preventDefault()
-  let filterByRestaurant= restaurants.filter((e)=>e.name === restaurant.name.toLocaleLowerCase())
-  if(filterByRestaurant.length){
-    swal({
-      title: "Ese nombre ya existe...",
-      text: "Cliclea para continuar...",
-      icon: "warning",
-    });
-  }       
-  else if(Object.values(error).length > 0){
-    swal({
-      title: "Llene todos los campos para crear su restaurante...",
-      text: "Cliclea para continuar...",
-      icon: "warning",
-    });
-  }else if(restaurant.name === ""){
-    swal({
-      title: "Llene todos los campos porfavor...",
-      text: "Cliclea para continuar...",
-      icon: "warning",
-    });
-  }else {
-      dispatch(createRestaurant(restaurant,idUser))
-  }
-}
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let filterByRestaurant = restaurants.filter(
+      (e) => e.name === restaurant.name.toLocaleLowerCase()
+    );
+    if (filterByRestaurant.length) {
+      swal({
+        title: "Ese nombre ya existe...",
+        text: "Clickea para continuar...",
+        icon: "warning",
+      });
+    } else if (Object.values(error).length > 0) {
+      swal({
+        title: "Llene todos los campos para crear su restaurante...",
+        text: "Clickea para continuar...",
+        icon: "warning",
+      });
+    } else if (restaurant.name === "") {
+      swal({
+        title: "Llene todos los campos porfavor...",
+        text: "Clickea para continuar...",
+        icon: "warning",
+      });
+    } else {
+      dispatch(createRestaurant(restaurant, idUser));
+    }
+  };
 
   return (
     <>
       <ContainerPadre>
         <Container2>
           <TitleContainer2>
-          <BtnBack className="btn-back" to={'/'}>
+            <BtnBack className="btn-back" to={"/"}>
               <FaArrowLeft fontSize={20} />
             </BtnBack>
             <Text>
@@ -244,45 +249,62 @@ const handleSubmit=(e)=>{
             <Detail>
               <InputBox>
                 <Detail2>Nombre del local</Detail2>
-                <Input placeholder="Ingrese el nombre..." type="text" name="name"  onChange={handleChange} />
-                {error.name && (<Label>{error.name}</Label>)}
+                <Input
+                  placeholder="Ingrese el nombre..."
+                  type="text"
+                  name="name"
+                  onChange={handleChange}
+                />
+                {error.name && <Label>{error.name}</Label>}
               </InputBox>
               <InputBox>
                 <Detail2>Tipo de Negocio</Detail2>
                 <Select onChange={handleCategories}>
-                   {categories?.map((category) => {
-                    return <option value={category.name} name=" category">{category}</option>;
-                  })} 
+                  {categories?.map((category) => {
+                    return (
+                      <option value={category.name} name=" category">
+                        {category}
+                      </option>
+                    );
+                  })}
                 </Select>
-                {restaurant.category?.map((e)=>{
-            return(
-                <>
-                <label>{e}</label>
-                <button type="button" onClick={()=>handleDelete(e)}>x</button>
-                </>
-            )
-        })}
+                {restaurant.category?.map((e) => {
+                  return (
+                    <>
+                      <label>{e}</label>
+                      <button type="button" onClick={() => handleDelete(e)}>
+                        x
+                      </button>
+                    </>
+                  );
+                })}
               </InputBox>
-      
-                <Detail2>Imagen del Local</Detail2>
-                
-                <Select1 type={"file"}
-                name={"file"}
-                onChange={uploadImage}/>
-             
-      
+
+              <Detail2>Imagen del Local</Detail2>
+
+              <Select1 type={"file"} name={"file"} onChange={uploadImage} />
+
               <InputBox>
                 <Detail2>Descripción</Detail2>
-                <Input placeholder="Ingrese descripcion del comercio..." type="text" name="descriptions" onChange={handleChange}/>
-               
+                <Input
+                  placeholder="Ingrese descripcion del comercio..."
+                  type="text"
+                  name="descriptions"
+                  onChange={handleChange}
+                />
               </InputBox>
             </Detail>
-            {restaurantCreate.length?( <NavLink to={"productform"}>
-          <button> productos</button>   
-          </NavLink>):(<> <Button type='submit'>Registrar</Button></>) }
+            {restaurantCreate.length ? (
+              <NavLink to={"productform"}>
+                <button> productos</button>
+              </NavLink>
+            ) : (
+              <>
+                {" "}
+                <Button type="submit">Registrar</Button>
+              </>
+            )}
           </Form>
-
-         
         </Container1>
       </ContainerPadre>
     </>

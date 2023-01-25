@@ -38,6 +38,13 @@ export default function Home() {
   useEffect(() => {
     dispatch(allRestaurants());
     dispatch(getAllCategories());
+    const user = localStorage.getItem("user");
+    if (user) {
+      dispatch({
+        type: "LOGIN_USER",
+        payload: user,
+      });
+    }
     localStorage.removeItem("cart");
     localStorage.removeItem("checkout");
     dispatch(setSelectedProducts([]));

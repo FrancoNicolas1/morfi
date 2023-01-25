@@ -10,7 +10,7 @@ import swal from "sweetalert";
 import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 const Label2 = styled.label`
-  color: red;
+  color: black;
 `;
 
 const LoginForm = (props) => {
@@ -31,28 +31,29 @@ const LoginForm = (props) => {
       ...user,
       [e.target.name]: e.target.value,
     });
-    setError(validate({
-      ...user,
-      [e.target.name]:e.target.value
-    }))
+    setError(
+      validate({
+        ...user,
+        [e.target.name]: e.target.value,
+      })
+    );
   };
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if(Object.values(error).length > 0){
+    e.preventDefault();
+    if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Cliclea para continuar...",
         icon: "warning",
       });
-    }else if(user.user_mail === "" && user.password===""){
+    } else if (user.user_mail === "" && user.password === "") {
       swal({
         title: "Porfavor ingrese datos para continuar",
         text: "Cliclea para continuar...",
         icon: "warning",
-      }); 
-    }else{
-      dispatch(loginPostUser(user))
-      
+      });
+    } else {
+      dispatch(loginPostUser(user));
     }
   };
 
@@ -74,7 +75,7 @@ const LoginForm = (props) => {
           name="user_mail"
           onChange={handleChange}
         />
-         {error.user_mail && (<Label2>{error.user_mail}</Label2>)}
+        {error.user_mail && <Label2>{error.user_mail}</Label2>}
       </Label>
       <br />
       <Label for="input2">
@@ -86,7 +87,7 @@ const LoginForm = (props) => {
           name="password"
           onChange={handleChange}
         />
-         {error.password && (<Label2>{error.password}</Label2>)}
+        {error.password && <Label2>{error.password}</Label2>}
       </Label>
       <br />
       <Button type="submit">Ingresar</Button>

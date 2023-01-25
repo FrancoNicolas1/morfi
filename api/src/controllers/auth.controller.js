@@ -92,11 +92,22 @@ const private = async (req, res) => {
     audience: process.env.CLIENT_ID,
   });
   // console.log(id_token, "el id token");
-  const payload = ticket.getPayload();
-  console.log(payload, "lo que devuelve el payload en el metodo private");
-  // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
-  if (payload.email_verified) {
-    res.json(payload);
+  const userDeGoogle = ticket.getPayload();
+  console.log(userDeGoogle, "lo que devuelve el payload en el metodo private");
+  const emailDeUserDeGoogle = userDeGoogle.email;
+  const userEnDb = await Users.findOne({
+    where: { user_mail: emailDeUserDeGoogle },
+    include: [{ model: Restaurants }],
+  });
+  console.log(
+    userEnDb,
+    "el user que encuentro en la db, si no existe no encuentra"
+  );
+  if (userEnDb) {
+    res.json(userEnDb);
+  } else if (userDeGoogle.email_verified && !userEnDb) {
+    // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
+    res.json(userDeGoogle);
   } else {
     res.status(401).json({ message: "Usuario no autorizado" });
   }
@@ -134,7 +145,7 @@ const verify = async (req, res) => {
 const signUp = async (req, res) => {
   try {
     const uniqueKey = randomString();
-    console.log(uniqueKey, "la unique key");
+    // console.log(uniqueKey, "la unique key");
     const {
       name,
       photo,
@@ -147,8 +158,8 @@ const signUp = async (req, res) => {
       street_name,
       street_number,
     } = req.body;
-    const salt = 10;
-    const hash = await bcrypt.hash(password, salt);
+    // const salt = 10;
+    // const hash = await bcrypt.hash(password, salt);
     if (
       !name ||
       !user_mail ||
@@ -176,9 +187,13 @@ const signUp = async (req, res) => {
       street_number,
     });
     await emailer.sendMail(newUser, uniqueKey);
-    if (newUser) return res.json(newUser);
+    if (newUser) {
+      return res.json(newUser);
+    }
   } catch (error) {
-    console.error("este es el error", error);
+    console.log(error);
+    console.error("este es el error", error.message);
+    return res.status(400).send(`${error.message}`);
   }
 };
 
@@ -197,11 +212,14 @@ const login = async (req, res) => {
     //     .json(
     //       "Su cuenta aun no fue validada, por favor revise su casilla de correos."
     //     );
-    const matchPassword = await bcrypt.compare(password, userFound.password);
+    const matchPassword = password === userFound.password;
+    console.log(matchPassword, password, userFound.password);
     if (!matchPassword) {
       return res.status(401).json("Contraseña incorrecta.");
     }
-    res.send(userFound);
+    const userParaEnviarAlFront = { ...userFound.dataValues, password: null };
+    console.log(userParaEnviarAlFront, "los data values");
+    res.send(userParaEnviarAlFront);
   } catch (error) {
     console.error(error);
   }

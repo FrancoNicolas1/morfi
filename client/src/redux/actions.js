@@ -268,24 +268,35 @@ export const logOut = () => {
   return { type: "LOG_OUT", payload: [] };
 };
 /////////////////////////////////SINGUP///////
-export function postUser(payload) {
+export function postUser(usuarioDelFormGoogle) {
   return async function (dispatch) {
     try {
-      console.log(payload);
-      const json = await axios.post("http://localhost:3001/signup", payload);
+      console.log(usuarioDelFormGoogle, "LO QUE MANDO");
+      const json = await axios.post(
+        "http://localhost:3001/signup",
+        usuarioDelFormGoogle
+      );
       console.log("entro o alla la estan entrando");
       if (json.status === 200) {
+        dispatch(loginPostUser(usuarioDelFormGoogle));
+      } else {
         swal({
-          title: "Creo su usuario con exito!!",
-          text: "Cliclea para continuar...",
-          icon: "success",
+          title: "Lamentablemente hubo un error al enviar el formulario",
+          text: "Clickea para continuar...",
+          icon: "error",
         });
       }
     } catch (error) {
-      console.log(error.response.data.error);
+      swal({
+        title: `Lamentablemente se produjo un error : ${error.response.data}`,
+        text: "Clickea para continuar...",
+        icon: "error",
+      });
+      console.log(error, "el error del post USER");
     }
   };
 }
+
 ////////////////////////////TODOS LOS USUARIOS///////////////
 export function getAllUsers() {
   return async function (dispatch) {
@@ -311,6 +322,7 @@ export function loginPostUser(payload) {
         text: "Cliclea para continuar...",
         icon: "success",
       });
+      localStorage.setItem("user", JSON.stringify(json.data));
       return dispatch({
         type: "LOGIN_USER",
         payload: json.data,

@@ -92,7 +92,7 @@ const RegisterForm = (props) => {
           X
         </Button1>
         <Label>
-          Nombre de usuario:
+          Nombre:
           <input
             style={{ borderColor: "white" }}
             type="text"
@@ -103,7 +103,7 @@ const RegisterForm = (props) => {
         </Label>
         <br />
         <Label>
-          Apellido de usuario:
+          Apellido:
           <input
             style={{ borderColor: "white" }}
             type="text"

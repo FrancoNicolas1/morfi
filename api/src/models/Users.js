@@ -11,8 +11,8 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      unique: false,
+      allowNull: true,
     },
 
     photo: {
@@ -55,26 +55,34 @@ module.exports = (sequelize) => {
     surname: {
       type: DataTypes.STRING,
       defaultValue: null,
+      unique: false,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.INTEGER,
       defaultValue: null,
+      unique: false,
+      allowNull: true,
     },
     identification: {
       type: DataTypes.INTEGER,
       defaultValue: null,
+      unique: true,
     },
     postalCode: {
       type: DataTypes.INTEGER,
       defaultValue: null,
+      unique: false,
     },
     street_name: {
       type: DataTypes.STRING,
       defaultValue: null,
+      unique: false,
     },
     street_number: {
       type: DataTypes.INTEGER,
       defaultValue: null,
+      unique: false,
     },
   });
 };
