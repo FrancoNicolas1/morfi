@@ -1,9 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaStar } from 'react-icons/fa';
-import { FiClock } from 'react-icons/fi';
-import restaurantPhoto from './pngwing.com.png';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { FiClock } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import StarRating from "../Rating/Rating";
 
 const Container = styled(Link)`
   border: 1px solid #1a120b;
@@ -156,17 +155,14 @@ export default function Card({
             <p className="text-hors">
               <span>
                 <FiClock fontSize={15} />
-              </span>{' '}
+              </span>{" "}
               35-50 min
             </p>
             <p className="submit-free-text">Envio Gratis</p>
           </div>
-          <p className="container-score">
-            <span className="container-star-icon">
-              <FaStar fontSize={15} />
-            </span>
-            <span>4.2</span>
-          </p>
+          <div className="container-score">
+            <StarRating />
+          </div>
         </div>
       </div>
     </Container>

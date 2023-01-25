@@ -20,7 +20,6 @@ import Nosotros from "./components/Nosotros/Nosotros";
 import { loginGoogle, refrescarToken } from "./redux/actions";
 import ProtectedRoute from "./pages/protectedRoute";
 import InfoGoogleCliente from "./components/MercadoPago/InfoGoogleCliente";
-
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -34,7 +33,6 @@ function App() {
   console.log(isAuthenticated, "A");
   const accessToken = Cookies.get("access_token");
   const id_token = Cookies.get("id_token");
-  const refreshToken = Cookies.get("refresh_token");
 
   useEffect(() => {
     // Dispatch the LOGIN action to save the new tokens
@@ -42,14 +40,20 @@ function App() {
     if (accessToken && id_token) {
       console.log("ESTOY ENTRANDO A LA FUNCION");
       dispatch(loginGoogle(accessToken, id_token));
+      setTimeout(() => {
+        swal({
+          title:
+            "Expiró tu token de acceso de Google, por favor ingresá de nuevo",
+          text: "Clickea para continuar...",
+          icon: "warning",
+        });
+        console.log("entro al timeout");
+        Cookies.remove("access_token");
+        Cookies.remove("id_token");
+        dispatch(loginGoogle(null, null));
+      }, 5000);
     }
-
-    if (refreshToken !== undefined) {
-      console.log("entro a refrescar el token");
-      setInterval(refrescarToken(refreshToken), 60 * 60 * 1000); // refresh token
-    }
-    //Este metodo genera un intervalo que ejecuta cada 60 minutos la funcion refresh
-  }, [accessToken, id_token, refreshToken]);
+  }, [accessToken, id_token]);
   //ENVUELVO LAS RUTAS QUE NO SE PUEDEN ACCEDER GRATIS EN PROTECTEDROUTES
   return (
     <BrowserRouter>

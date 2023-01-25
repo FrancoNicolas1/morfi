@@ -87,29 +87,37 @@ const refresh = async (refreshToken) => {
 const private = async (req, res) => {
   const { id_token } = req.query;
   // Verify the access token
-  const ticket = await client.verifyIdToken({
-    idToken: id_token,
-    audience: process.env.CLIENT_ID,
-  });
-  // console.log(id_token, "el id token");
-  const userDeGoogle = ticket.getPayload();
-  console.log(userDeGoogle, "lo que devuelve el payload en el metodo private");
-  const emailDeUserDeGoogle = userDeGoogle.email;
-  const userEnDb = await Users.findOne({
-    where: { user_mail: emailDeUserDeGoogle },
-    include: [{ model: Restaurants }],
-  });
-  console.log(
-    userEnDb,
-    "el user que encuentro en la db, si no existe no encuentra"
-  );
-  if (userEnDb) {
-    res.json(userEnDb);
-  } else if (userDeGoogle.email_verified && !userEnDb) {
-    // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
-    res.json(userDeGoogle);
-  } else {
-    res.status(401).json({ message: "Usuario no autorizado" });
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: id_token,
+      audience: process.env.CLIENT_ID,
+    });
+    // console.log(id_token, "el id token");
+    const userDeGoogle = ticket.getPayload();
+    console.log(
+      userDeGoogle,
+      "lo que devuelve el payload en el metodo private"
+    );
+    const emailDeUserDeGoogle = userDeGoogle.email;
+    const userEnDb = await Users.findOne({
+      where: { user_mail: emailDeUserDeGoogle },
+      include: [{ model: Restaurants }],
+    });
+    console.log(
+      userEnDb,
+      "el user que encuentro en la db, si no existe no encuentra"
+    );
+    if (userEnDb) {
+      res.json(userEnDb);
+    } else if (userDeGoogle.email_verified && !userEnDb) {
+      // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
+      res.json(userDeGoogle);
+    } else {
+      res.status(401).json({ message: "Usuario no autorizado" });
+    }
+  } catch (err) {
+    console.error(err, "el error del metodo private");
+    res.status(400).send(null);
   }
 };
 

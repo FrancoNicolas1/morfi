@@ -179,10 +179,14 @@ export default function rootReducer(state = initialState, action) {
         checkOut: filteredProducts,
       };
     case "LOGIN_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
+      if (action.payload !== null) {
+        return {
+          ...state,
+          user: action.payload,
+        };
+      } else {
+        return { ...state, user: [] };
+      }
     case "UPDATE_PHOTO_PROFILE":
       return {
         ...state,
@@ -215,10 +219,17 @@ export default function rootReducer(state = initialState, action) {
         restaurantProducts: [action.payload],
       };
     case "LOGIN_GOOGLE":
-      return {
-        ...state,
-        user: [action.payload],
-      };
+      if (action.payload !== null) {
+        return {
+          ...state,
+          user: [action.payload],
+        };
+      } else {
+        return {
+          ...state,
+          user: [],
+        };
+      }
     default:
       return { ...state };
   }
