@@ -67,11 +67,11 @@ module.exports = (sequelize) => {
     identification: {
       type: DataTypes.INTEGER,
       defaultValue: null,
-      unique: true,
     },
     postalCode: {
       type: DataTypes.INTEGER,
       defaultValue: null,
+      allowNull: true,
       unique: false,
     },
     street_name: {

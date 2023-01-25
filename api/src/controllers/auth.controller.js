@@ -217,7 +217,7 @@ const login = async (req, res) => {
     if (!matchPassword) {
       return res.status(401).json("Contraseña incorrecta.");
     }
-    const userParaEnviarAlFront = { ...userFound.dataValues, password: null };
+    const userParaEnviarAlFront = [{ ...userFound.dataValues, password: null }];
     console.log(userParaEnviarAlFront, "los data values");
     res.send(userParaEnviarAlFront);
   } catch (error) {

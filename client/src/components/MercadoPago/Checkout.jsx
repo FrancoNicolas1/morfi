@@ -58,6 +58,7 @@ const Checkout = () => {
   //Este despacha a la tienda global el estado de productos cada vez que cambia el mismo
   useEffect(() => {
     console.log("deberia cambiar pero xD", estadoDeProductos);
+
     dispatch(setCheckoutProducts(estadoDeProductos));
     if (estadoDeProductos.length > 0) {
       console.log("cambio los locales");
@@ -70,6 +71,13 @@ const Checkout = () => {
   }, [estadoDeProductos]);
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      dispatch({
+        type: "LOGIN_USER",
+        payload: user,
+      });
+    }
     const checkoutEnLocalStorage = JSON.parse(
       window.localStorage.getItem("checkout")
     );

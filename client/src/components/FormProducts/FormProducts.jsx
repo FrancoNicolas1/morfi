@@ -123,13 +123,13 @@ export default function FormProducts() {
     if (Object.values(error).length > 0) {
       swal({
         title: "Llene todos los campos para crear su restaurante...",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else if (products.name === "") {
       swal({
         title: "Llene todos los campos porfavor...",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else {

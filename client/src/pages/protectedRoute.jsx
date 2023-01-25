@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import swal from "sweetalert";
 
 const ProtectedRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
@@ -9,13 +10,13 @@ const ProtectedRoute = ({ component: Component, isAuthenticated, ...rest }) => (
         <Component {...props} />
       ) : (
         <>
-          {alert("Para continuar por favor ingrese su usuario...")}
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location },
-            }}
-          />
+          {swal({
+            title: "Usuario no encontrado",
+            text: "Por favor ingrese al sitio web para continuar",
+            type: "warning",
+          }).then(function () {
+            window.location.href = "/";
+          })}
         </>
       )
     }

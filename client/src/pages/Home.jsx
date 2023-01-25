@@ -38,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(allRestaurants());
     dispatch(getAllCategories());
-    const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch({
         type: "LOGIN_USER",

@@ -102,7 +102,7 @@ export async function createProduct(products, idRestaurant) {
     );
     swal({
       title: "Creo su producto con exito!!",
-      text: "Cliclea para continuar...",
+      text: "Clickea para continuar...",
       icon: "success",
     });
   } catch (err) {
@@ -124,7 +124,7 @@ export function createRestaurant(restaurant, idUser) {
       });
       swal({
         title: "Creo su restaurante con exito!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
     } catch (error) {
@@ -141,7 +141,7 @@ export function deleteRestaurantForId(idRes, idUser) {
       );
       swal({
         title: "Elimino con exito su restaurante!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
       let userId = await axios.get(`http://localhost:3001/users/${idUser}`);
@@ -319,7 +319,7 @@ export function loginPostUser(payload) {
       const json = await axios.post("http://localhost:3001/login", payload);
       swal({
         title: "Bienvenido!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
       localStorage.setItem("user", JSON.stringify(json.data));
@@ -330,7 +330,7 @@ export function loginPostUser(payload) {
     } catch (error) {
       swal({
         title: "Los datos son incorrectos, vuelva a intentar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     }
@@ -451,10 +451,10 @@ export const loginGoogle = (access_token, id_token) => {
           `http://localhost:3001/verificacionDeTokensGoogle?id_token=${id_token}`
         )
         .then((response) => response.data);
-      console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
+      const userDeGoogle = [verifyTokens];
       if (verifyTokens) {
-        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens });
-        dispatch({ type: "LOGIN_USER", payload: verifyTokens });
+        dispatch({ type: "LOGIN_GOOGLE", payload: userDeGoogle });
+        dispatch({ type: "LOGIN_USER", payload: userDeGoogle });
       } else {
         alert("No se recibió un token de verificacion de regreso");
       }

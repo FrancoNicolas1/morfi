@@ -27,7 +27,8 @@ function App() {
   console.log(user && user.length > 0);
 
   //Aca me traigo el usuario, pregunto si esta lleno y si esta lleno esta autenticado, entonces puede acceder a las rutas protegidas por ProtectedRoute
-  const isAuthenticated = user && user.length > 0 ? true : false;
+  const isAuthenticated =
+    user && user.length > 0 && !user?.[0]?.aud && !user?.[0].azp ? true : false;
   console.log(isAuthenticated, "A");
   const accessToken = Cookies.get("access_token");
   const id_token = Cookies.get("id_token");

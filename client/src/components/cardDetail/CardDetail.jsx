@@ -37,6 +37,7 @@ export const CardDetail = (props) => {
       navigate.push("/cartRegister");
     } else if (cart.length > 0) {
       console.log("entre a este 2");
+      console.log(cart, "el carrito");
       dispatch(setCheckoutProducts(cart));
       window.localStorage.setItem("checkout", JSON.stringify(cart));
       navigate.push("/Checkout");
