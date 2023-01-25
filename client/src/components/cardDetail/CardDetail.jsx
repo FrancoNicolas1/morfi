@@ -102,7 +102,8 @@ export const CardDetail = (props) => {
                   alignSelf: "center",
                   fontSize: "1.1rem",
                   fontWeight: "bold",
-                  width: "60%",
+                  width: "50vw",
+                  textAlign: "center",
                 }}
               >
                 {restaurantDetail?.descriptions}
@@ -164,7 +165,7 @@ export const CardDetail = (props) => {
                   marginLeft: "4px",
                   borderRadius: "4px",
                   borderColor: "white",
-                  background: "#fd7e14",
+                  background: "#d43b2d",
                   color: "white",
                   width: "fit-content",
                   alignSelf: "center",

@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { setSelectedProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 
@@ -13,6 +12,7 @@ const ContainerProduct = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 0;
+  width: 30vw;
   background-color: #ff613c;
   height: fit-content;
   borderbottom: 1px solid #1a120b;
