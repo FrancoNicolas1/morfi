@@ -170,7 +170,7 @@ export default function FormProducts() {
             flexDirection: "row",
             display: "flex",
           }}
-          type={"file"}
+          type={"fiZ|le"}
           name={"file"}
           onChange={uploadImage}
         />
