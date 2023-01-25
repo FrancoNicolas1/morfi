@@ -16,9 +16,11 @@ import FormProducts from "./components/FormProducts/FormProducts";
 import Support from "./components/Support/Support";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import Nosotros from "./components/Nosotros/Nosotros";
 import { loginGoogle, refrescarToken } from "./redux/actions";
 import ProtectedRoute from "./pages/protectedRoute";
 import InfoGoogleCliente from "./components/MercadoPago/InfoGoogleCliente";
+
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -91,6 +93,8 @@ function App() {
         <Route exact path="/verify/:uniqueKey" component={Verify} />
         <Route exact path={"/userprofile"} component={UserProfile} />
         <Route exact path={"/support"} component={Support} />
+        <Route exact path={"/productform"} component={FormProducts} />
+        <Route exact path={"/nosotros"} component={Nosotros} />
         <Route path="*" component={Error} />
       </Switch>
     </BrowserRouter>

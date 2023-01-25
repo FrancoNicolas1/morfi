@@ -1,92 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteRestaurantForId,
-  updateProfileImage,
-  updateProfileUser,
-} from "../../redux/actions";
-import styled from "styled-components";
-import swal from "sweetalert";
-import { Link } from "react-router-dom";
 
-const Container = styled.div`
-  width: 100%;
-  height: 625px;
-  background-image: url(https://images.deliveryhero.io/image/pedidosya/home-backgrounds/home-background-ar.jpg?quality=100&width=1345),
-    url(https://images.deliveryhero.io/image/pedidosya/home-backgrounds/home-background-others.jpg?quality=100&width=1345);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-const Box1 = styled.div`
-  width: 350px;
-  height: 450px;
-  background-color: white;
-`;
-const Box2 = styled.div`
-  overflow: hidden;
-  width: 300px;
-  height: 450px;
-  background-color: red;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+import { deleteRestaurantForId, updateProfileImage, updateProfileUser } from "../../redux/actions";
+import styled from "styled-components"
+import swal from "sweetalert"
+import { Link } from 'react-router-dom';
+import "./UserProfile.css"
+import validateProfile from "./ErrorUserProfile";
 
-const Box3 = styled.div`
-  width: 350px;
-  height: 450px;
-  background-color: white;
-`;
-const ImageUpdate = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid gray;
-`;
-const Form = styled.form`
-  padding: 10px;
-  margin: 0 auto;
-  width: 300px;
-  border-radius: 3px;
-`;
-const Input = styled.input`
-  margin: 2px;
-`;
-const Title = styled.p``;
-const Button = styled.button`
-  margin-top: 10px;
-`;
-const Select = styled.input``;
-const BtnBack = styled(Link)`
-  padding: 10px;
-  text-decoration: none;
-  width: 5rem;
-  margin: 1rem 0;
-  outline: none;
-  border: 1px solid #1a120b;
-  background-color: #ffd15f;
-  color: #1a120b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:hover {
-    color: #1a120b;
-    opacity: 0.7;
-  }
-  /* border: 1px solid #1a120b; */
-`;
-const P = styled.p`
-  background-color: blue;
-`;
-const Label2 = styled.label`
-  color: red;
-`;
+
 
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -100,6 +23,251 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const idUser = userArray[0].id;
 
+
+    const [user, setUser] = useState({
+      name:"",
+       user_mail:"",
+        password:"",
+        surname:"",
+      phone:"",
+      identification:"",
+      postalCode:"",
+      street_name:"",
+      street_number:""
+    })
+ 
+    const updateUser = (e)=>{
+        e.preventDefault()
+        setUser({
+            ...user,
+            [e.target.name]:e.target.value
+        })
+        setError(validateProfile({
+          ...user,
+          [e.target.name]:e.target.value
+      }))
+          }
+       
+    const submitUserUpdate = (e) =>{
+        e.preventDefault()
+        if(Object.values(error).length > 0){
+          swal({
+            title: "Llene todos los campos para crear su restaurante...",
+            text: "Cliclea para continuar...",
+            icon: "warning",
+          });
+        }else if(user.name === ""){
+          swal({
+            title: "Llene todos los campos porfavor...",
+            text: "Cliclea para continuar...",
+            icon: "warning",
+          });
+        }
+          else{
+        dispatch(updateProfileUser(idUser,user))
+       
+        swal({
+            title: "Se actualizo con exito tu perfil!",
+            text: "Cliclea para continuar...",
+            icon: "success",
+          });
+          }
+        }
+    const uploadImage = async (e) => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append("file", files[0])
+        data.append("upload_preset", "vmfhvx1d")
+        setLoading(true)
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/dlibclk9r/upload",
+            {
+                method: "POST",
+                body:data,
+            })
+           const file = await res.json()
+           console.log(file.secure_url)
+           const dataFinal =file.secure_url
+           dispatch(updateProfileImage(idUser,dataFinal))
+           swal({
+            title: "Se actualizo su foto de perfil!",
+            text: "Cliclea para continuar...",
+            icon: "success",
+          });
+    }
+    return(
+    <>
+
+<div className="padre">
+    <div class="container1">
+      <div class="left box-primary">
+        <img class="image" src={userArray[0].photo} alt="" />
+        <h3 class="username text-center">{userArray[0].name}</h3>
+        <h3 class="username text-center">{ userArray[0].surname}</h3>
+        <p>Correo:{userArray[0].user_mail}</p>
+        <p>Telefono:{userArray[0].phone}</p>
+        <p>Dni:{userArray[0].identification}</p>
+        <p>Codigo Postal:{userArray[0].postalCode}</p>
+        <p>Direccion:{userArray[0].street_name}</p>
+        <p>Calle:{userArray[0].street_number}</p>
+        <input 
+        className="select"
+        type={"file"}
+        name={"file"}
+        onChange={uploadImage}/>
+          <h3 class="username text-center">Mis restaurantes</h3>
+        {userRestaurant && userRestaurant.length > 0 ?
+  userRestaurant.map((res) => {
+    return(
+      <>
+        <div className="restaurante">
+          <p>Nombre:{res.name}</p>
+          <img src={res.photo}/>
+        </div>
+        <button  class="btn btn-danger" onClick={() =>dispatch(deleteRestaurantForId(res.id, idUser))}>Eliminar</button>
+      </>
+    )
+  }) :  <h3 class="username text-center">Usted por el momento no tiene restaurantes publicados</h3>
+}
+      </div>
+     
+      <div class="right tab-content">
+        <form onSubmit={submitUserUpdate} class="form-horizontal">
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Nombre</label>
+            <div class="col-sm-10">
+              <input  
+              class="form-control"
+              name={"name"}
+              onChange={updateUser}
+              placeholder="Nombre"/>
+              {error.name && (<label className="error">{error.name}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Apellido</label>
+            <div class="col-sm-10">
+              <input 
+              type="text"
+              class="form-control"  
+              placeholder="Apellido"
+              name={"surname"}
+              onChange={updateUser}/>
+              {error.surname && (<label className="error">{error.surname}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Correo Electronico</label>
+            <div class="col-sm-10">
+              <input 
+              type="text"
+              class="form-control"  
+              placeholder="Correo electronico"
+              name={"user_mail"}
+              onChange={updateUser}/>
+              {error.user_mail && (<label className="error">{error.user_mail}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Contraseña</label>
+            <div class="col-sm-10">
+              <input 
+              type="password" 
+              class="form-control" 
+              placeholder="Contraseña"
+              name={"password"}
+              onChange={updateUser}/>
+              {error.password && (<label className="error">{error.password}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Telefono</label>
+            <div class="col-sm-10">
+              <input 
+              type="number" 
+              class="form-control"  
+              placeholder="Telefono"
+              name={"phone"}
+              onChange={updateUser}/>
+               {error.phone && (<label className="error">{error.phone}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Dni</label>
+            <div class="col-sm-10">
+              <input 
+              class="form-control" 
+              placeholder="Dni"
+              name={"identification"}
+              onChange={updateUser}/>
+              {error.identification && (<label className="error">{error.identification}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Codigo Postal</label>
+            <div class="col-sm-10">
+              <input 
+              type="number" 
+              class="form-control"  
+              placeholder="Codigo Postal"
+              name={"postalCode"}
+              onChange={updateUser}/>
+               {error.postalCode && (<label className="error">{error.postalCode}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Direccion/Calle</label>
+            <div class="col-sm-10">
+              <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Direccion/Calle"
+              name={"street_name"}
+              onChange={updateUser}/>
+              {error.street_name && (<label className="error">{error.street_name}</label>)}
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Numero de calle</label>
+            <div class="col-sm-10">
+              <input 
+              type="number" 
+              class="form-control" 
+              placeholder="Numero de calle"
+              name={"street_number"}
+              onChange={updateUser}/>
+              {error.street_number && (<label className="error">{error.street_number}</label>)}
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-danger">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+   </div>
+ 
+        {/* <Box1>
+            <Form onSubmit={submitUserUpdate}>
+                <h1>Tu Perfil</h1>
+      <Title>Name:</Title>
+        <Input
+        type={"text"}
+        name={"name"}
+        onChange={updateUser}/>
+         <Title>User_mail:</Title>
+        
+         <Input
+        type={"text"}
+        name={"user_mail"}
+        onChange={updateUser}
+        />
+          
+         <Title>Password:</Title>
+=======
   const [user, setUser] = useState({
     name: "",
     user_mail: "",
@@ -179,6 +347,7 @@ export default function UserProfile() {
             <Title>Name:</Title>
             <Input type={"text"} name={"name"} onChange={updateUser} />
             <Title>User_mail:</Title>
+>>>>>>> 8ad91ee6d7c4a8be79ba0926bb73659ac1e818a1
 
             <Input type={"text"} name={"user_mail"} onChange={updateUser} />
 
@@ -214,24 +383,9 @@ export default function UserProfile() {
         <Box3>
           <h1>Tus Restaurantes</h1>
 
-          {userRestaurant?.map((res) => {
-            return (
-              <>
-                <h1>{res.name}</h1>
-                <p>{res.photo}</p>
-                <button
-                  onClick={() =>
-                    dispatch(deleteRestaurantForId(res.id, idUser))
-                  }
-                >
-                  Delete Restaurant
-                </button>
-              </>
-            );
-          })}
-        </Box3>
-      </Container>
-      <BtnBack className="btn-back" to={"/"}></BtnBack>
-    </>
-  );
+<<<<<<< HEAD
+        </Box3> */}
+
+  
+    </>)
 }
