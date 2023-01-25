@@ -38,6 +38,14 @@ const Navbar = (props) => {
           <LinksList>
             <Links>
               <NavLink
+                to={"/"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Inicio
+              </NavLink>
+            </Links>
+            <Links>
+              <NavLink
                 style={{ textDecoration: "none", color: "white" }}
                 to={"nosotros"}
               >
@@ -50,14 +58,6 @@ const Navbar = (props) => {
                 to={"support"}
               >
                 Preguntas frecuentes
-              </NavLink>
-            </Links>
-            <Links>
-              <NavLink
-                to={"contactenos"}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                Contacto
               </NavLink>
             </Links>
           </LinksList>

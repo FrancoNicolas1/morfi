@@ -6,11 +6,13 @@ import {
   BoxTitle,
   Input,
   Button,
+  H3
 } from "./section.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { searchRestaurant } from "../../redux/actions";
 //   import { useHistory } from 'react-router-dom';
 import { useState } from "react";
+import swal from "sweetalert";
 
 export default function Section() {
   const dispatch = useDispatch();
@@ -26,15 +28,23 @@ export default function Section() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if(!searchInput){
+      swal({
+        title: `Debe escribir un restaurante`,
+        text: "Clickea para continuar...",
+        icon: "error",
+      });
+  }else{
     dispatch(searchRestaurant(searchInput));
     setSearchInput(""); //limpia el estado local mediante el value del imput
+  }
   }
 
   return (
     <>
       <Header>
         <BoxTitle>
-          <h1>Bienvenidos</h1>
+          <H3>Bienvenidos</H3>
         </BoxTitle>
         <Description>
           <BoxForm>
