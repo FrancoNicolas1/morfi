@@ -8,6 +8,7 @@ import swal from "sweetalert"
 import { Link } from 'react-router-dom';
 import "./UserProfile.css"
 import validateProfile from "./ErrorUserProfile";
+import Navbar from "../Navbar";
 
 
 
@@ -97,7 +98,7 @@ export default function UserProfile() {
     }
     return(
     <>
-
+<Navbar/>
 <div className="padre">
     <div class="container1">
       <div class="left box-primary">

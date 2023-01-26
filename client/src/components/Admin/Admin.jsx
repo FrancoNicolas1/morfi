@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { allRestaurants, getAllUsers, updateBanned, updateUserAdmin } from "../../redux/actions";
 import { DonutChart } from "@tremor/react";
 import '@tremor/react/dist/esm/tremor.css';
+import { NavLink } from "react-router-dom";
 
 function Admin1() {
    const dispatch = useDispatch()
@@ -17,6 +18,7 @@ function Admin1() {
    const nonBannedUsers = users.filter((user) => user.isBanned === false).length;
    const productsByRestaurant = restaurants.map((res) => res.Products)
    const allProducts= productsByRestaurant.flat().length
+   console.log(user)
    const allRestaurant = restaurants.map((res) => res).length
 
    
@@ -68,10 +70,17 @@ const dataProducts = [
                         </a>
                     </li>
                     <li>
-                       <a href="" class="active">
-                            <span class="las la-home"></span>
-                            <small>Volver</small>
-                        </a>
+                     
+                        <NavLink
+               
+                to={"/"}
+              >  
+          
+              <span class="las la-home"></span>
+              <small>Volver</small>
+        
+               
+              </NavLink>
                     </li>
 
                 </ul>
@@ -138,7 +147,7 @@ const dataProducts = [
                     </div>
                     <div class="card">
                         <div class="card-head">
-                            <h2>{allProducts.length}</h2>
+                            <h2>{allProducts}</h2>
                             <span class="las la-user-friends"></span>
                         </div>
                         <div class="card-progress">

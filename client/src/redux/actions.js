@@ -40,29 +40,30 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    let json = await axios.get(
-      "http://localhost:3001/restaurants/name/getbyname",
-      {
-        params: {
-          name: searchInput,
-        },
-      }
-    );
-    if (json.length === 0) {
+
+    try {
+      let json = await axios.get(
+        "http://localhost:3001/restaurants/name/getbyname",
+        {
+          params: {
+            name: searchInput,
+          },
+        }
+      );
+      return dispatch({
+        type: "SEARCH_RESTAURANT",
+        payload: json.data,
+      });
+    } catch (error) {
       swal({
-        title: "No se encontró el restaurante",
+        title: `Ese restaurante no existe`,
         text: "Clickea para continuar...",
-        icon: "warning",
+        icon: "error",
       });
       const all = await axios.get(`http://localhost:3001/restaurants`);
       return dispatch({
         type: "GET_ALL_RESTAURANT",
         payload: all.data,
-      });
-    } else {
-      return dispatch({
-        type: "SEARCH_RESTAURANT",
-        payload: json.data,
       });
     }
   };
