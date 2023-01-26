@@ -6,7 +6,6 @@ const initialState = {
   loading: false,
   pageActive: 1,
   payment: {},
-  loading: false,
   error: null,
   product: [],
   user: [],

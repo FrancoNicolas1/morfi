@@ -1,5 +1,6 @@
 import axios from "axios";
 import swal from "sweetalert";
+/* eslint-disable-next-line no-undef  */
 
 //////////////////////////////// ACTIONS RESTAURANT///////////////////////////////////////
 export function allRestaurants() {
@@ -40,7 +41,6 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-
     try {
       let json = await axios.get(
         "http://localhost:3001/restaurants/name/getbyname",
