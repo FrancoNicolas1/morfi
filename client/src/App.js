@@ -20,6 +20,7 @@ import Nosotros from "./components/Nosotros/Nosotros";
 import { loginGoogle, refrescarToken } from "./redux/actions";
 import ProtectedRoute from "./pages/protectedRoute";
 import InfoGoogleCliente from "./components/MercadoPago/InfoGoogleCliente";
+import swal from "sweetalert";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
@@ -46,12 +47,15 @@ function App() {
             "Expiró tu token de acceso de Google, por favor ingresá de nuevo",
           text: "Clickea para continuar...",
           icon: "warning",
-        });
+        }).then(() => (window.location.href = "/"));
         console.log("entro al timeout");
         Cookies.remove("access_token");
         Cookies.remove("id_token");
         dispatch(loginGoogle(null, null));
-      }, 5000);
+        localStorage.removeItem("user");
+        localStorage.removeItem("checkout");
+        localStorage.removeItem("cart");
+      }, 3600000);
     }
   }, [accessToken, id_token]);
   //ENVUELVO LAS RUTAS QUE NO SE PUEDEN ACCEDER GRATIS EN PROTECTEDROUTES

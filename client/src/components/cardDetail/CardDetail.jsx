@@ -6,6 +6,7 @@ import { getRestaurantById, setCheckoutProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 import { LocalStorage } from "../LocalStorage/LocalStorage";
 import { Product } from "../product/Product";
+import StarRating from "../Rating/Rating";
 import { BtnBack, Container } from "./cardDetail.styled";
 
 export const CardDetail = (props) => {
@@ -89,6 +90,22 @@ export const CardDetail = (props) => {
                 src={restaurantDetail?.photo}
                 alt={restaurantDetail?.name}
               />
+              <div
+                style={{
+                  alignSelf: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "white",
+                    alignSelf: "center",
+                  }}
+                >
+                  Calificación:
+                </h4>
+                <StarRating />
+              </div>
               <h2
                 style={{
                   color: "white",

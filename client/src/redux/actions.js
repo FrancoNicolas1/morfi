@@ -1,6 +1,5 @@
 import axios from "axios";
 import swal from "sweetalert";
-import { useHistory } from "react-router-dom";
 
 //////////////////////////////// ACTIONS RESTAURANT///////////////////////////////////////
 export function allRestaurants() {
@@ -183,6 +182,17 @@ export function rating(payload) {
   return {
     type: "RATING",
     payload,
+  };
+}
+
+export function submitRating(rating) {
+  return async function (dispatch) {
+    try {
+      const res = await axios.post(`http://localhost:3001`, { rating });
+      dispatch({ type: "SUBMIT_RATING", payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 
