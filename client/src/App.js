@@ -97,9 +97,14 @@ function App() {
         <Route exact path="/detail/:id" component={CardDetail} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/register" component={RegisterForm} />
-        <Route exact path="/aboutus" component={AboutUs} />
+        {/* <Route exact path="/aboutus" component={AboutUs} /> */}
         <Route exact path="/verify/:uniqueKey" component={Verify} />
-        <Route exact path={"/userprofile"} component={UserProfile} />
+        <ProtectedRoute
+          isAuthenticated={isAuthenticated}
+          exact
+          path={"/userprofile"}
+          component={UserProfile}
+        />
         <Route exact path={"/support"} component={Support} />
         <Route exact path={"/productform"} component={FormProducts} />
         <Route exact path={"/nosotros"} component={Nosotros} />

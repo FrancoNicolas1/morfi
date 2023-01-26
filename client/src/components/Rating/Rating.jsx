@@ -9,14 +9,14 @@ const StarRating = ({ id }) => {
   const [hover, setHover] = useState(null);
   const vote = JSON.parse(localStorage.getItem("starVoted"));
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(submitRating(rating, id));
-    localStorage.setItem(
-      "StarVoted",
-      JSON.stringify({ voted: true, value: rating, restaurantId: id })
-    );
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(submitRating(rating, id));
+  //   localStorage.setItem(
+  //     "StarVoted",
+  //     JSON.stringify({ voted: true, value: rating, restaurantId: id })
+  //   );
+  // };
   console.log(rating);
   return (
     <div
@@ -64,7 +64,7 @@ const StarRating = ({ id }) => {
               );
             })}
       </div>
-      <button onClick={handleSubmit}>EL BOTON</button>
+      {/* <button onClick={handleSubmit}>EL BOTON</button> */}
     </div>
   );
 };

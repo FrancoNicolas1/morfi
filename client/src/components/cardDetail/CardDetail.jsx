@@ -31,6 +31,15 @@ export const CardDetail = (props) => {
   useEffect(() => {
     loadDetailRestaurant(id);
   }, [id]);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (actualUser.length === 0) {
+      dispatch({
+        type: "LOGIN_USER",
+        payload: user,
+      });
+    }
+  }, []);
   const goCart = () => {
     if (actualUser[0]?.email && actualUser[0]?.aud) {
       console.log("entre a este 1");
@@ -119,9 +128,9 @@ export const CardDetail = (props) => {
                 className="description"
                 style={{
                   alignSelf: "center",
-                  fontSize: "1.1rem",
+                  fontSize: "0.9rem",
                   fontWeight: "bold",
-                  width: "50vw",
+                  width: "70vw",
                   textAlign: "center",
                 }}
               >

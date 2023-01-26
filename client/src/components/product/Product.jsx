@@ -174,6 +174,13 @@ export const Product = (props) => {
                 <div className="div-button">
                   <button
                     className="add-btn"
+                    disabled={
+                      filledCart.length > 0 &&
+                      (filledCart?.find((e) => e.name === el.name)?.stock ===
+                        filledCart?.find((e) => e.name === el.name)?.quantity ||
+                        filledCart?.find((e) => e.name === el.name)?.stock <
+                          filledCart?.find((e) => e.name === el.name)?.quantity)
+                    }
                     onClick={() =>
                       handleAdd(el.name, el.price, el.stock, el.id)
                     }
@@ -203,8 +210,10 @@ export const Product = (props) => {
               </div>
             </li>
             {filledCart.length > 0 &&
-            filledCart?.find((e) => e.name === el.name)?.stock ===
-              filledCart?.find((e) => e.name === el.name)?.quantity ? (
+            (filledCart?.find((e) => e.name === el.name)?.stock ===
+              filledCart?.find((e) => e.name === el.name)?.quantity ||
+              filledCart?.find((e) => e.name === el.name)?.stock <
+                filledCart?.find((e) => e.name === el.name)?.quantity) ? (
               <div>
                 Disculpe, lamentablemente no contamos con un stock para mas
                 unidades que las seleccionadas en este momento.

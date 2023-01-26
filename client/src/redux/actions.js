@@ -238,9 +238,12 @@ export async function payWithMercadoPago(productosComprados) {
       err,
       "el error a la hora de crear la preferencia con el metodo payWithMercadoPago"
     );
-    alert(
-      "Hubo un problema a la hora de generar el pago, por favor intente de nuevo y sepa disculpar las molestias ocasionadas."
-    );
+    swal({
+      title:
+        "Hubo un problema a la hora de generar el pago, por favor intente de nuevo y sepa disculpar las molestias ocasionadas.",
+      text: "Clickea para continuar...",
+      icon: "error",
+    }).then(() => (window.location.href = "/"));
   }
 }
 //////////////////ACTIONS QUE MANEJAN EL CARRITO DE COMPRAS////////////
@@ -513,7 +516,11 @@ export const refrescarToken = (refreshToken) => {
         const id_token = verifyTokens.tokens.id_token;
         dispatch(loginGoogle(accessToken, id_token));
       } else {
-        alert("No se recibió un token de verificacion de regreso");
+        swal({
+          title: "No se recibió un token de verificacion de regreso",
+          text: "Clickea para continuar...",
+          icon: "error",
+        });
       }
     } catch (err) {
       console.error(err);

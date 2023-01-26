@@ -10,7 +10,13 @@ const PaymentButton = ({ productosComprados }) => {
     console.log(productosComprados, "los comprados");
     if (productosComprados.length > 0) {
       setLoading(true);
-      payWithMercadoPago(productosComprados.filter((p) => p.quantity !== 0))
+      const user = JSON.parse(localStorage.getItem("user"));
+      const comprasFiltradas = productosComprados.filter(
+        (p) => p.quantity !== 0
+      );
+      let dataDeCompras = [user, comprasFiltradas];
+
+      payWithMercadoPago(dataDeCompras)
         .then((response) => {
           setLoading(false);
           console.log(response);
