@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button } from "../../Css/CssRegistro";
 import { FaArrowLeft } from "react-icons/fa";
-import "./FormProducts.css"
+import "./formProducts.css"
 import Navbar from "../Navbar";
 
 const Label = styled.label`

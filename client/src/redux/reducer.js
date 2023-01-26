@@ -5,7 +5,6 @@ const initialState = {
   categories: [],
   pageActive: 1,
   payment: {},
-  loading: false,
   error: null,
   product: [],
   user: [],
@@ -206,6 +205,11 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
+    case "USER_ID":
+      return {
+        ...state,
+        user: action.payload,
+      };
     case "UPDATE_USER": {
       return { ...state, allUsers: action.payload };
     }
@@ -229,6 +233,8 @@ export default function rootReducer(state = initialState, action) {
           user: [],
         };
       }
+    case "SUBMIT_RATING":
+      return { ...state, restaurantDetail: action.payload };
     default:
       return { ...state };
   }

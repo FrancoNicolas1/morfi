@@ -27,7 +27,7 @@ export default function Cards() {
   const loading = useSelector((state) => state.loading);
 
   const [currentPage, setCurrentPage] = useState(1); //pagina actual
-  const [restaurantsForPage, setRestaurantsForPage] = useState(8);
+  const [restaurantsForPage, setRestaurantsForPage] = useState(6);
   const indexOfLastRestaurants = currentPage * restaurantsForPage;
   const indexOfFirtsRestaurants = indexOfLastRestaurants - restaurantsForPage;
   const currentRestaurants = restaurants.slice(

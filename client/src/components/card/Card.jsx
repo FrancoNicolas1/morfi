@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import StarRating from "../Rating/Rating";
+import { FaStar } from "react-icons/fa";
 
 const Container = styled(Link)`
   border: 1px solid #1a120b;
@@ -160,9 +161,12 @@ export default function Card({
             </p>
             <p className="submit-free-text">Envio Gratis</p>
           </div>
-          <div className="container-score">
-            <StarRating />
-          </div>
+          <p className="container-score">
+            <span className="container-star-icon">
+              <FaStar fontSize={15} />
+            </span>
+            <span>4.2</span>
+          </p>
         </div>
       </div>
     </Container>

@@ -167,6 +167,11 @@ const Checkout = () => {
               .map((el, index) => (
                 <ListProducts key={el.id}>
                   <ListButton
+                    disabled={
+                      el.stock === el.quantity || el.stock < el.quantity
+                        ? true
+                        : false
+                    }
                     onClick={() => {
                       if (el.quantity >= 0) {
                         const newEstado = {
@@ -180,13 +185,6 @@ const Checkout = () => {
                         console.log(estadosFiltrados, "los estados filtrados");
                         estadosFiltrados.push(newEstado);
 
-                        // const estadoSort = estadosFiltrados.sort(
-                        //   (a, b) => a.id - b.id
-                        // );
-                        // console.log(
-                        //   estadoSort,
-                        //   "assdfaFUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
-                        // );
                         setEstadoDeProductos(estadosFiltrados);
                       }
                     }}
@@ -230,14 +228,6 @@ const Checkout = () => {
                           "los estados filtrados RE BUG"
                         );
                         estadosFiltrados.push(newEstado);
-
-                        // const estadoSort = estadosFiltrados.sort(
-                        //   (a, b) => a.id - b.id
-                        // );
-                        // console.log(
-                        //   estadoSort,
-                        //   "assdfaFUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
-                        // );
                         setEstadoDeProductos(estadosFiltrados);
                       } else alert("es el else");
                     }}

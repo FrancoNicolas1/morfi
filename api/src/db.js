@@ -69,6 +69,7 @@ Restaurants.belongsToMany(Users, { through: "user_restaurant" });
 
 Restaurants.belongsToMany(Categories, { through: "restaurant_categories" });
 Categories.belongsToMany(Restaurants, { through: "restaurant_categories" });
+Restaurants.hasMany(Reviews);
 
 Restaurants.hasMany(Products);
 Products.belongsTo(Restaurants);

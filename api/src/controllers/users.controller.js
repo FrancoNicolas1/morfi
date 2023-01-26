@@ -24,10 +24,6 @@ const getInfoDb = async (req, res) => {
       ],
       include: [Restaurants],
     });
-    console.log(
-      "🚀 ~ file: users.controller.js:27 ~ getInfoDb ~ dBDeploy",
-      dBDeploy
-    );
 
     res.status(200).send(dBDeploy);
   } catch (error) {

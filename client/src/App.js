@@ -47,12 +47,15 @@ function App() {
             "Expiró tu token de acceso de Google, por favor ingresá de nuevo",
           text: "Clickea para continuar...",
           icon: "warning",
-        });
+        }).then(() => (window.location.href = "/"));
         console.log("entro al timeout");
         Cookies.remove("access_token");
         Cookies.remove("id_token");
         dispatch(loginGoogle(null, null));
-      }, 5000);
+        localStorage.removeItem("user");
+        localStorage.removeItem("checkout");
+        localStorage.removeItem("cart");
+      }, 3600000);
     }
   }, [accessToken, id_token]);
   //ENVUELVO LAS RUTAS QUE NO SE PUEDEN ACCEDER GRATIS EN PROTECTEDROUTES
@@ -94,9 +97,14 @@ function App() {
         <Route exact path="/detail/:id" component={CardDetail} />
         <Route exact path="/login" component={LoginForm} />
         <Route exact path="/register" component={RegisterForm} />
-        <Route exact path="/aboutus" component={AboutUs} />
+        {/* <Route exact path="/aboutus" component={AboutUs} /> */}
         <Route exact path="/verify/:uniqueKey" component={Verify} />
-        <Route exact path={"/userprofile"} component={UserProfile} />
+        <ProtectedRoute
+          isAuthenticated={isAuthenticated}
+          exact
+          path={"/userprofile"}
+          component={UserProfile}
+        />
         <Route exact path={"/support"} component={Support} />
         <Route exact path={"/productform"} component={FormProducts} />
         <Route exact path={"/nosotros"} component={Nosotros} />

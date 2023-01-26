@@ -16,11 +16,11 @@ const Label2 = styled.label`
 const LoginForm = (props) => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.allUsers);
+  console.log("🚀 ~ file: Login.jsx:20 ~ LoginForm ~ users", users);
   const [error, setError] = useState({});
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
-  // console.log(users)
   const [user, setUser] = useState({
     user_mail: "",
     password: "",

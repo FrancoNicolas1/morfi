@@ -7,31 +7,13 @@ const ruta_local = process.env.FRONT_URL || "http://localhost:3000/";
 const crearOrden = async (req, res) => {
   //   const { quantity, priceTotal, id } = req.body;
   const { data } = req.body;
-  console.log(data, "los productos comprados");
+  console.log();
   mercadopago.configure({
     access_token: ACCESS_TOKEN,
   });
 
   //PARAMETROS A LLENAR CON LA USER INFO
-  // payer: {
-  //   name: "",
-  //   surname: "",
-  //   email: "",
-  //   phone: {
-  //     area_code: "",
-  //     number: "",
-  //   },
-  //   identification: {
-  //     type: "DNI",
-  //     number: "",
-  //   },
-  //   address: {
-  //     zip_code: "",
-  //     street_name: "",
-  //     street_number: "",
-  //   },
-  //   date_created: "",
-  // },
+  console.log(``);
 
   let preference = {
     items: [],
@@ -40,13 +22,15 @@ const crearOrden = async (req, res) => {
       failure: `${ruta_local}`,
       pending: `${ruta_local}`,
     },
-
+    payer: {
+      email: data[0][0].user_mail,
+    },
     auto_return: "approved",
     payment_methods: {
       installments: 1,
     },
   };
-  data.forEach((el) =>
+  data[1].forEach((el) =>
     preference.items.push({
       title: el.name,
       quantity: el.quantity,
@@ -61,14 +45,8 @@ const crearOrden = async (req, res) => {
     .create(preference)
     .then(async (response) => {
       console.log(response, "LA RESPONSE");
-      data.map(async (el) => {
-        const product = await await Products.findByPk(el.id);
-        console.log(
-          product.quantity,
-          product.stock,
-          el.quantity,
-          "los valores a tener en cuenta"
-        );
+      data[1].map(async (el) => {
+        const product = await Products.findByPk(el.id);
         product.stock -= el.quantity;
         await product.save();
       });

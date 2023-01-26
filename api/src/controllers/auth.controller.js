@@ -123,7 +123,6 @@ const private = async (req, res) => {
 
 const verify = async (req, res) => {
   const { uniqueKey } = req.params;
-  console.log(uniqueKey);
 
   const user = await Users.findOne({
     where: { uniqueKey },
@@ -196,6 +195,7 @@ const signUp = async (req, res) => {
     });
     await emailer.sendMail(newUser, uniqueKey);
     if (newUser) {
+      console.log(newUser, "el new user");
       return res.json(newUser);
     }
   } catch (error) {
@@ -214,17 +214,17 @@ const login = async (req, res) => {
     });
     console.log(userFound);
     if (!userFound) return res.status(400).json("Correo no encontrado.");
+
     // if (userFound.isValid === false)
     //   return res
     //     .status(406)
     //     .json(
     //       "Su cuenta aun no fue validada, por favor revise su casilla de correos."
     //     );
-    const matchPassword = password === userFound.password;
-    console.log(matchPassword, password, userFound.password);
-    if (!matchPassword) {
-      return res.status(401).json("Contraseña incorrecta.");
-    }
+    // const matchPassword = await bcrypt.compare(password, userFound.password);
+    // if (!matchPassword) {
+    //   return res.status(401).json("Contraseña incorrecta.");
+    // }
     const userParaEnviarAlFront = [{ ...userFound.dataValues, password: null }];
     console.log(userParaEnviarAlFront, "los data values");
     res.send(userParaEnviarAlFront);

@@ -12,14 +12,20 @@ import {
 } from "./navbar.styled.js";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { allUsers, logOut } from "../redux/actions.js";
+import { logOut } from "../redux/actions.js";
 import Cookies from "js-cookie";
 
 const Navbar = (props) => {
   const userArray = useSelector((state) => state.user);
   console.log(userArray);
   const dispatch = useDispatch();
-
+  const isAuthenticated =
+    userArray &&
+    userArray.length > 0 &&
+    !userArray?.[0]?.aud &&
+    !userArray?.[0].azp
+      ? true
+      : false;
   const handleUserLogOut = () => {
     Cookies.remove("id_token");
     Cookies.remove("access_token");
@@ -78,15 +84,19 @@ const Navbar = (props) => {
           {userArray.length ? (
             <>
               <Buttons onClick={handleUserLogOut}>Salir</Buttons>
-              <NavLink to={"formrestaurant"}>
-                <Buttons>Tu Comercio</Buttons>
-              </NavLink>
+              {isAuthenticated ? (
+                <NavLink to={"formrestaurant"}>
+                  <Buttons>Tu Comercio</Buttons>
+                </NavLink>
+              ) : null}
               {userArray?.map((user) => {
                 return (
                   <>
-                    <NavLink to={"userprofile"}>
-                      <Buttons>Perfil</Buttons>
-                    </NavLink>
+                    {isAuthenticated ? (
+                      <NavLink to={"userprofile"}>
+                        <Buttons>Perfil</Buttons>
+                      </NavLink>
+                    ) : null}
                   </>
                 );
               })}

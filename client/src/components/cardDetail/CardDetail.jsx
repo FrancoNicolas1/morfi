@@ -6,6 +6,7 @@ import { getRestaurantById, setCheckoutProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 import { LocalStorage } from "../LocalStorage/LocalStorage";
 import { Product } from "../product/Product";
+import StarRating from "../Rating/Rating";
 import { BtnBack, Container } from "./cardDetail.styled";
 
 export const CardDetail = (props) => {
@@ -25,10 +26,20 @@ export const CardDetail = (props) => {
   const loadDetailRestaurant = async (id) => {
     await dispatch(getRestaurantById(id));
   };
+  console.log(restaurantDetail, "el restaurante");
   const navigate = useHistory();
   useEffect(() => {
     loadDetailRestaurant(id);
   }, [id]);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (actualUser.length === 0) {
+      dispatch({
+        type: "LOGIN_USER",
+        payload: user,
+      });
+    }
+  }, []);
   const goCart = () => {
     if (actualUser[0]?.email && actualUser[0]?.aud) {
       console.log("entre a este 1");
@@ -89,6 +100,22 @@ export const CardDetail = (props) => {
                 src={restaurantDetail?.photo}
                 alt={restaurantDetail?.name}
               />
+              <div
+                style={{
+                  alignSelf: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "white",
+                    alignSelf: "center",
+                  }}
+                >
+                  Calificación:
+                </h4>
+                <StarRating id={restaurantDetail.id} />
+              </div>
               <h2
                 style={{
                   color: "white",
@@ -101,9 +128,9 @@ export const CardDetail = (props) => {
                 className="description"
                 style={{
                   alignSelf: "center",
-                  fontSize: "1.1rem",
+                  fontSize: "0.9rem",
                   fontWeight: "bold",
-                  width: "50vw",
+                  width: "70vw",
                   textAlign: "center",
                 }}
               >
