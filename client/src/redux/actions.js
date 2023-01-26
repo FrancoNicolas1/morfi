@@ -40,7 +40,6 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-
     try {
       let json = await axios.get(
         "http://localhost:3001/restaurants/name/getbyname",
@@ -186,10 +185,13 @@ export function rating(payload) {
   };
 }
 
-export function submitRating(rating) {
+export function submitRating(rating, idRestaurante) {
   return async function (dispatch) {
     try {
-      const res = await axios.post(`http://localhost:3001`, { rating });
+      const res = await axios.post(
+        `http://localhost:3001/restaurants/addReview`,
+        { rating, idRestaurante }
+      );
       dispatch({ type: "SUBMIT_RATING", payload: res.data });
     } catch (err) {
       console.log(err);

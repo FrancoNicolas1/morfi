@@ -230,6 +230,8 @@ export default function rootReducer(state = initialState, action) {
           user: [],
         };
       }
+    case "SUBMIT_RATING":
+      return { ...state, restaurantDetail: action.payload };
     default:
       return { ...state };
   }

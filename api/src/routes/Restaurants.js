@@ -10,6 +10,7 @@ const routes = new Router();
 routes.get("/", controllerRestaurants.getAllRestaurants);
 
 routes.get("/:id", controllerRestaurants.getById);
+routes.post("/addReview", controllerRestaurants.addReview);
 
 routes.post("/:id", controllerRestaurants.newRestaurant);
 

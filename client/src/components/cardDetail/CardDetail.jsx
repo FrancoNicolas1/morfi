@@ -26,6 +26,7 @@ export const CardDetail = (props) => {
   const loadDetailRestaurant = async (id) => {
     await dispatch(getRestaurantById(id));
   };
+  console.log(restaurantDetail, "el restaurante");
   const navigate = useHistory();
   useEffect(() => {
     loadDetailRestaurant(id);
@@ -104,7 +105,7 @@ export const CardDetail = (props) => {
                 >
                   Calificación:
                 </h4>
-                <StarRating />
+                <StarRating id={restaurantDetail.id} />
               </div>
               <h2
                 style={{
