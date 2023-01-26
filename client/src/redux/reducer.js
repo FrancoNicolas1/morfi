@@ -3,7 +3,6 @@ const initialState = {
   restaurant: [],
   restaurantDetail: [],
   categories: [],
-  loading: false,
   pageActive: 1,
   payment: {},
   loading: false,

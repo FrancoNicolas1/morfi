@@ -41,7 +41,6 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-
     try {
       let json = await axios.get(
         "http://localhost:3001/restaurants/name/getbyname",
@@ -309,9 +308,18 @@ export function getAllUsers() {
   return async function (dispatch) {
     try {
       let allUsers = await axios.get("http://localhost:3001/users");
+      const sortedUsers = allUsers.data.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (b.name > a.name) {
+          return -1;
+        }
+        return 0;
+      });
       dispatch({
         type: "GET_ALL_USERS",
-        payload: allUsers.data,
+        payload: sortedUsers,
       });
     } catch (error) {
       console.log(error);
@@ -359,7 +367,7 @@ export const updateProfileImage = (id, dataFinal) => {
         payload: api.data,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 };

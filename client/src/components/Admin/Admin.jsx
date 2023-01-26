@@ -49,7 +49,7 @@ const dataProducts = [
 ];
     return (
 <>
-<body>
+<div>
    <input type="checkbox" id="menu-toggle"/>
     <div class="sidebar">
        
@@ -186,7 +186,7 @@ const dataProducts = [
                                 <div class="client">
                                  <img class="client-img bg-img" src={user.photo}/>
                                     <div class="client-info">
-                                        <h4>{user.name}</h4>
+                                        <h4 key={user.id}>{user.name}</h4>
                                         <small>{user.user_mail}</small>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@ const dataProducts = [
         </main>
         
     </div>
-</body>
+</div>
 {/* <div class="d-flex" id="wrapper">
   <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4"/>

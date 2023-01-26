@@ -23,9 +23,10 @@ export default function UserProfile() {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const idUser = userArray[0].id;
+  console.log("🚀 ~ file: UserProfile.jsx:26 ~ UserProfile ~ idUser", idUser)
 
 
-    const [user, setUser] = useState({
+    const [user, setUser] = useState({  
       name:"",
        user_mail:"",
         password:"",
@@ -36,7 +37,6 @@ export default function UserProfile() {
       street_name:"",
       street_number:""
     })
- 
     const updateUser = (e)=>{
         e.preventDefault()
         setUser({
@@ -89,6 +89,7 @@ export default function UserProfile() {
            const file = await res.json()
            console.log(file.secure_url)
            const dataFinal =file.secure_url
+           console.log("🚀 ~ file: UserProfile.jsx:93 ~ uploadImage ~ dataFinal", dataFinal)
            dispatch(updateProfileImage(idUser,dataFinal))
            swal({
             title: "Se actualizo su foto de perfil!",

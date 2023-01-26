@@ -1,0 +1,33 @@
+.app-form {
+    background-image: url("https://img.freepik.com/foto-gratis/abra-libro-recetas-blanco-sobre-madera-marron_155003-5025.jpg?w=1800&t=st=1674528119~exp=1674528719~hmac=14ae58297761bd6882a95d4bc7077a4a2a6b8a601c1f6b7ee31a23f04307b69b%22");
+}
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    margin: 5em auto;
+    padding: auto;
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .label-form {
+    color: rgb(15, 30, 45);
+    font-size: 1.5rem;
+  }
+  
+  .input-form {
+    justify-content: center;
+    border-radius: 10px;
+    /* border: transparent solid; */
+    color: white;
+    background-color: rgb(150, 200, 50);
+  }
+  
+  .input-form::placeholder {
+    color: white;
+    font-size: 1rem;
+  }

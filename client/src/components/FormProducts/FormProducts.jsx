@@ -9,58 +9,31 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button } from "../../Css/CssRegistro";
 import { FaArrowLeft } from "react-icons/fa";
+import "./FormProducts.css"
+import Navbar from "../Navbar";
 
-export const BtnBack = styled(Link)`
-  position: absolute;
-  top: 10px;
-  left: 10px;
+const Label = styled.label`
+  color: red;
+`;
+const BtnBack = styled(Link)`
   padding: 10px;
   text-decoration: none;
   width: 5rem;
-  height: 3rem;
-  margin: 1rem;
+  margin: 1rem 0;
   outline: none;
-  border: 0.1px solid white;
-  background-color: #fd7e14;
-  color: white;
-  border-radius: 8px;
-
+  border: 1px solid #1a120b;
+  background-color: #ffd15f;
+  color: #1a120b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
-    color: white;
-    border: 1px solid yellow;
-    transition: 0.5s ease-in-out;
+    color: #1a120b;
     opacity: 0.7;
   }
   /* border: 1px solid #1a120b; */
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: orange;
-  align-items: center;
-  height: 100vh;
-`;
-const Form = styled.form`
-  display: flex;
-  height: 60vh;
-  padding: 1vw;
-  gap: 10px;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #ff613c;
-  align-items: center;
-`;
-const Label2 = styled.label`
-  color: black;
-`;
-export const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  color: white;
-`;
 export default function FormProducts() {
   const restaurant = useSelector((state) => state.restaurantProducts);
   const idRestaurant = restaurant[0].id;
@@ -148,62 +121,63 @@ export default function FormProducts() {
     history.push("/");
   };
   return (
-    <Container>
-      <BtnBack className="btn-back" onClick={(e) => handleBack(e)}>
-        <FaArrowLeft fontSize={20} />
-      </BtnBack>
-      <Form style={{}} onSubmit={handleSubmit}>
-        <Label>Nombre</Label>
-        <input
-          style={{ borderColor: "white", width: "20vw" }}
-          type="text"
-          name="name"
-          onChange={handleChange}
-          value={products.name}
-        />
-        {error.name && <Label2>{error.name}</Label2>}
-        <Label>Foto</Label>
-        <input
-          style={{
-            borderColor: "white",
-            width: "20vw",
-            flexDirection: "row",
-            display: "flex",
-          }}
-          type={"fiZ|le"}
-          name={"file"}
-          onChange={uploadImage}
-        />
+    <>
+    <Navbar/>
+    <BtnBack className="btn-back" to={"/"}>
+      Inicio
+    </BtnBack>
+    <div className="app-form">
+    <form onSubmit={handleSubmit} className="form">
+      <label className="label-form">Nombre:</label>
+      <input
+        className="input-form"
+        type="text"
+        name="name"
+        onChange={handleChange}
+        value={products.name}
+        placeholder="Agrege el nombre del producto..."
+      />
+      {error.name && <Label>{error.name}</Label>}
+      <label className="label-form">Foto:</label>
+      <input
+        className="input-form"
+        type={"file"}
+        name={"file"}
+        onChange={uploadImage}
+        placeholder="Agrege una Foto de su producto...."
+      />
 
-        <Label>Descripción</Label>
-        <input
-          style={{ borderColor: "white", width: "20vw" }}
-          type="textarea"
-          name="description"
-          onChange={handleChange}
-          value={products.description}
-        />
-        {error.description && <Label2>{error.description}</Label2>}
-        <Label>Precio</Label>
-        <input
-          style={{ borderColor: "white", width: "20vw" }}
-          type="number"
-          name="price"
-          onChange={handleChange}
-          value={products.price}
-        />
-        {error.price && <Label2>{error.price}</Label2>}
-        <Label>Stock</Label>
-        <input
-          style={{ borderColor: "white", width: "20vw" }}
-          type="number"
-          name="stock"
-          onChange={handleChange}
-          value={products.stock}
-        />
-        {error.stock && <Label2>{error.stock}</Label2>}
-        <Button type="submit">Crear Producto</Button>
-      </Form>
-    </Container>
+      <label className="label-form">Descripcion:</label>
+      <input
+        className="input-form"
+        type="textarea"
+        name="description"
+        onChange={handleChange}
+        value={products.description}
+        placeholder="Agrege una Descripcion..."
+      />
+      {error.description && <Label>{error.description}</Label>}
+      <label className="label-form">Precio:</label>
+      <input
+        className="input-form"
+        type="number"
+        name="price"
+        onChange={handleChange}
+        value={products.price}
+      />
+      {error.price && <Label>{error.price}</Label>}
+      <label className="label-form">Stock:</label>
+      <input
+        type="number"
+        name="stock"
+        onChange={handleChange}
+        value={products.stock}
+        placeholder="Agrege la cantidad de sus productos..."
+      />
+      {error.stock && <Label>{error.stock}</Label>}
+      <button type="submit">Crear Producto</button>
+    </form>
+  </div>
+  </>
   );
 }

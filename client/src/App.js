@@ -20,6 +20,7 @@ import Nosotros from "./components/Nosotros/Nosotros";
 import { loginGoogle, refrescarToken } from "./redux/actions";
 import ProtectedRoute from "./pages/protectedRoute";
 import InfoGoogleCliente from "./components/MercadoPago/InfoGoogleCliente";
+import swal from "sweetalert";
 function App() {
   //Trae el dispatch
   const dispatch = useDispatch();
