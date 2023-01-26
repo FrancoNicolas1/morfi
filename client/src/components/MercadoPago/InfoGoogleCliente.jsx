@@ -59,7 +59,9 @@ const InfoGoogleCliente = () => {
     } else {
       console.log(state, "el state que mando y me estoy por despachar");
       dispatch(postUser(state));
+      if(user[0].surname){
       history.push("/checkout");
+      }
     }
   };
 

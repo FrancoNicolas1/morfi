@@ -36,11 +36,13 @@ export default function UserProfile() {
     street_name: "",
     street_number: "",
   });
+
   useEffect(() => {
+   
    
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user, "lo que agarra");
-    if (userArray.length === 0) {
+    if (user) {
       dispatch({
         type: "LOGIN_USER",
         payload: user,

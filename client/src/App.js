@@ -74,7 +74,7 @@ function App() {
           component={Admin1}
           isAuthenticated={isAuthenticated}
         />
-        <ProtectedRoute
+        <Route
           exact
           path="/cartRegister"
           component={InfoGoogleCliente}
