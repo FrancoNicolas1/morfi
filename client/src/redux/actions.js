@@ -1,5 +1,6 @@
 import axios from "axios";
 import swal from "sweetalert";
+/* eslint-disable-next-line no-undef  */
 
 //////////////////////////////// ACTIONS RESTAURANT///////////////////////////////////////
 export function allRestaurants() {
