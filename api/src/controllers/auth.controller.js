@@ -87,18 +87,37 @@ const refresh = async (refreshToken) => {
 const private = async (req, res) => {
   const { id_token } = req.query;
   // Verify the access token
-  const ticket = await client.verifyIdToken({
-    idToken: id_token,
-    audience: process.env.CLIENT_ID,
-  });
-  // console.log(id_token, "el id token");
-  const payload = ticket.getPayload();
-  console.log(payload, "lo que devuelve el payload en el metodo private");
-  // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
-  if (payload.email_verified) {
-    res.json(payload);
-  } else {
-    res.status(401).json({ message: "Usuario no autorizado" });
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: id_token,
+      audience: process.env.CLIENT_ID,
+    });
+    // console.log(id_token, "el id token");
+    const userDeGoogle = ticket.getPayload();
+    console.log(
+      userDeGoogle,
+      "lo que devuelve el payload en el metodo private"
+    );
+    const emailDeUserDeGoogle = userDeGoogle.email;
+    const userEnDb = await Users.findOne({
+      where: { user_mail: emailDeUserDeGoogle },
+      include: [{ model: Restaurants }],
+    });
+    console.log(
+      userEnDb,
+      "el user que encuentro en la db, si no existe no encuentra"
+    );
+    if (userEnDb) {
+      res.json(userEnDb);
+    } else if (userDeGoogle.email_verified && !userEnDb) {
+      // Chequea si el usuario esta autorizado para utilizar la aplicacion via email y token
+      res.json(userDeGoogle);
+    } else {
+      res.status(401).json({ message: "Usuario no autorizado" });
+    }
+  } catch (err) {
+    console.error(err, "el error del metodo private");
+    res.status(400).send(null);
   }
 };
 
@@ -133,24 +152,55 @@ const verify = async (req, res) => {
 const signUp = async (req, res) => {
   try {
     const uniqueKey = randomString();
-    console.log(uniqueKey, "la unique key");
-    const { name, photo, user_mail, password } = req.body;
-    const salt = 10;
-    const hash = await bcrypt.hash(password, salt);
-    if (!name || !user_mail || !password) {
+    // console.log(uniqueKey, "la unique key");
+    const {
+      name,
+      photo,
+      user_mail,
+      password,
+      surname,
+      phone,
+      identification,
+      postalCode,
+      street_name,
+      street_number,
+    } = req.body;
+    // const salt = 10;
+    // const hash = await bcrypt.hash(password, salt);
+    if (
+      !name ||
+      !user_mail ||
+      !password ||
+      !surname ||
+      !phone ||
+      !identification ||
+      !postalCode ||
+      !street_name ||
+      !street_number
+    ) {
       res.json({ msg: "Please complete all fields" });
     }
     let newUser = await Users.create({
       name,
       photo,
       user_mail,
-      password: hash,
+      password,
       uniqueKey,
+      surname,
+      phone,
+      identification,
+      postalCode,
+      street_name,
+      street_number,
     });
-    emailer.sendMail(newUser, uniqueKey);
-    res.json(newUser);
+    await emailer.sendMail(newUser, uniqueKey);
+    if (newUser) {
+      return res.json(newUser);
+    }
   } catch (error) {
-    console.error("este es el error", error);
+    console.log(error);
+    console.error("este es el error", error.message);
+    return res.status(400).send(`${error.message}`);
   }
 };
 
@@ -163,17 +213,20 @@ const login = async (req, res) => {
     });
     console.log(userFound);
     if (!userFound) return res.status(400).json("Correo no encontrado.");
-    if (userFound.isValid === false)
-      return res
-        .status(406)
-        .json(
-          "Su cuenta aun no fue validada, por favor revise su casilla de correos."
-        );
+
+    // if (userFound.isValid === false)
+    //   return res
+    //     .status(406)
+    //     .json(
+    //       "Su cuenta aun no fue validada, por favor revise su casilla de correos."
+    //     );
     const matchPassword = await bcrypt.compare(password, userFound.password);
     if (!matchPassword) {
       return res.status(401).json("Contraseña incorrecta.");
     }
-    res.send(userFound);
+    const userParaEnviarAlFront = [{ ...userFound.dataValues, password: null }];
+    console.log(userParaEnviarAlFront, "los data values");
+    res.send(userParaEnviarAlFront);
   } catch (error) {
     console.error(error);
   }

@@ -23,6 +23,7 @@ const Navbar = (props) => {
   const handleUserLogOut = () => {
     Cookies.remove("id_token");
     Cookies.remove("access_token");
+    localStorage.removeItem("user");
     dispatch(logOut());
     window.location.href = "/";
   };
@@ -37,6 +38,14 @@ const Navbar = (props) => {
           <LinksList>
             <Links>
               <NavLink
+                to={"/"}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Inicio
+              </NavLink>
+            </Links>
+            <Links>
+              <NavLink
                 style={{ textDecoration: "none", color: "white" }}
                 to={"nosotros"}
               >
@@ -46,17 +55,9 @@ const Navbar = (props) => {
             <Links>
               <NavLink
                 style={{ textDecoration: "none", color: "white" }}
-                to={"preguntas"}
+                to={"support"}
               >
                 Preguntas frecuentes
-              </NavLink>
-            </Links>
-            <Links>
-              <NavLink
-                to={"contactenos"}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                Contacto
               </NavLink>
             </Links>
           </LinksList>
@@ -103,11 +104,16 @@ const Navbar = (props) => {
             </>
           )}
         </BoxButtons>
-        {userArray && userArray[0] && userArray[0].isAdmin === true 
-  ? <> <NavLink to={"admin"}>
-  <Buttons>Admin</Buttons>
-</NavLink></> 
-  : <></>}
+        {userArray && userArray[0] && userArray[0].isAdmin === true ? (
+          <>
+            {" "}
+            <NavLink to={"admin"}>
+              <Buttons>Admin</Buttons>
+            </NavLink>
+          </>
+        ) : (
+          <></>
+        )}
       </Container>
     </>
     // <nav>

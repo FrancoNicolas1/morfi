@@ -43,13 +43,13 @@ const LoginForm = (props) => {
     if (Object.values(error).length > 0) {
       swal({
         title: "Porfavor ingrese datos para continuar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else if (user.user_mail === "" && user.password === "") {
       swal({
         title: "Porfavor ingrese datos para continuar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     } else {

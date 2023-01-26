@@ -7,18 +7,28 @@ const PaymentButton = ({ productosComprados }) => {
   const [loading, setLoading] = useState(false);
 
   const handlePayment = (productosComprados) => {
-    setLoading(true);
-    payWithMercadoPago(productosComprados.filter((p) => p.quantity !== 0))
-      .then((response) => {
-        setLoading(false);
-        console.log(response);
-        return response;
-      })
-      .then((response) => (window.location.href = response))
-      .catch(() => {
-        setLoading(false);
-        // Acción a ejecutar en caso de error
-      });
+    console.log(productosComprados, "los comprados");
+    if (productosComprados.length > 0) {
+      setLoading(true);
+      payWithMercadoPago(productosComprados.filter((p) => p.quantity !== 0))
+        .then((response) => {
+          setLoading(false);
+          console.log(response);
+          return response;
+        })
+        .then((response) => {
+          localStorage.removeItem("cart");
+          localStorage.removeItem("checkout");
+          return response;
+        })
+        .then((response) => (window.location.href = response))
+        .catch(() => {
+          setLoading(false);
+          // Acción a ejecutar en caso de error
+        });
+    } else {
+      alert("No puedes realizar una compra sin ningun producto en el carrito!");
+    }
   };
 
   return (

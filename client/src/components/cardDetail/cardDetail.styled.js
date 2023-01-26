@@ -15,8 +15,8 @@ export const Container = styled.div`
     gap: 1rem;
     padding: 3rem;
     align-self: flex-start;
-    height: 65vh;
-    background-color: #ff613c;
+    height: 80vh;
+    background-color: #d43b2d;
     & img {
       width: 30%;
       height: 50%;
@@ -30,20 +30,20 @@ export const Container = styled.div`
   & .description {
     font-size: 0.8rem;
     alignself: center;
-    color: black;
+    color: white;
   }
   & .container-data-products {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100vw;
     padding: 2rem;
     margin-top: 0;
     /* border: solid greenyellow; */
     justify-content: flex-start;
-    background-color: gray;
+    background-color: #fda543;
     & .container-products {
       /* border: solid brown; */
-      width: 100%;
+      width: 30vw;
       height: 100%;
       display: grid;
       gap: 1rem;

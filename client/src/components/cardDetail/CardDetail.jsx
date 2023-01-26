@@ -6,6 +6,7 @@ import { getRestaurantById, setCheckoutProducts } from "../../redux/actions";
 import { Loading } from "../loadingComponent/Loading";
 import { LocalStorage } from "../LocalStorage/LocalStorage";
 import { Product } from "../product/Product";
+import StarRating from "../Rating/Rating";
 import { BtnBack, Container } from "./cardDetail.styled";
 
 export const CardDetail = (props) => {
@@ -15,6 +16,8 @@ export const CardDetail = (props) => {
   const loading = useSelector((state) => state.loading);
   const cart = useSelector((state) => state.cart);
   const checkout = useSelector((state) => state.checkOut);
+  const actualUser = useSelector((state) => state.user);
+  console.log(actualUser, "el usuario actual");
   const history = useHistory();
   console.log(
     checkout,
@@ -28,8 +31,18 @@ export const CardDetail = (props) => {
     loadDetailRestaurant(id);
   }, [id]);
   const goCart = () => {
-    dispatch(setCheckoutProducts(cart));
-    navigate.push("/Checkout");
+    if (actualUser[0]?.email && actualUser[0]?.aud) {
+      console.log("entre a este 1");
+      dispatch(setCheckoutProducts(cart));
+      window.localStorage.setItem("checkout", JSON.stringify(cart));
+      navigate.push("/cartRegister");
+    } else if (cart.length > 0) {
+      console.log("entre a este 2");
+      console.log(cart, "el carrito");
+      dispatch(setCheckoutProducts(cart));
+      window.localStorage.setItem("checkout", JSON.stringify(cart));
+      navigate.push("/Checkout");
+    }
   };
   const handleBack = (e) => {
     e.preventDefault();
@@ -40,6 +53,7 @@ export const CardDetail = (props) => {
   // function Guardar() {
   //   LocalStorage(cart, {});
   // }
+  console.log(restaurantDetail, "el que llega");
   return (
     <Container>
       {!restaurantDetail ||
@@ -76,6 +90,22 @@ export const CardDetail = (props) => {
                 src={restaurantDetail?.photo}
                 alt={restaurantDetail?.name}
               />
+              <div
+                style={{
+                  alignSelf: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "white",
+                    alignSelf: "center",
+                  }}
+                >
+                  Calificación:
+                </h4>
+                <StarRating />
+              </div>
               <h2
                 style={{
                   color: "white",
@@ -90,7 +120,8 @@ export const CardDetail = (props) => {
                   alignSelf: "center",
                   fontSize: "1.1rem",
                   fontWeight: "bold",
-                  width: "60%",
+                  width: "50vw",
+                  textAlign: "center",
                 }}
               >
                 {restaurantDetail?.descriptions}
@@ -137,7 +168,7 @@ export const CardDetail = (props) => {
                 <div className="container-products">
                   <Product
                     filledCart={cart}
-                    products={restaurantDetail.Products}
+                    products={restaurantDetail?.Products}
                   />
                 </div>
               </div>
@@ -152,11 +183,13 @@ export const CardDetail = (props) => {
                   marginLeft: "4px",
                   borderRadius: "4px",
                   borderColor: "white",
-                  background: "#fd7e14",
+                  background: "#d43b2d",
                   color: "white",
                   width: "fit-content",
                   alignSelf: "center",
+                  opacity: cart.length === 0 ? 0.6 : 1,
                 }}
+                disabled={cart.length === 0 ? true : false}
                 onClick={() => goCart()}
               >
                 Ir a pagar!

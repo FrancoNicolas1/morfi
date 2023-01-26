@@ -37,3 +37,6 @@ export const Button = styled.button`
   cursor: pointer;
   background: white;
 `;
+export const H3 = styled.h1`
+  font-style: italic;
+`;

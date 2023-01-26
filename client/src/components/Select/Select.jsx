@@ -83,7 +83,7 @@ export default function Select() {
   return (
     <>
       <Container>
-        <p>Nuestros Comercios</p>
+      
         <Box>
           <SelectBotton
             defaultValue="default"

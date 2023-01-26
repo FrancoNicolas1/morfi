@@ -41,25 +41,29 @@ export function allRestaurants() {
 
 export function searchRestaurant(searchInput) {
   return async function (dispatch) {
-    let json = await axios.get(
-      "http://localhost:3001/restaurants/name/getbyname",
-      {
-        params: {
-          name: searchInput,
-        },
-      }
-    );
-    if (json.length === 0) {
-      alert("No se encontro ese Restaurante");
+    try {
+      let json = await axios.get(
+        "http://localhost:3001/restaurants/name/getbyname",
+        {
+          params: {
+            name: searchInput,
+          },
+        }
+      );
+      return dispatch({
+        type: "SEARCH_RESTAURANT",
+        payload: json.data,
+      });
+    } catch (error) {
+      swal({
+        title: `Ese restaurante no existe`,
+        text: "Clickea para continuar...",
+        icon: "error",
+      });
       const all = await axios.get(`http://localhost:3001/restaurants`);
       return dispatch({
         type: "GET_ALL_RESTAURANT",
         payload: all.data,
-      });
-    } else {
-      return dispatch({
-        type: "SEARCH_RESTAURANT",
-        payload: json.data,
       });
     }
   };
@@ -103,7 +107,7 @@ export async function createProduct(products, idRestaurant) {
     );
     swal({
       title: "Creo su producto con exito!!",
-      text: "Cliclea para continuar...",
+      text: "Clickea para continuar...",
       icon: "success",
     });
   } catch (err) {
@@ -119,13 +123,14 @@ export function createRestaurant(restaurant, idUser) {
         `http://localhost:3001/restaurants/${idUser}`,
         restaurant
       );
+
       dispatch({
         type: "CREATE_RESTAURANT",
         payload: createRestaurant.data,
       });
       swal({
         title: "Creo su restaurante con exito!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
     } catch (error) {
@@ -142,7 +147,7 @@ export function deleteRestaurantForId(idRes, idUser) {
       );
       swal({
         title: "Elimino con exito su restaurante!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
       let userId = await axios.get(`http://localhost:3001/users/${idUser}`);
@@ -178,6 +183,17 @@ export function rating(payload) {
   return {
     type: "RATING",
     payload,
+  };
+}
+
+export function submitRating(rating) {
+  return async function (dispatch) {
+    try {
+      const res = await axios.post(`http://localhost:3001`, { rating });
+      dispatch({ type: "SUBMIT_RATING", payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 
@@ -269,23 +285,35 @@ export const logOut = () => {
   return { type: "LOG_OUT", payload: [] };
 };
 /////////////////////////////////SINGUP///////
-export function postUser(payload) {
+export function postUser(usuarioDelFormGoogle) {
   return async function (dispatch) {
     try {
-      const json = await axios.post("http://localhost:3001/signup", payload);
+      console.log(usuarioDelFormGoogle, "LO QUE MANDO");
+      const json = await axios.post(
+        "http://localhost:3001/signup",
+        usuarioDelFormGoogle
+      );
       console.log("entro o alla la estan entrando");
       if (json.status === 200) {
+        dispatch(loginPostUser(usuarioDelFormGoogle));
+      } else {
         swal({
-          title: "Creo su usuario con exito!!",
-          text: "Cliclea para continuar...",
-          icon: "success",
+          title: "Lamentablemente hubo un error al enviar el formulario",
+          text: "Clickea para continuar...",
+          icon: "error",
         });
       }
     } catch (error) {
-      console.error(error.response.data.error, "error postUser action");
+      swal({
+        title: `Lamentablemente se produjo un error : ${error.response.data}`,
+        text: "Clickea para continuar...",
+        icon: "error",
+      });
+      console.log(error, "el error del post USER");
     }
   };
 }
+
 ////////////////////////////TODOS LOS USUARIOS///////////////
 export function getAllUsers() {
   return async function (dispatch) {
@@ -308,9 +336,10 @@ export function loginPostUser(payload) {
       const json = await axios.post("http://localhost:3001/login", payload);
       swal({
         title: "Bienvenido!!",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "success",
       });
+      localStorage.setItem("user", JSON.stringify(json.data));
       return dispatch({
         type: "LOGIN_USER",
         payload: json.data,
@@ -318,7 +347,7 @@ export function loginPostUser(payload) {
     } catch (error) {
       swal({
         title: "Los datos son incorrectos, vuelva a intentar",
-        text: "Cliclea para continuar...",
+        text: "Clickea para continuar...",
         icon: "warning",
       });
     }
@@ -348,6 +377,7 @@ export const updateProfileImage = (id, dataFinal) => {
 export const updateProfileUser = (id, data) => {
   return async function (dispatch) {
     try {
+      console.log(data);
       const api = await axios.put(
         `http://localhost:3001/users/update/${id}`,
         data
@@ -439,11 +469,15 @@ export const loginGoogle = (access_token, id_token) => {
           `http://localhost:3001/verificacionDeTokensGoogle?id_token=${id_token}`
         )
         .then((response) => response.data);
-      console.log(verifyTokens, "LO QUE DEVUELVE EL VERIFY TOKENS");
+      const userDeGoogle = [verifyTokens];
       if (verifyTokens) {
-        dispatch({ type: "LOGIN_GOOGLE", payload: verifyTokens.tokens });
+        console.log("caso verify Token");
+        dispatch({ type: "LOGIN_GOOGLE", payload: userDeGoogle });
+        dispatch({ type: "LOGIN_USER", payload: userDeGoogle });
       } else {
-        alert("No se recibió un token de verificacion de regreso");
+        console.log("caso else");
+        dispatch({ type: "LOGIN_GOOGLE", payload: null });
+        dispatch({ type: "LOGIN_USER", payload: null });
       }
     } catch (err) {
       console.error(err);
